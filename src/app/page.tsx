@@ -18,7 +18,7 @@ export default function Page() {
             const response = await fetch('/api/tinymce');
             if (response.ok) {
               const data = await response.json();
-             setApiKey(data.apiKey)
+             setApiKey(data.data.apiKey)
             } else {
               console.log('/page.tsx failed to fetch from /api/tinymce')
             }
@@ -48,10 +48,11 @@ export default function Page() {
   
   const logContent = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log(e)
 
     if (editorRef.current) {
       const editorContent = editorRef.current.getContent();
-
+      console.log(editorContent);
       const sanitizedContent = DOMPurify.sanitize(editorContent);
       await saveContent(sanitizedContent);
 
@@ -85,7 +86,7 @@ if (apiKey)
       }}
       initialValue=""
     />
-
+<input></input>
       <button onClick={logContent}>Submit</button>
     </form>
   </>

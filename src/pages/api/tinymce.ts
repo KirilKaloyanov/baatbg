@@ -33,6 +33,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             return res.status(500).json({ error: "LOCAL_TINYMCE_API_URL is not configured" });
         }
         return res.status(200).json({ apiKey: localApiKey });
-    }
+    } else res.status(500).json({ error: "Unknown environment"});
 
 }
