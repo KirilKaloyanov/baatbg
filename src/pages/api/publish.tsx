@@ -5,6 +5,7 @@ let contentStore: string | null = null;
 export default function handler( req: NextApiRequest, res: NextApiResponse  ) {
     if (req.method == "POST") {
         const { content } = req.body;
+        console.log(content)
 
         if (!content) {
             return res.status(400).json({error: "Content is required"});
