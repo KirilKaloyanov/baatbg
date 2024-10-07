@@ -18,7 +18,7 @@ export default function Page() {
             const response = await fetch('/api/tinymce');
             if (response.ok) {
               const data = await response.json();
-             setApiKey(data.data.apiKey)
+             setApiKey(data.apiKey)
             } else {
               console.log('/page.tsx failed to fetch from /api/tinymce')
             }
