@@ -18,7 +18,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           const response = await fetch("https://tinymceapikey-jme7y3mjja-uc.a.run.app"); 
           // Your deployed Firebase function URL
 
-          const { data }= await response.json();
+          const { data } = await response.json();
 
         res.status(200).json({ data });
         } catch (error) {
