@@ -47,7 +47,7 @@ export default function RichEditor({ apiKey }: richEditorProps) {
   };
   return (
     <>
-      <h1>Editor</h1>
+
       <form onSubmit={logContent}>
         
       <div>
