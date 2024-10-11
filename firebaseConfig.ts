@@ -3,7 +3,7 @@ import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAWmDho7AeyXNJXgY1tsu6twXh9sPg27qA",
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: "baatbgorg.firebaseapp.com",
   databaseURL:
     "https://baatbgorg-default-rtdb.europe-west1.firebasedatabase.app",
