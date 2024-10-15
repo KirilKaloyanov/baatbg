@@ -38,7 +38,7 @@ export default function Login() {
     <>
         {!user 
             ? <button onClick={handleLogin}>Login</button>
-            : <button onClick={handleLogout}>Logout</button>
+            : <button onClick={handleLogout}>Logout {user.displayName}</button>
         }
     </>
   );

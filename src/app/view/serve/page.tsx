@@ -1,52 +1,30 @@
-"use client";
+// "use client";
 
-import { useEffect } from "react";
-import { db } from "../../../../firebaseConfig";
-import { doc, collection, getDocs, getDoc } from "firebase/firestore";
+import dynamic from "next/dynamic";
+import { useState, useEffect } from "react";
 
-export default function Serve() {
-  useEffect(() => {
-    const fetchData = async () => {
-      console.log("ha", db);
+export default async function Serve() {
+  const TinyMCEditor = dynamic(() => import("../../../components/richEditor"), {
+    ssr: false,
+  });
 
-      try {
-        // const myDocRef = doc(db, "posts", "RDLi9d2BWzcKrULpObeE");
-        const querySnapshot = await getDocs(collection(db, 'posts'));
-        querySnapshot.forEach((doc) => {
-            console.log(doc.id, ' => ', doc.data());
-        });
-        // const sshot = await getDoc(myDocRef);
-        // if (sshot.exists()) {
-        //   console.log("ss");
-        // } else {
-        //   console.log("noo");
-        // }
-        // console.log(sshot);
-      } catch (error) {
-        console.error("Error fetching document:", error);
-      }
+  let apiKey = process.env.LOCAL_TINYMCE_API_URL;
+  console.log("Local api key tiny", apiKey);
+  
+  if (!apiKey) {
+    try {
+      const response = await fetch(
+        "https://tinymceapikey-jme7y3mjja-uc.a.run.app"
+      );
+      const data = await response.json();
+      apiKey = data.apiKey;
+      console.log("remote FB api key tiny", apiKey);
+    } catch (error) {
+      console.error("Error fetching TinyMCE API Key:", error);
+    }
+  }
 
-      // Initialize Firebase
-      //firebase.initializeApp(firebaseConfig);
+    if (apiKey) return <TinyMCEditor apiKey={apiKey} />
+    return <h1> Waiting for editor key</h1>
 
-      // Get a reference to the Firestore database
-      //const db = firebase.firestore();
-
-      // Perform database operations
-      // db.collection('users').get()
-      //   .then((querySnapshot) => {
-      //     // Process the data
-      //   })
-      //   .catch((error) => {
-      //     console.error('Error getting documents: ', error);
-      //   });
-
-      // console.log(myDocRef)
-      // console.log(db)
-    };
-
-    fetchData();
-  }, []);
-
-  return <h1>Hi</h1>;
 }

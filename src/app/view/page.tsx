@@ -1,27 +1,22 @@
-'use client';
+import { db } from "../../../firebaseConfig";
+import { collection, DocumentData, getDocs } from "@firebase/firestore";
 
-import { useEffect, useState } from "react";
 
-
-export default function ViewContent() {
-  const [content, setContent] = useState<any>(null);
-
-  useEffect(() => {
-    async function fetchContent() {
-      const response = await fetch("/api/publish");
-      const data = await response.json();
-      setContent(data.content);
-    }
-
-    fetchContent();
-  }, []);
-  console.log(content?.ytLink)
+export default async function ViewContent() {
+  let content: DocumentData[] = [];
+      try {
+        const querySnapshot = await getDocs(collection(db, 'posts'));
+        content = querySnapshot.docs.map((doc) => doc.data());
+        console.log("data fetching from /view", content)
+      } catch (error) {
+        console.log("Error fetching from /view", error)
+      }
 
   return (
     <div>
       <h1>Published Content</h1>
-      <div dangerouslySetInnerHTML={{ __html: content?.sanitizedContent || "No content yet" }} />
-      { content?.ytLink &&
+      <div dangerouslySetInnerHTML={{ __html: content[0]?.content.toString() || "No content yet" }} />
+      {/* { content?.ytLink &&
       <div style={{maxWidth: '650px'}}> 
         <div style={{left: 0, width: "100%", height: 0, position: "relative", paddingBottom: "56.25%"}}>
           <iframe style={{top: 0, left: 0, width: "100%", height:" 100%", position: "absolute", border: 0}} 
@@ -30,7 +25,7 @@ export default function ViewContent() {
           </iframe>
         </div>
       </div>
-      }
+      } */}
     </div>
   );
 }

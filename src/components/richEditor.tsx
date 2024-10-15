@@ -1,8 +1,10 @@
 "use client";
 
 import React, { useRef, useState, useEffect } from "react";
-import { Editor } from "@tinymce/tinymce-react";
 import DOMPurify from "dompurify";
+import { Editor } from "@tinymce/tinymce-react";
+import { collection, addDoc } from "firebase/firestore";
+import { db } from "../../firebaseConfig";
 
 interface richEditorProps {
   apiKey: string;
@@ -20,17 +22,12 @@ export default function RichEditor({ apiKey }: richEditorProps) {
   }, []);
 
   const saveContent = async (content) => {
-    if (content) {
-      const response = await fetch("/api/publish", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ content }),
-      });
-
-      response.ok ? alert("Submitted") : alert("Failed");
+    try {
+      const docRef = await addDoc(collection(db, "posts"), { content });
+    } catch (e) {
+      console.log('firestore write error', e)
     }
+
   };
 
 
@@ -42,7 +39,7 @@ export default function RichEditor({ apiKey }: richEditorProps) {
       const ytLink = videoRef.current.value
       console.log(editorContent, ytLink);
       const sanitizedContent = DOMPurify.sanitize(editorContent);
-      await saveContent({sanitizedContent, ytLink});
+      await saveContent(sanitizedContent);
     }
   };
   return (
@@ -116,7 +113,7 @@ export default function RichEditor({ apiKey }: richEditorProps) {
                   Promise.reject("See docs to implement AI Assistant")
                 ),
             }}
-            initialValue=""
+            initialValue="<p>some<b> text</b></p>"
           />
         ) : (
           <textarea style={{ height: `400px`, width: "98vw" }} readOnly defaultValue={"Loading editor..."} />
@@ -128,25 +125,3 @@ export default function RichEditor({ apiKey }: richEditorProps) {
   );
 }
 
-// import React, { useState } from 'react';
-
-// export function InputField() {
-//   const [inputValue, setInputValue] = useState('');
-
-//   const handleInputChange = (e) => {
-//     setInputValue(e.target.value);
-//   };
-
-//   return (
-//     <div>
-//       <label htmlFor="inputField">Enter Text: </label>
-//       <input
-//         type="text"
-//         id="inputField"
-//         value={inputValue}
-//         onChange={handleInputChange}
-//       />
-//       <p>Input Value: {inputValue}</p>
-//     </div>
-//   );
-// }

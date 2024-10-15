@@ -1,38 +1,12 @@
-import dynamic from "next/dynamic";
 import Authentication from "../components/login";
 
-export default async function Page() {
-  const TinyMCEditor = dynamic(() => import("../components/richEditor"), {
-    ssr: false,
-  });
-
-  let apiKey = process.env.LOCAL_TINYMCE_API_URL;
-  console.log("Local api key tiny", apiKey);
+export default function Page() {
   
-  if (!apiKey) {
-    try {
-      const response = await fetch(
-        "https://tinymceapikey-jme7y3mjja-uc.a.run.app"
-      );
-      const data = await response.json();
-      apiKey = data.apiKey;
-      console.log("remote FB api key tiny", apiKey);
-    } catch (error) {
-      console.error("Error fetching TinyMCE API Key:", error);
-    }
-  }
-
-  // if (!apiKey) return <h1> Waiting for editor key</h1>;
-  // if (apiKey)
     return (
       <>
-        <h1>Editor</h1>
+        <h1>Welcome!</h1>
         <Authentication />
-        {
-          apiKey 
-          ? <TinyMCEditor apiKey={apiKey} />
-          : <h1> Waiting for editor key</h1>
-        }
+
       </>
     );
 }
