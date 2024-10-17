@@ -1,3 +1,5 @@
+"/view/[postId]"
+
 import { getContentById } from "../../../services/firestoreService";
 
 export default async function ViewPost({

@@ -3,21 +3,18 @@
 import React, { useRef, useState, useEffect } from "react";
 import DOMPurify from "dompurify";
 import { Editor } from "@tinymce/tinymce-react";
-import { collection, DocumentData, addDoc } from "firebase/firestore";
 import {
-  getContentById,
   saveNewContent,
   updateContent,
 } from "@services/firestoreService";
 
 interface richEditorProps {
   apiKey: string;
+  editorRef: any,
   item?: { itemId: string; data: { content: string } };
 }
 
-export default function RichEditor({ apiKey, item }: richEditorProps) {
-  const editorRef = useRef<any>(null);
-  const videoRef = useRef<any>(null);
+export default function RichEditor({ apiKey, editorRef, item }: richEditorProps) {
 
   const [isEditor, setIsEditor] = useState(false);
 
@@ -25,35 +22,8 @@ export default function RichEditor({ apiKey, item }: richEditorProps) {
     setIsEditor(true);
   }, []);
 
-  const saveContent = async (content) => {
-    if (item) {
-      await updateContent(item.itemId, content);
-    } else {
-      await saveNewContent(content);
-    }
-  };
-
-  const logContent = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (editorRef.current) {
-      const editorContent = editorRef.current.getContent();
-      const ytLink = videoRef.current.value;
-      console.log(editorContent, ytLink);
-      const sanitizedContent = DOMPurify.sanitize(editorContent);
-      await saveContent(sanitizedContent);
-    }
-  };
   return (
-    <>
-      <form onSubmit={logContent}>
-        <div>
-          <label htmlFor="ytinput">YouTube link</label>
-          <input type="text" id="ytinput" ref={videoRef}></input>
-          <input type="submit" value="Save" />
-        </div>
-
-        {isEditor ? (
+        isEditor ? (
           <Editor
             apiKey={apiKey}
             onInit={(evt, editor) => (editorRef.current = editor)}
@@ -121,8 +91,6 @@ export default function RichEditor({ apiKey, item }: richEditorProps) {
             readOnly
             defaultValue={"Loading editor..."}
           />
-        )}
-      </form>
-    </>
+        )
   );
 }
