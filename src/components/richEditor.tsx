@@ -4,12 +4,11 @@ import React, { useRef, useState, useEffect } from "react";
 import DOMPurify from "dompurify";
 import { Editor } from "@tinymce/tinymce-react";
 import { collection, DocumentData, addDoc } from "firebase/firestore";
-import { db } from "../../firebaseConfig";
 import {
   getContentById,
   saveNewContent,
   updateContent,
-} from "../services/firestoreService";
+} from "@services/firestoreService";
 
 interface richEditorProps {
   apiKey: string;
