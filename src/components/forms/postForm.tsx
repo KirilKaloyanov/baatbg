@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect  } from "react";
 import DOMPurify from "dompurify";
 import dynamic from "next/dynamic";
 import {
@@ -8,15 +8,45 @@ import {
   saveNewContent,
   updateContent,
 } from "@services/firestoreService";
+import { useAuth } from "@authContext";
 
 interface richEditorProps {
-  apiKey: string;
   item?: { itemId: string; data: { content: string } };
 }
 
-export default function PostForm({ apiKey, item }: richEditorProps) {
+export default function PostForm({ item }: richEditorProps) {
+  const user = useAuth();
   const editorRef = useRef<any>(null);
   const videoRef = useRef<any>(null);
+  const [ tinyApiKey, setTinyApiKey ] = useState<string | null>(null);
+
+  const isAuthorised = user && (
+    user.uid == "HKdgGQeeqdYA5gwHcdlLNKbeSCq1" 
+    // || user.uid == "QSYxTNUxAjbkx1kBx11sIWLlH8j2"
+  )
+
+  useEffect(() => {
+    const fetchKey = async () => {
+      if (isAuthorised) {
+        const token = await user.getIdToken();
+        try {
+          const response = await fetch("/api/tinyKey", {
+            method: 'GET',
+            headers: {
+              "authorization": `Bearer ${token}`,
+            },
+          });
+          const key = await response.json();
+          if (key) setTinyApiKey(key);
+          console.log("key", key);
+        } catch (e) {
+          console.log('key error', e)
+        }
+      } else return;
+    }
+    fetchKey();
+  }, [user])
+  
 
   const TinyMCEditor = dynamic(() => import("@components/richEditor"), {
     ssr: false,
@@ -41,7 +71,7 @@ export default function PostForm({ apiKey, item }: richEditorProps) {
       await saveContent(sanitizedContent);
     }
   };
-  return (
+  if (tinyApiKey) return (
     <>
       <form onSubmit={logContent}>
         <div>
@@ -50,8 +80,9 @@ export default function PostForm({ apiKey, item }: richEditorProps) {
           <input type="submit" value="Save" />
         </div>
 
-        <TinyMCEditor apiKey={apiKey} item={item} editorRef={editorRef}/>
+        <TinyMCEditor apiKey={tinyApiKey} item={item} editorRef={editorRef} />
       </form>
     </>
   );
+  return <p>Unauthorized</p>
 }

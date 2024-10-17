@@ -4,6 +4,7 @@
     "paths": {
       "@services/*": ["src/services/*"],
       "@components/*": ["src/components/*"],
+      "@authContext": ["src/authContext.tsx"],
       "@firebaseConfig": ["firebaseConfig.ts"]
     },
     "lib": [

@@ -1,26 +1,26 @@
-"/view/[postId]/edit"
+"/view/[postId]/edit";
 
-import { getTinyMceApiKey } from "@services/tinymceApiKeyService";
-import {
-  getContentById,
-  saveNewContent,
-  updateContent,
-} from "@services/firestoreService";
-import PostForm from "@components/forms/postForm";
+import dynamic from "next/dynamic";
+import { getContentById } from "@services/firestoreService";
 
-export default async function EditPost( { params }: {params: {postId: string}}) {
+export default async function EditPost({
+  params,
+}: {
+  params: { postId: string };
+}) {
+  const PostForm = dynamic(() => import("@components/forms/postForm"), {
+    ssr: false,
+  });
+
   const { postId } = params;
   let item;
 
   if (postId) {
     const data = await getContentById(postId);
-    item = {itemId: postId, data};
+    item = { itemId: postId, data };
   }
 
-  const apiKey = await getTinyMceApiKey();
 
-
-    if (apiKey) return <PostForm apiKey={apiKey} item={item}/>
-    return <h1> Waiting for editor key</h1>
-
+ return <PostForm item={item}/>;
+  // return <h1> Waiting for editor key</h1>;
 }
