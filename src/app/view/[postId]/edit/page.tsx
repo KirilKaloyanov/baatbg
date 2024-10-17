@@ -1,12 +1,11 @@
-// "use client";
-
 import dynamic from "next/dynamic";
-import { useState, useEffect } from "react";
 
-export default async function Serve() {
-  const TinyMCEditor = dynamic(() => import("../../../components/richEditor"), {
+export default async function EditPost( { params }: {params: {postId: string}}) {
+  const TinyMCEditor = dynamic(() => import("../../../../components/richEditor"), {
     ssr: false,
   });
+
+  const { postId } = params;
 
   let apiKey = process.env.LOCAL_TINYMCE_API_URL;
   console.log("Local api key tiny", apiKey);
@@ -24,7 +23,7 @@ export default async function Serve() {
     }
   }
 
-    if (apiKey) return <TinyMCEditor apiKey={apiKey} />
+    if (apiKey) return <TinyMCEditor apiKey={apiKey} itemId={postId}/>
     return <h1> Waiting for editor key</h1>
 
 }

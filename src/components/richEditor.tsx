@@ -3,40 +3,55 @@
 import React, { useRef, useState, useEffect } from "react";
 import DOMPurify from "dompurify";
 import { Editor } from "@tinymce/tinymce-react";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, DocumentData, addDoc } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
+import {
+  getContentById,
+  saveNewContent,
+  updateContent,
+} from "../services/firestoreService";
 
 interface richEditorProps {
   apiKey: string;
+  itemId?: string;
 }
 
-export default function RichEditor({ apiKey }: richEditorProps) {
+export default function RichEditor({ apiKey, itemId }: richEditorProps) {
+  const [existingContent, setExistingContent] = useState<DocumentData | null>(
+    null
+  );
   const editorRef = useRef<any>(null);
   const videoRef = useRef<any>(null);
- 
 
   const [isEditor, setIsEditor] = useState(false);
 
   useEffect(() => {
     setIsEditor(true);
-  }, []);
+
+    if (itemId) {
+      const fetchData = async () => {
+        const data = await getContentById(itemId);
+        if (data) setExistingContent(data);
+        // console.log(data.content)
+      };
+      fetchData();
+    }
+  }, [itemId]);
 
   const saveContent = async (content) => {
-    try {
-      const docRef = await addDoc(collection(db, "posts"), { content });
-    } catch (e) {
-      console.log('firestore write error', e)
+    if (itemId) {
+      await updateContent(itemId, content);
+    } else {
+      await saveNewContent(content);
     }
-
   };
-
 
   const logContent = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (editorRef.current) {
       const editorContent = editorRef.current.getContent();
-      const ytLink = videoRef.current.value
+      const ytLink = videoRef.current.value;
       console.log(editorContent, ytLink);
       const sanitizedContent = DOMPurify.sanitize(editorContent);
       await saveContent(sanitizedContent);
@@ -44,13 +59,11 @@ export default function RichEditor({ apiKey }: richEditorProps) {
   };
   return (
     <>
-
       <form onSubmit={logContent}>
-        
-      <div>
-            <label htmlFor="ytinput">YouTube link</label>
-            <input type="text" id="ytinput" ref={videoRef}></input>
-            <input type="submit" value="Save"/>
+        <div>
+          <label htmlFor="ytinput">YouTube link</label>
+          <input type="text" id="ytinput" ref={videoRef}></input>
+          <input type="submit" value="Save" />
         </div>
 
         {isEditor ? (
@@ -89,16 +102,16 @@ export default function RichEditor({ apiKey }: richEditorProps) {
                 "advcode",
                 "editimage",
                 "advtemplate",
-                "ai",
-                "mentions",
-                "tinycomments",
+                // "ai",
+                // "mentions",
+                // "tinycomments",
                 "tableofcontents",
                 "footnotes",
-                "mergetags",
+                // "mergetags",
                 "autocorrect",
-                "typography",
-                "inlinecss",
-                "markdown",
+                // "typography",
+                // "inlinecss",
+                // "markdown",
               ],
               toolbar:
                 "undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat",
@@ -108,20 +121,21 @@ export default function RichEditor({ apiKey }: richEditorProps) {
                 { value: "First.Name", title: "First Name" },
                 { value: "Email", title: "Email" },
               ],
-              ai_request: (request, respondWith) =>
-                respondWith.string(() =>
-                  Promise.reject("See docs to implement AI Assistant")
-                ),
+              // ai_request: (request, respondWith) =>
+              //   respondWith.string(() =>
+              //     Promise.reject("See docs to implement AI Assistant")
+              //   ),
             }}
-            initialValue="<p>some<b> text</b></p>"
+            initialValue={existingContent ? existingContent.content : ""}
           />
         ) : (
-          <textarea style={{ height: `400px`, width: "98vw" }} readOnly defaultValue={"Loading editor..."} />
+          <textarea
+            style={{ height: `400px`, width: "98vw" }}
+            readOnly
+            defaultValue={"Loading editor..."}
+          />
         )}
-
-
       </form>
     </>
   );
 }
-
