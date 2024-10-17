@@ -12,13 +12,10 @@ import {
 
 interface richEditorProps {
   apiKey: string;
-  itemId?: string;
+  item?: { itemId: string; data: { content: string } };
 }
 
-export default function RichEditor({ apiKey, itemId }: richEditorProps) {
-  const [existingContent, setExistingContent] = useState<DocumentData | null>(
-    null
-  );
+export default function RichEditor({ apiKey, item }: richEditorProps) {
   const editorRef = useRef<any>(null);
   const videoRef = useRef<any>(null);
 
@@ -26,20 +23,11 @@ export default function RichEditor({ apiKey, itemId }: richEditorProps) {
 
   useEffect(() => {
     setIsEditor(true);
-
-    if (itemId) {
-      const fetchData = async () => {
-        const data = await getContentById(itemId);
-        if (data) setExistingContent(data);
-        // console.log(data.content)
-      };
-      fetchData();
-    }
-  }, [itemId]);
+  }, []);
 
   const saveContent = async (content) => {
-    if (itemId) {
-      await updateContent(itemId, content);
+    if (item) {
+      await updateContent(item.itemId, content);
     } else {
       await saveNewContent(content);
     }
@@ -125,7 +113,7 @@ export default function RichEditor({ apiKey, itemId }: richEditorProps) {
               //     Promise.reject("See docs to implement AI Assistant")
               //   ),
             }}
-            initialValue={existingContent ? existingContent.content : ""}
+            initialValue={item ? item.data.content : ""}
           />
         ) : (
           <textarea
