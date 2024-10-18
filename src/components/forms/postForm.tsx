@@ -20,14 +20,9 @@ export default function PostForm({ item }: richEditorProps) {
   const videoRef = useRef<any>(null);
   const [ tinyApiKey, setTinyApiKey ] = useState<string | null>(null);
 
-  const isAuthorised = user && (
-    user.uid == "HKdgGQeeqdYA5gwHcdlLNKbeSCq1" 
-    // || user.uid == "QSYxTNUxAjbkx1kBx11sIWLlH8j2"
-  )
-
   useEffect(() => {
     const fetchKey = async () => {
-      if (isAuthorised) {
+      if (user) {
         const token = await user.getIdToken();
         try {
           const response = await fetch("/api/tinyKey", {
@@ -36,9 +31,10 @@ export default function PostForm({ item }: richEditorProps) {
               "authorization": `Bearer ${token}`,
             },
           });
-          const key = await response.json();
-          if (key) setTinyApiKey(key);
-          console.log("key", key);
+          if (response.ok) {
+            const key = await response.json();
+            if (key) setTinyApiKey(key);
+          }
         } catch (e) {
           console.log('key error', e)
         }

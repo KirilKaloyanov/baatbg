@@ -1,8 +1,26 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import { admin } from "@firebaseAdminConfig";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-    if (req.method == "GET") {
-        console.log(req.headers.authorization)
+
+    const authorisation = req.headers.authorization;
+    if (!authorisation || !authorisation.startsWith("Bearer ")) {
+        return res.status(401).json({ message: "Unauthorized"})
+    }
+
+    const token = authorisation.split(" ")[1];
+    let isTokenValid = false;
+
+    try {
+        const decodedToken = await admin.auth().verifyIdToken(token);
+        const uid = decodedToken.uid;
+        const authorizedUid = process.env.AUTHORIZED_UID;
+        if (uid == authorizedUid) isTokenValid = true;
+    } catch (err) {
+        console.log('error from auth in tiny api route', err);
+    }
+
+    if (req.method == "GET" && isTokenValid) {
         let apiKey = process.env.LOCAL_TINYMCE_API_URL;
         if (apiKey) console.log("Local api key tiny", apiKey);
         
@@ -17,8 +35,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 console.error("Error fetching TinyMCE API Key:", error);
             }
         }
-
-        if (apiKey) res.status(200).json(apiKey);
-        else res.status(400).end;
+        res.status(200).json(apiKey);
     }
+    else res.status(403).json({ message: "Forbidden"});
 } 
