@@ -6,7 +6,7 @@ export default async function Page() {
 
   const TinyMCEditor = dynamic(() => import("../components/richEditor"), { ssr: false })
 
-  let apiKey = process.env.TINYMCE_API_KEY;
+  let apiKey = process.env.TINYMCE_API_URL;
 
   // if (!apiKey) {
   //   try {
