@@ -34,7 +34,7 @@ export default function PostForm({ item }: richEditorProps) {
           if (response.ok) {
             const key = await response.json();
             if (key) setTinyApiKey(key);
-          }
+          } else setTinyApiKey('invalid')
         } catch (e) {
           console.log('key error', e)
         }
@@ -67,6 +67,7 @@ export default function PostForm({ item }: richEditorProps) {
       await saveContent(sanitizedContent);
     }
   };
+  if (tinyApiKey == "invalid") return <h1>Unauthorized</h1>
   if (tinyApiKey) return (
     <>
       <form onSubmit={logContent}>
@@ -80,5 +81,5 @@ export default function PostForm({ item }: richEditorProps) {
       </form>
     </>
   );
-  return <p>Unauthorized</p>
+  return <p>Loading key</p>
 }
