@@ -17,7 +17,7 @@ export default function Login() {
     signInWithPopup(auth, provider)
       .then((result) => {
         credential = result.user;
-        console.log(credential);
+        console.log('inside login client component', credential);
       })
       .catch((err) => {
         console.log(err);
@@ -30,7 +30,7 @@ export default function Login() {
         console.log("signed out");
       })
       .catch((err) => {
-        console.log("error", err);
+        console.log("login component, handleLogout throws error", err);
       });
   }
 
