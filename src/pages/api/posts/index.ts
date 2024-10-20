@@ -9,7 +9,6 @@ export default async function handler( req: NextApiRequest, res: NextApiResponse
         const refAny = admin.firestore().collection("posts")
         try {
             await refAny.add({content})
-            console.log('/api/posts POST handler', content)
         } catch (err) {
             console.log(err)
             return res.status(500);

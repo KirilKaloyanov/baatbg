@@ -10,7 +10,8 @@ export default async function ViewPost({
   const { postId } = params;
 
   const data = await getContentById(postId);
-  console.log(data);
+
+  if (!data) return <div>No content</div>
 
   return (
     <div

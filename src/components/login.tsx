@@ -17,7 +17,7 @@ export default function Login() {
     signInWithPopup(auth, provider)
       .then((result) => {
         credential = result.user;
-        console.log('inside login client component', credential);
+        console.log('inside login client component');
       })
       .catch((err) => {
         console.log(err);

@@ -1,5 +1,4 @@
 'use client';
-'used in /view page'
 
 import { useState } from "react";
 
@@ -28,12 +27,17 @@ export default function Form() {
             console.log('ne');
         }
     }; 
+return (
+        <>
+      <h1>Firestore</h1>
 
-    return (
         <form onSubmit={handleClick}>
             <label htmlFor="input">field</label>
             <input type="text" value={content} onChange={handleChange} id="input"/>
             <input type="submit" value="Dong Dong" />
         </form>
+        </>
     );
+// if (!content) return <div>No content</div>
+
 }

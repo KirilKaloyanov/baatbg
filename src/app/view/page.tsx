@@ -3,7 +3,6 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import Form from "@components/forms/form";
 import { getCollection } from "../../services/firestoreService";
 
 interface fbPost {
@@ -15,9 +14,11 @@ export default function ViewContent() {
   const [posts, setPosts] = useState<fbPost[] | null>(null);
 
   useEffect(() => {
-    const getData = async () => {
-      const data = await getCollection("posts");
-      setPosts(data);
+    const getData = () => {
+      getCollection("posts")
+        .then((data) => setPosts(data))
+        .catch((err) => console.log("user view component undable to fetch posts", err));
+      ;
     };
     getData();
   }, []);
@@ -30,6 +31,13 @@ export default function ViewContent() {
     });
     if (res.ok) {
       console.log('/api/posts DELETE success')
+      setPosts((oldState) => {
+        if (oldState) {
+          const newState = oldState.filter(item => item.id != id)
+          return newState;
+        }
+        return oldState;
+      })
     }
   }
 
@@ -56,8 +64,7 @@ export default function ViewContent() {
       </div>
       } */}
       
-      <h1>Firestore</h1>
-      <Form />
+      <Link href={`/view/create/edit`}>Create Post</Link>
     </div>
   );
 }

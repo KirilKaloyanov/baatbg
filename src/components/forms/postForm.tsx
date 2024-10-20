@@ -49,17 +49,32 @@ export default function PostForm({ item }: richEditorProps) {
   });
 
   const saveContent = async (content) => {
-    if (item) {
+    if (item?.itemId == "create") {
       try {
-        // await updateContent(item.itemId, content);
-        console.log('work')
-        const resp = await fetch('/api/posts')
+        const resp = await fetch('/api/posts', {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({content})
+        })
         console.log('cuss', resp.ok)
       } catch (e) {
         console.log("Error fetching /api/posts", e)
       }
-    } else {
-      // await saveNewContent(content);
+    } else if (item) {
+      try {
+        const resp = await fetch(`/api/posts/${item.itemId}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(content)
+        })
+        console.log('cuss', resp.ok)
+      } catch (e) {
+        console.log("Error fetching /api/posts", e)
+      }
     }
   };
 
@@ -83,8 +98,7 @@ export default function PostForm({ item }: richEditorProps) {
           <input type="text" id="ytinput" ref={videoRef}></input>
           <input type="submit" value="Save" />
         </div>
-
-        <TinyMCEditor apiKey={tinyApiKey} item={item} editorRef={editorRef} />
+        <TinyMCEditor apiKey={tinyApiKey} item={item!} editorRef={editorRef} />
       </form>
     </>
   );

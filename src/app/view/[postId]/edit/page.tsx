@@ -14,12 +14,11 @@ export default async function EditPost({
 
   const { postId } = params;
   let item;
-
+  
   if (postId) {
     const data = await getContentById(postId);
     item = { itemId: postId, data };
   }
-
 
  return <PostForm item={item}/>;
   // return <h1> Waiting for editor key</h1>;
