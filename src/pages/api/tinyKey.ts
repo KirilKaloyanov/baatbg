@@ -15,7 +15,7 @@ export default async function handler(
 
   try {
     const user = await admin.auth().verifyIdToken(token);
-        console.log(user);
+        // console.log(user);
     const authorizedUid = process.env.AUTHORIZED_UID;
     if (user.uid == authorizedUid) isTokenValid = true;
   } catch (err) {

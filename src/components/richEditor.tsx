@@ -87,7 +87,7 @@ export default function RichEditor({ apiKey, editorRef, item }: richEditorProps)
           />
         ) : (
           <textarea
-            style={{ height: `400px`, width: "98vw" }}
+            style={{ height: "400px", width: "98vw" }}
             readOnly
             defaultValue={"Loading editor..."}
           />

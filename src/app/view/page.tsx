@@ -1,8 +1,9 @@
-"/view"
 "use client";
+"/view"
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Form from "@components/forms/form";
 import { getCollection } from "../../services/firestoreService";
 
 interface fbPost {
@@ -11,23 +12,35 @@ interface fbPost {
 }
 
 export default function ViewContent() {
-  const [content, setContent] = useState<fbPost[] | null>(null);
+  const [posts, setPosts] = useState<fbPost[] | null>(null);
 
   useEffect(() => {
     const getData = async () => {
       const data = await getCollection("posts");
-      setContent(data);
+      setPosts(data);
     };
     getData();
   }, []);
+
+  if (posts == null) return <h1>Loading</h1>
+
+  async function handleDelete(id: string) {
+    const res = await fetch(`/api/posts/${id}`, {
+      method: "DELETE"
+    });
+    if (res.ok) {
+      console.log('/api/posts DELETE success')
+    }
+  }
 
   return (
     <div>
       <h1>Published Content</h1>
       <ul>
-        {content?.map((item) => (
+        {posts.map((item) => (
           <li key={item.id}>
             <Link href={`/view/${item.id}`}>{item.id}</Link>
+            <button onClick={() => handleDelete(item.id)} >Delete</button>
           </li>
         ))}
       </ul>
@@ -42,6 +55,9 @@ export default function ViewContent() {
         </div>
       </div>
       } */}
+      
+      <h1>Firestore</h1>
+      <Form />
     </div>
   );
 }

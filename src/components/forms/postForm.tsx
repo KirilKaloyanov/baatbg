@@ -50,9 +50,16 @@ export default function PostForm({ item }: richEditorProps) {
 
   const saveContent = async (content) => {
     if (item) {
-      await updateContent(item.itemId, content);
+      try {
+        // await updateContent(item.itemId, content);
+        console.log('work')
+        const resp = await fetch('/api/posts')
+        console.log('cuss', resp.ok)
+      } catch (e) {
+        console.log("Error fetching /api/posts", e)
+      }
     } else {
-      await saveNewContent(content);
+      // await saveNewContent(content);
     }
   };
 
