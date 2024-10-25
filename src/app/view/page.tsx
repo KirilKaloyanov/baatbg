@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { getCollection } from "../../services/firestoreService";
+import { getCollection, getPostsBySubMenuId } from "../../services/firestoreService";
 
 interface fbPost {
   id: string;
@@ -41,6 +41,10 @@ export default function ViewContent() {
     }
   }
 
+  async function bell() {
+    await getPostsBySubMenuId("join")
+  }
+
   return (
     <div>
       <h1>Published Content</h1>
@@ -49,6 +53,7 @@ export default function ViewContent() {
           <li key={item.id}>
             <Link href={`/view/${item.id}`}>{item.id}</Link>
             <button onClick={() => handleDelete(item.id)} >Delete</button>
+            <Link href={`/view/${item.id}/edit`}>Update</Link>
           </li>
         ))}
       </ul>
@@ -65,6 +70,8 @@ export default function ViewContent() {
       } */}
       
       <Link href={`/view/create/edit`}>Create Post</Link>
+      <p>Some text here</p>
+      <button onClick={bell}>Dong dong</button>
     </div>
   );
 }

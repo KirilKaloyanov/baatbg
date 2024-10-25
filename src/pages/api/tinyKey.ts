@@ -6,8 +6,10 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const authorisation = req.headers.authorization;
+
   if (!authorisation || !authorisation.startsWith("Bearer ")) {
-    return res.status(401).json({ message: "Unauthorized" });
+    res.status(401).json({ message: "Unauthorized" });
+    return;
   }
 
   const token = authorisation.split(" ")[1];
@@ -25,6 +27,7 @@ export default async function handler(
   if (req.method == "GET" && isTokenValid) {
     let apiKey = process.env.TINYMCE_API_URL;
     if (apiKey) res.status(200).json(apiKey);
+    else res.status(404).json({ message: "Api key for editor not found"});
   } else res.status(403).json({ message: "Forbidden" });
 }
 

@@ -16,10 +16,10 @@ export default async function EditPost({
   let item;
   
   if (postId) {
-    const data = await getContentById(postId);
+    const data = await getContentById("posts", postId);
     item = { itemId: postId, data };
   }
 
- return <PostForm item={item}/>;
+ return <PostForm item={item} />;
   // return <h1> Waiting for editor key</h1>;
 }

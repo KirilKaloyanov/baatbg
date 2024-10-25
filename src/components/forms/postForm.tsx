@@ -3,11 +3,6 @@
 import React, { useRef, useState, useEffect  } from "react";
 import DOMPurify from "dompurify";
 import dynamic from "next/dynamic";
-import {
-  getContentById,
-  saveNewContent,
-  updateContent,
-} from "@services/firestoreService";
 import { useAuth } from "@authContext";
 
 interface richEditorProps {
@@ -19,6 +14,7 @@ export default function PostForm({ item }: richEditorProps) {
   const editorRef = useRef<any>(null);
   const videoRef = useRef<any>(null);
   const [ tinyApiKey, setTinyApiKey ] = useState<string | null>(null);
+  const [ hasAuth, setHasAuth ] = useState<boolean>(false)
 
   useEffect(() => {
     const fetchKey = async () => {
@@ -33,8 +29,14 @@ export default function PostForm({ item }: richEditorProps) {
           });
           if (response.ok) {
             const key = await response.json();
-            if (key) setTinyApiKey(key);
-          } else setTinyApiKey('invalid')
+            if (key) {
+              setTinyApiKey(key);
+              setHasAuth(true);
+            }
+          } else {
+            setHasAuth(true);
+            setTinyApiKey('invalid')
+          }
         } catch (e) {
           console.log('key error', e)
         }
@@ -89,6 +91,8 @@ export default function PostForm({ item }: richEditorProps) {
       await saveContent(sanitizedContent);
     }
   };
+  if (!tinyApiKey) return <p>Loading key</p>
+  if (!hasAuth) return <h1>Authentication is required</h1>
   if (tinyApiKey == "invalid") return <h1>Unauthorized</h1>
   if (tinyApiKey) return (
     <>
@@ -102,5 +106,5 @@ export default function PostForm({ item }: richEditorProps) {
       </form>
     </>
   );
-  return <p>Loading key</p>
+  return <p>Loading...</p>
 }

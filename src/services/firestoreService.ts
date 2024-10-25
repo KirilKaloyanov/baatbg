@@ -1,11 +1,13 @@
-import { doc, getDoc, addDoc, updateDoc, collection, getDocs } from "@firebase/firestore";
+"client service helper functions"
+
+import { doc, getDoc, collection, collectionGroup, getDocs, query, where } from "@firebase/firestore";
 import { db } from "../../firebaseConfig"
 
 
-export async function getContentById(itemId: string) {
+export async function getContentById(collection: string, itemId: string) {
     try {
 
-        const docRef = doc(db, "posts", itemId);
+        const docRef = doc(db, collection, itemId);
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
             return docSnap.data()
@@ -16,6 +18,7 @@ export async function getContentById(itemId: string) {
         console.log("Error fetching from Firestore/ inside firebaseOps", e);
     }
   }
+
 
   export async function getCollection(name: string) {
     try {
@@ -30,20 +33,24 @@ export async function getContentById(itemId: string) {
       }
       return null;
   }
-  
-  export async function saveNewContent (content) {
-    try {
-      const docRef = await addDoc(collection(db, "posts"), { content });
-    } catch (e) {
-      console.log('firestore create error', e)
-    }
-  };
 
-  export async function updateContent(itemId, content) {
+  export async function getPostsBySubMenuId(id: string) {
     try {
-        const docRef = doc(db, 'posts', itemId);
-        await updateDoc(docRef, { content })
-    } catch (e) {
-      console.log('firestore update error', e)
+      // const queryParams = query(collectionGroup(db, 'submenu'), where("subMenuId", "==", "jMvhILD2l3RWIY04sLeL"));
+      // const querySnapshot = await getDocs(queryParams);
+      // querySnapshot.forEach((doc) => {
+      //   console.log(doc.id, " => ", doc.data())
+      // })
+      const postsRef = collection(db, "posts");
+      const q = query(postsRef, where("subMenuId", "==", id))
+      const snapShot = await getDocs(q);
+      let data;
+      snapShot.forEach((res) => {
+        data = res.data();
+      })
+      // console.log(data)
+      return data;
+    } catch (err) {
+      console.error(err)
     }
   }

@@ -3,10 +3,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import DOMPurify from "dompurify";
 import { Editor } from "@tinymce/tinymce-react";
-import {
-  saveNewContent,
-  updateContent,
-} from "@services/firestoreService";
+
 
 interface richEditorProps {
   apiKey: string;

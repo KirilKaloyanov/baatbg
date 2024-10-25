@@ -9,9 +9,9 @@ export default async function ViewPost({
 }) {
   const { postId } = params;
 
-  const data = await getContentById(postId);
+  const data = await getContentById("posts", postId);
 
-  if (!data) return <div>No content</div>
+  // if (!data) return <div>No content</div>
 
   return (
     <div
