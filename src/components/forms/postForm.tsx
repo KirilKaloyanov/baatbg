@@ -46,7 +46,7 @@ export default function PostForm({ item }: richEditorProps) {
   }, [user])
   
 
-  const TinyMCEditor = dynamic(() => import("@components/richEditor"), {
+  const TinyMCEditor = dynamic(() => import("@components/forms/richEditor"), {
     ssr: false,
   });
 

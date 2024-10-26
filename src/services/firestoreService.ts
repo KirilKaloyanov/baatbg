@@ -34,7 +34,7 @@ export async function getContentById(collection: string, itemId: string) {
       return null;
   }
 
-  export async function getPostsBySubMenuId(id: string) {
+  export async function getPostBySubMenuId(id: string) {
     try {
       // const queryParams = query(collectionGroup(db, 'submenu'), where("subMenuId", "==", "jMvhILD2l3RWIY04sLeL"));
       // const querySnapshot = await getDocs(queryParams);
@@ -53,4 +53,34 @@ export async function getContentById(collection: string, itemId: string) {
     } catch (err) {
       console.error(err)
     }
+  }
+
+  export async function getPostsByMenuId(id: string ) {
+    try {
+      const postsRef = collection(db, "posts");
+      const q = query(postsRef, where("menuId", "==", id))
+      const snapShot = await getDocs(q);
+      let data = snapShot.docs.map((doc) => ({
+        id: doc.id,
+        data: doc.data()
+      }))
+      // console.log(data)
+      return data;
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  export async function getMenuItems(name: string) {
+    try {
+        const querySnapshot = await getDocs(collection(db, name));
+        const data = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          data: doc.data()
+        }))
+        return data;
+      } catch (error) {
+        console.log("Error fetching from Firestore/ inside firebaseOps", error)
+      }
+      return null;
   }
