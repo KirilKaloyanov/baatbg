@@ -1,4 +1,4 @@
-"client service helper functions"
+"client service GET functions"
 
 import { doc, getDoc, collection, collectionGroup, getDocs, query, where } from "@firebase/firestore";
 import { db } from "../../firebaseConfig"

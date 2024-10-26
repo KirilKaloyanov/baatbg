@@ -5,8 +5,8 @@ export default async function SubMenu({ params } : {
 }) {
     const { submenu } = params;
 
+    //rename to getPostBySubMenuId
     const data = await getPostsBySubMenuId(submenu);
-    console.log(data)
 
     return (
         <div

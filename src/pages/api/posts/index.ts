@@ -5,7 +5,6 @@ export default async function handler( req: NextApiRequest, res: NextApiResponse
 
     if (req.method == "POST") {
         let { content } =  req.body
-        console.log(content)
         const refAny = admin.firestore().collection("posts")
         try {
             await refAny.add({content})

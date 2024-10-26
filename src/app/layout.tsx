@@ -13,7 +13,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <div style={{ backgroundColor: "lightgrey" }}>
+          <p>BAAT</p>
           <AuthProvider>{children}</AuthProvider>
+        </div>
       </body>
     </html>
   );
