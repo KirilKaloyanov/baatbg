@@ -1,19 +1,20 @@
-import { getPostBySubMenuId } from "@services/firestoreService";
+import { getPostBySubMenuId } from "@services/postsService";
 
-export default async function SubMenu({ params } : { 
-    params: { menu: string, submenu: string}
+export default async function SubMenu({
+  params,
+}: {
+  params: { menu: string; submenu: string };
 }) {
-    const { submenu } = params;
+  const { submenu } = await params;
 
-    //rename to getPostBySubMenuId
-    const data = await getPostBySubMenuId(submenu);
+  const data = await getPostBySubMenuId(submenu);
 
-    return (
+  return (
     <>
-        <h1>{submenu} Submenu item</h1>
-        <div
+      <h1>_{submenu}+ Submenu item</h1>
+      <div
         dangerouslySetInnerHTML={{ __html: data?.content || "No content" }}
-        ></div>
+      ></div>
     </>
-    )
+  );
 }

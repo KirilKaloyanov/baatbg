@@ -1,19 +1,19 @@
-import { AuthProvider } from "../authContext";
-import Menu from '../components/menu'
-import { getMenuItems } from "@services/firestoreService";
+import { AuthProvider } from "@context/AuthContext";
+import Menu from "../components/menu";
+import { getMenuItems } from "@services/menuService";
+import { QueryClientProvider } from "react-query";
+import { ReactQueryProvider } from "@context/QueryContext";
 
 export const metadata = {
   title: "BAAT application",
 };
-
 
 export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-
-const items = await getMenuItems('menu');
+  const items = await getMenuItems("menu");
 
   return (
     <html lang="en">
@@ -21,7 +21,9 @@ const items = await getMenuItems('menu');
         <div style={{ backgroundColor: "lightgrey" }}>
           <Menu items={items} />
           <p>BAAT</p>
-          <AuthProvider>{children}</AuthProvider>
+          <ReactQueryProvider>
+            <AuthProvider>{children}</AuthProvider>
+          </ReactQueryProvider>
         </div>
       </body>
     </html>

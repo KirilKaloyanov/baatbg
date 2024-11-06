@@ -1,14 +1,18 @@
-import { NextApiRequest, NextApiResponse } from "next";
+"/api/tinyKey"
+
+import { headers } from "next/headers";
+import { NextResponse } from "next/server";
 import { admin } from "@firebaseAdminConfig";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
+export async function GET(
+  req: Request,
+  res: Response
 ) {
-  const authorisation = req.headers.authorization;
+  const headersList = await headers();
+  const authorisation = headersList.get("authorization");
 
   if (!authorisation || !authorisation.startsWith("Bearer ")) {
-    res.status(401).json({ message: "Unauthorized" });
+    Response.json({ message: "Unauthorized" });
     return;
   }
 
@@ -24,11 +28,11 @@ export default async function handler(
     console.log("error from auth in tiny api route", err);
   }
 
-  if (req.method == "GET" && isTokenValid) {
+  if (isTokenValid) {
     let apiKey = process.env.TINYMCE_API_URL;
-    if (apiKey) res.status(200).json(apiKey);
-    else res.status(404).json({ message: "Api key for editor not found"});
-  } else res.status(403).json({ message: "Forbidden" });
+    if (apiKey) return NextResponse.json(apiKey, { status: 200 })
+    else return NextResponse.json({ message: "Api key for editor not found"}, { status: 404 });
+  } else return NextResponse.json({ message: "Forbidden" }, { status: 403 });
 }
 
 

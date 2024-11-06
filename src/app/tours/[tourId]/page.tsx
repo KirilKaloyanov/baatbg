@@ -1,5 +1,6 @@
 export default async function TourItem({ params } : { 
     params: {tourId: string}
 }) {
-    return <div>{params.tourId}</div>
+    const { tourId } = await params;
+    return <div>{tourId}</div>
 }

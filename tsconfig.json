@@ -2,11 +2,24 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "@services/*": ["src/services/*"],
-      "@components/*": ["src/components/*"],
-      "@authContext": ["src/authContext.tsx"],
-      "@firebaseConfig": ["firebaseConfig.ts"],
-      "@firebaseAdminConfig": ["firebaseAdminConfig.ts"]
+      "@services/*": [
+        "src/services/*"
+      ],
+      "@components/*": [
+        "src/components/*"
+      ],
+      "@context/*": [
+        "src/context/*"
+      ],
+      "@interfaces/*": [
+        "src/interfaces/*"
+      ],
+      "@firebaseConfig": [
+        "firebaseConfig.ts"
+      ],
+      "@firebaseAdminConfig": [
+        "firebaseAdminConfig.ts"
+      ]
     },
     "lib": [
       "dom",
@@ -29,7 +42,8 @@
         "name": "next"
       }
     ],
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "target": "ES2017"
   },
   "include": [
     "next-env.d.ts",

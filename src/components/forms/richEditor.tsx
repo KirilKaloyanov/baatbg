@@ -1,7 +1,5 @@
 "use client";
 
-import React, { useRef, useState, useEffect } from "react";
-import DOMPurify from "dompurify";
 import { Editor } from "@tinymce/tinymce-react";
 
 
@@ -13,14 +11,8 @@ interface richEditorProps {
 
 export default function RichEditor({ apiKey, editorRef, item }: richEditorProps) {
 
-  const [isEditor, setIsEditor] = useState(false);
-
-  useEffect(() => {
-    setIsEditor(true);
-  }, []);
-
   return (
-        isEditor ? (
+        
           <Editor
             apiKey={apiKey}
             onInit={(evt, editor) => (editorRef.current = editor)}
@@ -51,12 +43,6 @@ export default function RichEditor({ apiKey, editorRef, item }: richEditorProps)
             }}
             initialValue={item! ? item.data?.content : ""}
           />
-        ) : (
-          <textarea
-            style={{ height: "400px", width: "98vw" }}
-            readOnly
-            defaultValue={"Loading editor..."}
-          />
-        )
+        
   );
 }

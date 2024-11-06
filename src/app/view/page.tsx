@@ -1,48 +1,45 @@
 "use client";
-"/view"
+"/view";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { getCollection, getPostsBySubMenuId } from "../../services/firestoreService";
+import { getAllPosts } from "../../services/postsService";
 
 interface fbPost {
   id: string;
   content: string;
 }
 
-export default function ViewContent() {
+export default function SlashView() {
   const [posts, setPosts] = useState<fbPost[] | null>(null);
 
   useEffect(() => {
     const getData = () => {
-      getCollection("posts")
+      getAllPosts()
         .then((data) => setPosts(data))
-        .catch((err) => console.log("user view component undable to fetch posts", err));
-      ;
+        .catch((err) =>
+          console.log("user view component undable to fetch posts", err)
+        );
     };
     getData();
   }, []);
 
-  if (posts == null) return <h1>Loading</h1>
+  if (posts == null) return <h1>Loading</h1>;
 
   async function handleDelete(id: string) {
     const res = await fetch(`/api/posts/${id}`, {
-      method: "DELETE"
+      method: "DELETE",
     });
     if (res.ok) {
-      console.log('/api/posts DELETE success')
+      console.log("/api/posts DELETE success");
       setPosts((oldState) => {
         if (oldState) {
-          const newState = oldState.filter(item => item.id != id)
+          const newState = oldState.filter((item) => item.id != id);
           return newState;
         }
         return oldState;
-      })
+      });
     }
-  }
-
-  async function bell() {
-    await getPostsBySubMenuId("join")
   }
 
   return (
@@ -52,8 +49,7 @@ export default function ViewContent() {
         {posts.map((item) => (
           <li key={item.id}>
             <Link href={`/view/${item.id}`}>{item.id}</Link>
-            <button onClick={() => handleDelete(item.id)} >Delete</button>
-            <Link href={`/view/${item.id}/edit`}>Update</Link>
+            <button onClick={() => handleDelete(item.id)}>Delete</button>
           </li>
         ))}
       </ul>
@@ -68,10 +64,8 @@ export default function ViewContent() {
         </div>
       </div>
       } */}
-      
-      <Link href={`/view/create/edit`}>Create Post</Link>
+
       <p>Some text here</p>
-      <button onClick={bell}>Dong dong</button>
     </div>
   );
 }
