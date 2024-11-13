@@ -1,7 +1,6 @@
 import { AuthProvider } from "@context/AuthContext";
 import Menu from "../components/menu";
 import { getMenuItems } from "@services/menuService";
-import { QueryClientProvider } from "react-query";
 import { ReactQueryProvider } from "@context/QueryContext";
 
 export const metadata = {
@@ -13,7 +12,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const items = await getMenuItems("menu");
+  const items = await getMenuItems();
 
   return (
     <html lang="en">
