@@ -6,31 +6,43 @@ import { auth } from "../../firebaseConfig";
 import { useAuth } from "../context/AuthContext";
 
 export default function Login() {
-  let credential: any;
 
   const user = useAuth();
 
   const provider = new GoogleAuthProvider();
 
-  function handleLogin() {
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        credential = result.user;
-        console.log("inside login client component");
-      })
-      .catch((err) => {
-        console.log(err);
+  async function handleLogin() {
+
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const idToken = await result.user.getIdToken();
+
+      const res = await fetch("/api/setAuthCookie", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ idToken })
       });
+      const message = await res.json();
+
+      console.log("User signed in and token sent to API.", message);
+    } catch (err) {
+      console.log("Login error", err)
+    }
+
   }
 
-  function handleLogout() {
-    signOut(auth)
-      .then(() => {
-        console.log("signed out");
-      })
-      .catch((err) => {
+  async function handleLogout() {
+    
+    try {
+      await signOut(auth);
+      const res = await fetch("/api/clearAuthCookie", { method: "POST" });
+      const message = await res.json();
+      console.log("User signed out and clearing request sent to API", message)
+    } catch(err) {
         console.log("login component, handleLogout throws error", err);
-      });
+      }
   }
 
   return (
