@@ -9,13 +9,12 @@ export async function POST(req: NextRequest) {
     try {
         const { uid } = await admin.auth().verifyIdToken(idToken);
         if (uid) {
-const sessionCookie = await admin.auth().createSessionCookie(idToken, { expiresIn: 60 * 60 * 24 * 1000 });
-console.error("session cookie:", idToken);
+            const sessionCookie = await admin.auth().createSessionCookie(idToken, { expiresIn: 60 * 60 * 1000 });
 
             return new Response( JSON.stringify({ message: "Cookie set successfully" }), {
                 status: 200,
                 headers: { 
-                    "Set-Cookie": `admin-auth-cookie=${sessionCookie}; HttpOnly; Max-Age=${60 * 60 * 24 * 1}; Path=/dashboard; ${process.env.NODE_ENV==='production' ? 'Secure;' : ''}`
+                    "Set-Cookie": `admin-auth-cookie=${sessionCookie}; HttpOnly; Max-Age=${60 * 60 * 1}; Path=/dashboard; ${process.env.NODE_ENV==='production' ? 'Secure;' : ''}`
                 }
             });
         } else throw new Error("Invalid token.")
@@ -28,7 +27,7 @@ console.error("session cookie:", idToken);
 
 
 // await admin.auth().verifyIdToken(idToken)
-// const expiresIn = 60 * 60 * 24 * 5
+// const expiresIn = 60 * 60 * 5
 // const sessionCookie = await admin.auth().createSessionCookie(idToken, { expiresIn });
 // return new Response( JSON.stringify({ message: "Cookie set successfully" }), {
 //             status: 200,

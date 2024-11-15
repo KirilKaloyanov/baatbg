@@ -4,10 +4,19 @@ import { signInWithPopup } from "firebase/auth";
 import { signOut, GoogleAuthProvider } from "firebase/auth";
 import { auth } from "../../firebaseConfig";
 import { useAuth } from "../context/AuthContext";
+import { useRouter } from "next/router";
+import { useState } from "react";
 
-export default function Login() {
+export default function Login({ sessCookie }) {
+
+  const [cookie, setCookie] = useState<null | string>(sessCookie)
 
   const user = useAuth();
+  if (!cookie) {
+    signOut(auth)
+    console.log("sing out, cause no cookie");
+
+  }
 
   const provider = new GoogleAuthProvider();
 
@@ -27,6 +36,8 @@ export default function Login() {
       const message = await res.json();
 
       console.log("User signed in and token sent to API.", message);
+      setCookie(null);
+      
     } catch (err) {
       console.log("Login error", err)
     }
@@ -47,10 +58,10 @@ export default function Login() {
 
   return (
     <>
-      {!user ? (
-        <button onClick={handleLogin}>Login</button>
-      ) : (
+      {user ? (
         <button onClick={handleLogout}>Logout {user.displayName}</button>
+      ) : (
+        <button onClick={handleLogin}>Login</button>
       )}
     </>
   );
