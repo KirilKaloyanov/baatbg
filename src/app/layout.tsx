@@ -17,11 +17,13 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body>
-        <div style={{ backgroundColor: "lightgrey" }}>
-          <Menu items={items} />
-          <p>BAAT</p>
+        <div style={{ backgroundColor: "lightblue" }}>
           <ReactQueryProvider>
-            <AuthProvider>{children}</AuthProvider>
+            <AuthProvider>
+              <Menu items={items} />
+              <p>BAAT</p>
+              {children}
+              </AuthProvider>
           </ReactQueryProvider>
         </div>
       </body>

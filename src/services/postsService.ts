@@ -35,7 +35,7 @@ import { PostData } from "@interfaces/postData"
   export async function getPostBySubMenuId(id: string) {
     try {
       const postsRef = collection(db, "posts");
-      const q = query(postsRef, where("subMenuId", "==", id))
+      const q = query(postsRef, where("subMenuPath", "==", id))
       const snapShot = await getDocs(q);
       let data: any = null;
       snapShot.forEach((res) => {
@@ -50,7 +50,7 @@ import { PostData } from "@interfaces/postData"
   export async function getAllPostsByMenuId(id: string ) {
     try {
       const postsRef = collection(db, "posts");
-      const q = query(postsRef, where("menuId", "==", id))
+      const q = query(postsRef, where("menuPath", "==", id))
       const snapShot = await getDocs(q);
       let data = snapShot.docs.map((doc) => ({
         id: doc.id,

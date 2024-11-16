@@ -2,7 +2,7 @@
 
 import { signInWithPopup } from "firebase/auth";
 import { signOut, GoogleAuthProvider } from "firebase/auth";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "@context/AuthContext";
 import { auth } from "@firebaseConfig";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";

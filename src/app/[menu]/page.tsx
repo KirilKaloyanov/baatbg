@@ -14,8 +14,8 @@ export default async function MainMenu({
       <h1>_{menu}+ Main menu gallery</h1>
       {items?.map((item) => (
         <div key={item.id}>
-          <Link href={`/${item.data.menuId}/${item.data.subMenuId}`}>
-            {item.data.subMenuId}
+          <Link href={`/${item.data.menuPath}/${item.data.subMenuPath}`}>
+            {item.data.subMenuPath}
           </Link>
         </div>
       ))}
