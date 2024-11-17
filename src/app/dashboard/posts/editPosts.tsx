@@ -1,23 +1,61 @@
-'use client';
+"use client";
 
-import { postListDto } from "@interfaces/postData"
+import { postListDto } from "@interfaces/postData";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-import PostForm from "@components/forms/postForm";
+import PostForm from "./postForm";
 
-export default function EditPosts({ postList, apiKey } : { postList: postListDto[], apiKey: string } ) {
-    const initialFormValues = { id: "create", content: "", menuPath: "", subMenuPath: ""};
+export default function EditPosts({
+  postList,
+  apiKey,
+}: {
+  postList: postListDto[];
+  apiKey: string;
+}) {
+  const initialFormValues = {
+    id: "create",
+    content: "",
+    menuPath: "",
+    subMenuPath: "",
+  };
 
-    const [ postForEditing, setPostForEditing ] = useState<postListDto>(initialFormValues);
+  const [postForEditing, setPostForEditing] =
+    useState<postListDto | null>(null);
+  const [filteredPosts, setFilteredPosts] = useState<postListDto[]>(postList);
 
-    return (
-        <>
-        <ul> 
-            {/* filter by mainMenuPath */}
-            {postList.map(post => <li key={post.id} onClick={() => setPostForEditing(post)}>{post.id}</li>)}
-        </ul>
-        <PostForm item={postForEditing} apiKey={apiKey} />
-        </>
-    )
+  function filterPosts(menuPath: string) {
+    menuPath === "all"
+      ? setFilteredPosts(postList)
+      : setFilteredPosts(postList.filter((post) => post.menuPath === menuPath));
+  }
+
+  const categories = [...new Set(postList.map((post) => post.menuPath))];
+  categories.push("all");
+
+  return (
+    <>
+      {categories.map((menuPath) => (
+        <button key={menuPath} onClick={() => filterPosts(menuPath)}>
+          {menuPath}
+        </button>
+      ))}
+      <ul>
+        
+        {
+        filteredPosts.map((post) => (
+          <li key={post.id} onClick={() => setPostForEditing(post)}>
+            /{post.menuPath}/{post.subMenuPath}
+          </li>
+        ))
+        }
+        <li onClick={() => setPostForEditing(initialFormValues)}>
+          Create new post
+        </li>
+      </ul>
+      {
+      postForEditing && <PostForm item={postForEditing} apiKey={apiKey} resetForm={() => setPostForEditing(null)}/>
+      }
+    </>
+  );
 }

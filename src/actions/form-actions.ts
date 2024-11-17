@@ -15,24 +15,19 @@ export async function editMenu(prevState: any, formData: FormData) {
 
 
     if (typeof id == "string") {
-        if (id === "create" && typeof path == "string") {
+        if (id == "create" && typeof path == "string") {
             id = path;
         } 
         const ref = await admin.firestore().collection("menu").doc(id);
-        const dataSnapSHot = await ref.set(menuDto, { merge: true });
+        await ref.set(menuDto, { merge: true });
     }
-
-
-
-    // console.log("prevState", prevState);
-
 }
 
 export async function editPost(prevState: any, formData: FormData) {
     const postDto = {
         menuPath: formData.get("menuPath"),
         subMenuPath: formData.get("subMenuPath"),
-        content: formData.get('content')
+        content: formData.get("content")
     }
     const id = formData.get('id');
 
@@ -41,6 +36,12 @@ export async function editPost(prevState: any, formData: FormData) {
          ? admin.firestore().collection('posts').doc()
          : admin.firestore().collection('posts').doc(id)
 
-        await ref.set(postDto, {merge: true})
+        try {
+            await ref.set(postDto, {merge: true})
+            return {message: 'success'}
+
+        } catch(err) {
+            return {message: 'error'}
+        }
     }
 }

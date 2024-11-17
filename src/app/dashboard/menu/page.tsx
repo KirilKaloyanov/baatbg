@@ -3,7 +3,7 @@ import { MenuDTO } from "@interfaces/admin/MenuDTO";
 import Link from "next/link";
 import {cookies} from "next/headers"
 import { redirect } from "next/navigation";
-import EditMenus from "@components/forms/editMenus";
+import EditMenus from "./editMenus";
 
 export default async function EditMenuCollection() {
 

@@ -2,21 +2,32 @@
 
 import { postListDto } from "@interfaces/postData"
 import { Editor } from "@tinymce/tinymce-react";
+import { useEffect, useState } from "react";
 
 
 interface richEditorProps {
   apiKey: string;
-  editorRef: any,
-  item: postListDto;
+  item: string;
+  editorRef: any
 }
 
-export default function RichEditor({ apiKey, editorRef, item }: richEditorProps) {
+export default function RichEditor({ apiKey, item, editorRef }: richEditorProps) {
+  
+  const [content, setContent ] = useState<string | null>(null)
+
+  useEffect(() => {
+    setContent(item)
+  }, [])
+  
+  function changeContent(newContent: string) {
+    setContent(newContent);
+  }
 
   return (
         
           <Editor
             apiKey={apiKey}
-            onInit={(evt, editor) => (editorRef.current = editor)}
+            onInit={(evt, editor) => ( editorRef.current = editor )} // HERE TODO 
             init={{
               plugins: [
                 "anchor",
@@ -42,7 +53,8 @@ export default function RichEditor({ apiKey, editorRef, item }: richEditorProps)
                 { value: "Email", title: "Email" },
               ],
             }}
-            initialValue={item! ? item.content : ""}
+            initialValue={content || ""}
+            onEditorChange={changeContent}
           />
         
   );
