@@ -1,12 +1,13 @@
 "use client";
 
+import { postListDto } from "@interfaces/postData"
 import { Editor } from "@tinymce/tinymce-react";
 
 
 interface richEditorProps {
   apiKey: string;
   editorRef: any,
-  item: { itemId: string; data: { content: string } } | undefined;
+  item: postListDto;
 }
 
 export default function RichEditor({ apiKey, editorRef, item }: richEditorProps) {
@@ -41,7 +42,7 @@ export default function RichEditor({ apiKey, editorRef, item }: richEditorProps)
                 { value: "Email", title: "Email" },
               ],
             }}
-            initialValue={item! ? item.data?.content : ""}
+            initialValue={item! ? item.content : ""}
           />
         
   );

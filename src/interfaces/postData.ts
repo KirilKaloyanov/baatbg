@@ -1,4 +1,3 @@
-export interface PostData {
-    content: string;
-  }
-  
+export type postListDto = {
+  id: string, content: string, menuPath: string, subMenuPath: string
+}

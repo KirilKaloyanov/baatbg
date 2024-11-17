@@ -1,6 +1,5 @@
 import { doc, getDoc, collection, DocumentData, getDocs, query, where } from "@firebase/firestore";
-import { db } from "../../firebaseConfig"
-import { PostData } from "@interfaces/postData"
+import { db } from "@firebaseConfig"
 
 
 // export async function getPostById( itemId: string) : Promise <PostData | undefined> {
@@ -18,19 +17,19 @@ import { PostData } from "@interfaces/postData"
 //     }
 //   }
 
-  // export async function getAllPosts() {
-  //   try {
-  //       const querySnapshot = await getDocs(collection(db, "posts"));
-  //       const data = querySnapshot.docs.map((doc) => ({
-  //         id: doc.id,
-  //         content: doc.data().content
-  //       }))
-  //       return data;
-  //     } catch (error) {
-  //       console.log("Error fetching from Firestore/ inside firebaseOps", error)
-  //     }
-  //     return null;
-  // }
+  export async function getAllPosts() {
+    try {
+        const querySnapshot = await getDocs(collection(db, "posts"));
+        const data = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          content: doc.data().content
+        }))
+        return data;
+      } catch (error) {
+        console.log("Error fetching from Firestore/ inside firebaseOps", error)
+      }
+      return null;
+  }
 
   export async function getPostBySubMenuId(id: string) {
     try {

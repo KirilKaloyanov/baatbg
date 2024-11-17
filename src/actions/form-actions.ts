@@ -28,3 +28,19 @@ export async function editMenu(prevState: any, formData: FormData) {
 
 }
 
+export async function editPost(prevState: any, formData: FormData) {
+    const postDto = {
+        menuPath: formData.get("menuPath"),
+        subMenuPath: formData.get("subMenuPath"),
+        content: formData.get('content')
+    }
+    const id = formData.get('id');
+
+    if (typeof id === "string"){
+        let ref = id === "create"
+         ? admin.firestore().collection('posts').doc()
+         : admin.firestore().collection('posts').doc(id)
+
+        await ref.set(postDto, {merge: true})
+    }
+}

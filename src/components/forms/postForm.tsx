@@ -1,123 +1,83 @@
 "use client";
 
-import React, { useRef, useState, useEffect, Suspense } from "react";
+import React, { useRef, Suspense } from "react";
 import DOMPurify from "dompurify";
 import dynamic from "next/dynamic";
-import { useAuth } from "src/context/AuthContext";
+import { postListDto } from "@interfaces/postData"
+import { editPost } from "@actions/form-actions";
 
 interface richEditorProps {
-  item?: { itemId: string; data: { content: string } };
+  item: postListDto;
+  apiKey: string
 }
 
-export default function PostForm({ item }: richEditorProps) {
-  const user = useAuth();
+export default function PostForm({ item, apiKey }: richEditorProps) {
   const editorRef = useRef<any>(null);
-  const videoRef = useRef<any>(null);
-  const [tinyApiKey, setTinyApiKey] = useState<string | null>(null);
-  const [hasAuth, setHasAuth] = useState<boolean>(false);
-
-  useEffect(() => {
-    const fetchKey = async () => {
-      if (user) {
-        const token = await user.getIdToken();
-        try {
-          const response = await fetch("/api/tinyKey", {
-            method: "GET",
-            headers: {
-              authorization: `Bearer ${token}`,
-            },
-          });
-          if (response.ok) {
-            const key = await response.json();
-            setTinyApiKey(key || "invalid");
-            setHasAuth(true);
-          } else {
-            setHasAuth(true);
-            setTinyApiKey("invalid");
-          }
-        } catch (e) {
-          console.log("key error", e);
-        }
-      } else return;
-    };
-    fetchKey();
-  }, [user]);
+  const menuPathRef = useRef<any>(null);
+  const subMenuPathRef = useRef<any>(null);
 
   const TinyMCEditor = dynamic(() => import("@components/forms/richEditor"));
-
-  const saveContent = async (content) => {
-    if (item?.itemId == "create") {
-      try {
-        const resp = await fetch("/api/posts", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ content }),
-        });
-        console.log("cuss", resp.ok);
-      } catch (e) {
-        console.log("Error fetching /api/posts", e);
-      }
-    } else if (item) {
-      try {
-        const resp = await fetch(`/api/posts/${item.itemId}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(content),
-        });
-        console.log("cuss", resp.ok);
-      } catch (e) {
-        console.log("Error fetching /api/posts", e);
-      }
-    }
-  };
 
   const logContent = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (editorRef.current) {
-      const editorContent = editorRef.current.getContent();
-      const ytLink = videoRef.current.value;
-      console.log(editorContent, ytLink);
-      const sanitizedContent = DOMPurify.sanitize(editorContent);
-      await saveContent(sanitizedContent);
+    let editorContent = '';
+
+    if(apiKey) {
+      editorContent = editorRef.current.getContent();
+    } else {
+      editorContent = editorRef.current.value;
     }
+
+    const sanitizedContent = DOMPurify.sanitize(editorContent);
+    const menuPath = menuPathRef.current.value;
+    const subMenuPath = subMenuPathRef.current.value;
+    const id = item.id
+
+    const formData = new FormData();
+    formData.append('content', sanitizedContent);
+    formData.append('menuPath', menuPath);
+    formData.append('subMenuPath', subMenuPath);
+    formData.append('id', id);
+    await editPost("", formData);
   };
-  if (!tinyApiKey) return <p>Loading key</p>;
-  if (!hasAuth) return <h1>Authentication is required</h1>;
-  if (tinyApiKey == "invalid") return <h1>Unauthorized</h1>;
-  if (tinyApiKey)
+
     return (
       <>
         <form onSubmit={logContent}>
           <div>
-            <label htmlFor="ytinput">YouTube link</label>
-            <input type="text" id="ytinput" ref={videoRef}></input>
+            <label htmlFor="menuPath">Menu Path</label>
+            <input type="text" id="menuPath" ref={menuPathRef} defaultValue={item.menuPath}></input>
+            <label htmlFor="subMenuPath">Submenu Path</label>
+            <input type="text" id="subMenuPath" ref={subMenuPathRef} defaultValue={item.subMenuPath}></input>
             <input type="submit" value="Save" />
           </div>
-          <Suspense
-            fallback={
+          { apiKey ? 
+              <Suspense
+                fallback={
+                  <textarea
+                  style={{ height: "400px", width: "98vw" }}
+                  defaultValue={item.content}
+                  />
+                }
+                >
+                <TinyMCEditor
+                  apiKey={apiKey}
+                  item={item!}
+                  editorRef={editorRef}
+                  />
+              </Suspense>
+              :
               <textarea
-                style={{ height: "400px", width: "98vw" }}
-                readOnly
-                defaultValue={"Loading editor..."}
+                  style={{ height: "400px", width: "98vw" }}
+                  defaultValue={item.content}
+                  ref={editorRef}
               />
-            }
-          >
-            <TinyMCEditor
-              apiKey={tinyApiKey}
-              item={item!}
-              editorRef={editorRef}
-            />
-          </Suspense>
+              }
         </form>
       </>
     );
-  return <p>Loading...</p>;
-}
+  }
 
 // const [content, setContent] = useState<string>("");
 
