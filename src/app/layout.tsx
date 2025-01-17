@@ -1,4 +1,4 @@
-import { AuthProvider } from "@context/AuthContext";
+// import { AuthProvider } from "@context/AuthContext";
 import Menu from "../components/menu";
 import { getMenuItems } from "@services/menuService";
 import { ReactQueryProvider } from "@context/QueryContext";
@@ -19,11 +19,11 @@ export default async function RootLayout({
       <body>
         <div style={{ backgroundColor: "lightblue" }}>
           <ReactQueryProvider>
-            <AuthProvider>
+            {/* <AuthProvider> */}
               <Menu items={items} />
               <p>BAAT</p>
               {children}
-              </AuthProvider>
+              {/* </AuthProvider> */}
           </ReactQueryProvider>
         </div>
       </body>
