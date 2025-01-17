@@ -54,7 +54,7 @@ export default function RichEditor({ apiKey, item, editorRef }: richEditorProps)
               ],
             }}
             initialValue={content || ""}
-            onEditorChange={changeContent}
+            // onEditorChange={changeContent}
           />
         
   );

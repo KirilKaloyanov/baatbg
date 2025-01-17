@@ -14,7 +14,7 @@ export default async function EditPostCollection() {
 
     return (
         <>
-            <EditPosts postList={postList} apiKey={key} />
+            <EditPosts apiKey={key} />
         </>
     )
 }
