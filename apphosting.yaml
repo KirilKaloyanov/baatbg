@@ -1,3 +1,0 @@
-env: 
-- variable: TINYMCE_API_URL
-  secret: TINYMCE_API_URL
