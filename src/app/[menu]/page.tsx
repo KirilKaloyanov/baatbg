@@ -4,7 +4,7 @@ import Link from "next/link";
 export default async function MainMenu({
   params,
 }: {
-  params: { menu: string };
+  params: Promise<{ menu: string }>;
 }) {
   const { menu } = await params;
 

@@ -3,7 +3,7 @@ import { getPostBySubMenuId } from "@services/postsService";
 export default async function SubMenu({
   params,
 }: {
-  params: { menu: string; submenu: string };
+  params: Promise<{ menu: string; submenu: string }>;
 }) {
   const { submenu } = await params;
 
