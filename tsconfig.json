@@ -1,5 +1,29 @@
 {
   "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@actions/*": [
+        "src/actions/*"
+      ],
+      "@services/*": [
+        "src/services/*"
+      ],
+      "@components/*": [
+        "src/components/*"
+      ],
+      "@context/*": [
+        "src/context/*"
+      ],
+      "@interfaces/*": [
+        "src/interfaces/*"
+      ],
+      "@firebaseConfig": [
+        "firebaseConfig.ts"
+      ],
+      "@firebaseAdminConfig": [
+        "firebaseAdminConfig.ts"
+      ]
+    },
     "lib": [
       "dom",
       "dom.iterable",
