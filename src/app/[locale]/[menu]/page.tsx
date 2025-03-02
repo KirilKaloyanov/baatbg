@@ -7,7 +7,6 @@ export default async function MainMenu({
   params: Promise<{ menu: string, locale: string }>;
 }) {
   const { menu, locale } = await params;
-  console.log(locale)
 
   const items = await getAllPostsByMenuId(menu);
   return (
@@ -15,8 +14,8 @@ export default async function MainMenu({
       <h1>.:{menu}:. Main menu gallery</h1>
       {items?.map((item) => (
         <div key={item.id}>
-          <Link href={`/${item.data.menuPath}/${item.data.subMenuPath}`}>
-            {item.data.subMenuPath}
+          <Link href={`/${locale}/${item.data.menuPath}/${item.data.subMenuPath}`}>
+            {item.data.heading[locale]}
           </Link>
         </div>
       ))}

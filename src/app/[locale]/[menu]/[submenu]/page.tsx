@@ -1,11 +1,12 @@
 import { getPostBySubMenuId } from "@services/postsService";
+import './submenu.css';
 
 export default async function SubMenu({
   params,
 }: {
-  params: Promise<{ menu: string; submenu: string }>;
+  params: Promise<{ menu: string; submenu: string; locale: string }>;
 }) {
-  const { submenu } = await params;
+  const { submenu, locale } = await params;
 
   const data = await getPostBySubMenuId(submenu);
 
@@ -13,7 +14,7 @@ export default async function SubMenu({
     <>
       <h1>.:{submenu}:. Submenu item</h1>
       <div
-        dangerouslySetInnerHTML={{ __html: data?.content || "No content" }}
+        dangerouslySetInnerHTML={{ __html: data?.text[locale] || "No content" }}
       ></div>
     </>
   );

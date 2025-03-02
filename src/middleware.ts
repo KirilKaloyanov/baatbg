@@ -8,11 +8,11 @@ export const config = {
 }
 
 
-// import type { NextRequest } from "next/server";
+import type { NextRequest } from "next/server";
 // import { NextResponse } from "next/server";
 
-// export async function middleware(request: NextRequest) {
-    // console.log("middleware redirects to root")
+export async function middleware(request: NextRequest) {
+    console.log("middleware redirects to root")
     // return NextResponse.redirect(new URL('/', request.url))
     // const idToken = await request.cookies.get('admin-auth-cookie')
     
@@ -25,7 +25,7 @@ export const config = {
     //     return NextResponse.next();
     // } else return new Response("Unauthorized")
 
-// }
+}
 
 // export const config = {
 //     matcher: "/dashboard/:path*"

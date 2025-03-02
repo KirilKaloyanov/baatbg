@@ -23,7 +23,7 @@ export default async function RootLayout({
   return (
     <html lang={locale}>
       <body>
-        <div style={{ backgroundColor: "lightblue" }}>
+        <div style={{ backgroundColor: "lightgrey" }}>
           <ReactQueryProvider>
             <NextIntlClientProvider>
               <Menu items={items} locale={locale} />
