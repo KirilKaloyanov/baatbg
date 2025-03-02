@@ -11,7 +11,7 @@ export default async function SubMenu({
 
   return (
     <>
-      <h1>_{submenu}+ Submenu item</h1>
+      <h1>.:{submenu}:. Submenu item</h1>
       <div
         dangerouslySetInnerHTML={{ __html: data?.content || "No content" }}
       ></div>

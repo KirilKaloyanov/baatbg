@@ -4,14 +4,15 @@ import Link from "next/link";
 export default async function MainMenu({
   params,
 }: {
-  params: Promise<{ menu: string }>;
+  params: Promise<{ menu: string, locale: string }>;
 }) {
-  const { menu } = await params;
+  const { menu, locale } = await params;
+  console.log(locale)
 
   const items = await getAllPostsByMenuId(menu);
   return (
     <>
-      <h1>_{menu}+ Main menu gallery</h1>
+      <h1>.:{menu}:. Main menu gallery</h1>
       {items?.map((item) => (
         <div key={item.id}>
           <Link href={`/${item.data.menuPath}/${item.data.subMenuPath}`}>

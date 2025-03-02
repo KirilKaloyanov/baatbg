@@ -1,7 +1,9 @@
 // import { AuthProvider } from "@context/AuthContext";
-import Menu from "../components/menu";
+import Menu from "../../components/menu";
 import { getMenuItems } from "@services/menuService";
 import { ReactQueryProvider } from "@context/QueryContext";
+import { getMessages } from "next-intl/server";
+import { NextIntlClientProvider } from "next-intl";
 
 export const metadata = {
   title: "BAAT application",
@@ -9,21 +11,25 @@ export const metadata = {
 
 export default async function RootLayout({
   children,
+  params
 }: {
   children: React.ReactNode;
+  params: Promise<{ locale: string }>
 }) {
+  const { locale } = await params;
+  const messages = await getMessages();
   const items = await getMenuItems();
 
   return (
-    <html lang="en">
+    <html lang={locale}>
       <body>
         <div style={{ backgroundColor: "lightblue" }}>
           <ReactQueryProvider>
-            {/* <AuthProvider> */}
-              <Menu items={items} />
+            <NextIntlClientProvider>
+              <Menu items={items} locale={locale} />
               <p>BAAT</p>
               {children}
-              {/* </AuthProvider> */}
+            </NextIntlClientProvider>
           </ReactQueryProvider>
         </div>
       </body>
