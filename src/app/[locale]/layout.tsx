@@ -11,13 +11,13 @@ export const metadata = {
 
 export default async function RootLayout({
   children,
-  params
+  params,
 }: {
   children: React.ReactNode;
-  params: Promise<{ locale: string }>
+  params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const messages = await getMessages();
+  const messages = await getMessages({ locale });
   const items = await getMenuItems();
 
   return (
@@ -25,7 +25,7 @@ export default async function RootLayout({
       <body>
         <div style={{ backgroundColor: "lightgrey" }}>
           <ReactQueryProvider>
-            <NextIntlClientProvider>
+            <NextIntlClientProvider messages={messages}>
               <Menu items={items} locale={locale} />
               <p>BAAT</p>
               {children}
