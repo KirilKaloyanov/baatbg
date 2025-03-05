@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import CustomLink from "./customLink";
 import LanguageSwitch from "./localeSwtich";
 
 export default function Menu({ items, locale }) {
@@ -9,9 +9,9 @@ export default function Menu({ items, locale }) {
     <nav>
       <LanguageSwitch locale={locale} />
       {items.map((item) => (
-        <Link key={item.id} href={"/" + locale + "/" + item.data.path}>
+        <CustomLink key={item.id} href={"/" + locale + "/" + item.data.path}>
           {item.data.label[locale]}
-        </Link>
+        </CustomLink>
       ))}
     </nav>
   );

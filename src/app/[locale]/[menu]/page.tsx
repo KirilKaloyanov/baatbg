@@ -1,10 +1,10 @@
 import { getAllPostsByMenuId } from "@services/postsService";
-import Link from "next/link";
+import CustomLink from "@components/customLink";
 
 export default async function MainMenu({
   params,
 }: {
-  params: Promise<{ menu: string, locale: string }>;
+  params: Promise<{ menu: string; locale: string }>;
 }) {
   const { menu, locale } = await params;
 
@@ -14,9 +14,11 @@ export default async function MainMenu({
       <h1>.:{menu}:. Main menu gallery</h1>
       {items?.map((item) => (
         <div key={item.id}>
-          <Link href={`/${locale}/${item.data.menuPath}/${item.data.subMenuPath}`}>
+          <CustomLink
+            href={`/${locale}/${item.data.menuPath}/${item.data.subMenuPath}`}
+          >
             {item.data.heading[locale]}
-          </Link>
+          </CustomLink>
         </div>
       ))}
     </>

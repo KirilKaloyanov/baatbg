@@ -1,9 +1,10 @@
-// import { AuthProvider } from "@context/AuthContext";
 import Menu from "../../components/menu";
 import { getMenuItems } from "@services/menuService";
 import { ReactQueryProvider } from "@context/QueryContext";
 import { getMessages } from "next-intl/server";
 import { NextIntlClientProvider } from "next-intl";
+import { LoaderProvider } from "@context/LoaderContext";
+import Loader from "@components/loader";
 
 export const metadata = {
   title: "BAAT application",
@@ -26,9 +27,12 @@ export default async function RootLayout({
         <div style={{ backgroundColor: "lightgrey" }}>
           <ReactQueryProvider>
             <NextIntlClientProvider messages={messages}>
-              <Menu items={items} locale={locale} />
-              <p>BAAT</p>
-              {children}
+              <LoaderProvider>
+                <Loader />
+                <Menu items={items} locale={locale} />
+                <p>BAAT</p>
+                {children}
+              </LoaderProvider>
             </NextIntlClientProvider>
           </ReactQueryProvider>
         </div>

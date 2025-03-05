@@ -1,12 +1,16 @@
 "use client";
 
+import { useLoader } from "@context/LoaderContext";
 import { usePathname, useRouter } from "../i18n/navigation";
 
 export default function LanguageSwitch({ locale }) {
   const pathname = usePathname();
   const router = useRouter();
+  const { startNavigation } = useLoader();
   const switching = (nextLocale: string) => {
-    router.replace(pathname, { locale: nextLocale });
+    startNavigation(() => {
+      router.replace(pathname, { locale: nextLocale });
+    });
   };
 
   return (
