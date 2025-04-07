@@ -1,5 +1,5 @@
 import { getAllMembers } from "@services/memberService";
-import CustomLink from "@components/customLink";
+import Link from "next/link";
 
 export default async function Members({
   params,
@@ -15,9 +15,9 @@ export default async function Members({
       <h1>Members</h1>
       {data.map((member) => (
         <div key={member.id}>
-          <CustomLink href={`/${locale}/members/${member.id}`}>
+          <Link href={`/${locale}/members/${member.id}`}>
             {member.name[locale]}
-          </CustomLink>{" "}
+          </Link>{" "}
           - {member.typeLabel[locale]}
         </div>
       ))}
