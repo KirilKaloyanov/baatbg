@@ -1,4 +1,4 @@
-import { collection, doc, getDoc, getDocs } from "@firebase/firestore";
+import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { db } from "@firebaseConfig";
 
 interface MemberType {

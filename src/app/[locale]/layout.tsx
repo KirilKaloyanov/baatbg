@@ -5,6 +5,8 @@ import { NextIntlClientProvider } from "next-intl";
 import { LoaderProvider } from "@context/LoaderContext";
 import Loader from "@components/loader";
 
+import '../globals.css'
+
 export const metadata = {
   title: "BAAT application",
 };
