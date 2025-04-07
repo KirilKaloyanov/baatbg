@@ -8,7 +8,7 @@ export default async function Members({
 }) {
   const { locale } = await params;
   const data = await getAllMembers();
-  console.log(data);
+
   if (!data) return <h1>Loading...</h1>;
   return (
     <>
@@ -18,7 +18,7 @@ export default async function Members({
           <Link href={`/${locale}/members/${member.id}`}>
             {member.name[locale]}
           </Link>{" "}
-          - {member.typeLabel[locale]}
+          - {member.typeLabel.label[locale]}
         </div>
       ))}
     </>
