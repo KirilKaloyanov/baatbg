@@ -1,6 +1,5 @@
 import Menu from "../../components/menu";
 import { getMenuItems } from "@services/menuService";
-import { ReactQueryProvider } from "@context/QueryContext";
 import { getMessages } from "next-intl/server";
 import { NextIntlClientProvider } from "next-intl";
 import { LoaderProvider } from "@context/LoaderContext";
@@ -25,16 +24,14 @@ export default async function RootLayout({
     <html lang={locale}>
       <body>
         <div style={{ backgroundColor: "lightgrey" }}>
-          <ReactQueryProvider>
-            <NextIntlClientProvider messages={messages}>
-              <LoaderProvider>
-                <Loader />
-                <Menu items={items} locale={locale} />
-                <p>BAAT</p>
-                {children}
-              </LoaderProvider>
-            </NextIntlClientProvider>
-          </ReactQueryProvider>
+          <NextIntlClientProvider messages={messages}>
+            <LoaderProvider>
+              <Loader />
+              <Menu items={items} locale={locale} />
+              <p>BAAT</p>
+              {children}
+            </LoaderProvider>
+          </NextIntlClientProvider>
         </div>
       </body>
     </html>
