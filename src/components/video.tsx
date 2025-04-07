@@ -1,4 +1,4 @@
-import styles from "./Video.module.css";
+import styles from "./video.module.css";
 
 const Video = ({ videoId }: { videoId: string }) => {
   return (
