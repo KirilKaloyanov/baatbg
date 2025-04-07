@@ -1,5 +1,6 @@
 import { getPostBySubMenuId } from "@services/postsService";
 import './submenu.css';
+import Video from "@components/video";
 
 export default async function SubMenu({
   params,
@@ -16,6 +17,9 @@ export default async function SubMenu({
       <div
         dangerouslySetInnerHTML={{ __html: data?.text[locale] || "No content" }}
       ></div>
+      
+      { data.linkVideo &&
+      <Video videoId={data.linkVideo} />}
     </>
   );
 }
