@@ -1,0 +1,43 @@
+.videoContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .videoIframe {
+    width: 100vw; /* Default to full width */
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+  
+  @media (min-width: 480px) {
+    .videoIframe {
+      width: 100%;
+    }
+  }
+  
+  @media (min-width: 700px) {
+    .videoIframe {
+      width: 90%;
+    }
+  }
+  
+  @media (min-width: 900px) {
+    .videoIframe {
+      width: 75%;
+    }
+  }
+  
+  /* Disable responsiveness for screens under 480px */
+  @media (max-width: 479px) {
+    .videoContainer {
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+  
+    .videoIframe {
+      width: 480px; /* Fixed width forces horizontal scrolling */
+    }
+  }
+  
