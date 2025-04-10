@@ -24,8 +24,13 @@ export default async function RootLayout({
 
   return (
     <html lang={locale}>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link rel="stylesheet" href={`https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Raleway:ital,wght@0,100..900;1,100..900&family=Oswald:wght@200..700&display=swap`} />
+      </head>
       <body>
-        <div style={{ backgroundColor: "lightgrey" }}>
+        <div>
           <NextIntlClientProvider messages={messages}>
             <LoaderProvider>
               <Loader />

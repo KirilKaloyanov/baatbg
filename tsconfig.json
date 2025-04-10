@@ -2,33 +2,16 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "@actions/*": [
-        "src/actions/*"
-      ],
-      "@services/*": [
-        "src/services/*"
-      ],
-      "@components/*": [
-        "src/components/*"
-      ],
-      "@context/*": [
-        "src/context/*"
-      ],
-      "@interfaces/*": [
-        "src/interfaces/*"
-      ],
-      "@firebaseConfig": [
-        "firebaseConfig.ts"
-      ],
-      "@firebaseAdminConfig": [
-        "firebaseAdminConfig.ts"
-      ]
+      "@/*": ["src/*"],
+      "@actions/*": ["src/actions/*"],
+      "@services/*": ["src/services/*"],
+      "@components/*": ["src/components/*"],
+      "@context/*": ["src/context/*"],
+      "@interfaces/*": ["src/interfaces/*"],
+      "@firebaseConfig": ["firebaseConfig.ts"],
+      "@firebaseAdminConfig": ["firebaseAdminConfig.ts"]
     },
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": false,
@@ -48,13 +31,6 @@
     "strictNullChecks": true,
     "target": "ES2017"
   },
-  "include": [
-    "next-env.d.ts",
-    ".next/types/**/*.ts",
-    "**/*.ts",
-    "**/*.tsx"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["next-env.d.ts", ".next/types/**/*.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"]
 }

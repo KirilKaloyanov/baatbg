@@ -11,7 +11,7 @@ export default async function MainMenu({
   const items = await getAllPostsByMenuId(menu);
   return (
     <>
-      <h1>.:{menu}:. Main menu gallery</h1>
+      <h1 className="text-3xl">.:{menu}:. Main menu gallery</h1>
       {items?.map((item) => (
         <div key={item.id}>
           <CustomLink

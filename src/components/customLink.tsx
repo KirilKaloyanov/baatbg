@@ -1,7 +1,7 @@
 "use client";
 
 import { useLoader } from "../context/LoaderContext";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 
 export default function CustomLink({
@@ -14,12 +14,16 @@ export default function CustomLink({
 }) {
   const { startNavigation } = useLoader();
   const router = useRouter();
+  const pathname = usePathname();
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    startNavigation(() => {
-      router.push(href);
-    });
+    if (pathname !== href) {
+      startNavigation(() => {
+        router.push(href);
+      });
+    }
+    console.log(pathname, href)
   };
 
   return (

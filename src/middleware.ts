@@ -7,12 +7,22 @@ import { routing } from "./i18n/routing";
 const intlMiddleware = createMiddleware(routing);
 
 export default function middleware(request: NextRequest) {
-  console.log("request.nextUrl.pathname", request.nextUrl.pathname);
   if (request.nextUrl.pathname === "/") {
     const acceptLang = request.headers.get("accept-language")?.split(",")[0];
     const preferredLocale = acceptLang?.startsWith("bg") ? "bg" : "en";
     return NextResponse.redirect(new URL(`/${preferredLocale}`, request.url));
   }
+  
+  const [_, locale, ...pathSegments] = request.nextUrl.pathname.split('/');
+
+  const currentLocale = locale && (locale === 'bg' || locale === 'en') ? locale : "en";
+  
+  const path = pathSegments.join('/');
+  console.log(currentLocale, path)
+  if (path === 'projects') {
+    return NextResponse.redirect(new URL(`/${currentLocale}/projects/danube-cycle-plans`, request.url));
+  }
+
   return intlMiddleware(request);
 }
 

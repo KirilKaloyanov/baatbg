@@ -43,8 +43,9 @@
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.141 0.005 285.823);
+  --font-heading: "Oswald", sans-serif;
+  --background: oklch(0.99 0 0);
+  --foreground: oklch(0.25 0.04 158.89);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.141 0.005 285.823);
   --popover: oklch(1 0 0);
@@ -113,8 +114,25 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
+    h1, h2, h3, h4, h5, h6 {
+      font-family: var(--font-heading), sans-serif;
+    } 
+
+    a, ul, li, p {
+      font-family: "Raleway", sans-serif;
+      word-spacing: 3px
+    }
   }
   body {
     @apply bg-background text-foreground;
+  }
+
+  /* h1, h2, h3, h4, h5, h6 {
+    @apply font-heading;
+  } */
+
+  p, li {
+    @apply leading-[2.1];
+    @apply tracking-[-0.25px];
   }
 }
