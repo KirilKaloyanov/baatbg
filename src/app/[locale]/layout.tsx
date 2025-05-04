@@ -1,9 +1,13 @@
-import Menu from "../../components/menu";
-import { getMenuItems } from "@services/menuService";
+import Image from 'next/image';
+
+import Header from "../../components/header";
+import Loader from "@components/loader";
 import { getMessages } from "next-intl/server";
 import { NextIntlClientProvider } from "next-intl";
 import { LoaderProvider } from "@context/LoaderContext";
-import Loader from "@components/loader";
+
+import fbLogo from '@icons/fb.svg'
+import ytLogo from '@icons/youtube.svg'
 
 import '../globals.css'
 
@@ -20,26 +24,31 @@ export default async function RootLayout({
 }) {
   const { locale } = await params;
   const messages = await getMessages({ locale });
-  const items = await getMenuItems();
 
   return (
     <html lang={locale}>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" />
-        <link rel="stylesheet" href={`https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Raleway:ital,wght@0,100..900;1,100..900&family=Oswald:wght@200..700&display=swap`} />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Raleway:ital,wght@0,100..900;1,100..900&family=Oswald:wght@200..700&display=swap" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,1,0" />  
       </head>
       <body>
-        <div>
           <NextIntlClientProvider messages={messages}>
             <LoaderProvider>
               <Loader />
-              <Menu items={items} locale={locale} />
-              <p>BAAT</p>
-              {children}
+              <Header locale={locale} />
+
+              <main className="container m-auto">
+                {children}
+              </main>
+
+              <footer className="h-[30vh] bg-foreground text-background flex justify-center items-center">
+                <Image src={fbLogo} alt='Icon' className='text-primary' height={20}/>
+                <Image src={ytLogo} alt='Icon' className='text-primary' height={20}/>
+              </footer>
             </LoaderProvider>
           </NextIntlClientProvider>
-        </div>
       </body>
     </html>
   );

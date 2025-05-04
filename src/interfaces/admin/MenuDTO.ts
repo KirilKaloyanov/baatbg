@@ -1,6 +1,6 @@
 export type MenuDTO = {
-    id: string,   
-    name: string,
-    position: number,
-    path: string
-  }
+  id: string;
+  label: { bg: string; en: string };
+  position: number;
+  path: string;
+};

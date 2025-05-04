@@ -1,6 +1,8 @@
 import { doc, getDoc, collection, DocumentData, getDocs, query, where } from "firebase/firestore";
 import { db } from "@firebaseConfig"
 
+import { PostsDTO, PostsMetaDTO } from "@/interfaces/admin/PostsDTO";
+
 
 // export async function getPostById( itemId: string) : Promise <PostData | undefined> {
 //     try {
@@ -17,14 +19,14 @@ import { db } from "@firebaseConfig"
 //     }
 //   }
 
-  export async function getAllPosts() {
+  export async function getAllPostsMetaData() {
     try {
         const querySnapshot = await getDocs(collection(db, "posts"));
         const data = querySnapshot.docs.map((doc) => ({
           id: doc.id,
-          content: doc.data().content
+          ...doc.data()
         }))
-        return data;
+        return data as PostsMetaDTO[];
       } catch (error) {
         console.log("Error fetching from Firestore/ inside firebaseOps", error)
       }

@@ -8,6 +8,8 @@
       "@components/*": ["src/components/*"],
       "@context/*": ["src/context/*"],
       "@interfaces/*": ["src/interfaces/*"],
+      "@icons/*": ["public/icons/*"],
+      "@images/*": ["public/images/*"],
       "@firebaseConfig": ["firebaseConfig.ts"],
       "@firebaseAdminConfig": ["firebaseAdminConfig.ts"]
     },

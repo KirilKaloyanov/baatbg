@@ -23,7 +23,6 @@ export default function CustomLink({
         router.push(href);
       });
     }
-    console.log(pathname, href)
   };
 
   return (

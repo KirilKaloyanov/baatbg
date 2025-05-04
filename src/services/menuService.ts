@@ -1,5 +1,6 @@
 import { collection, getDocs, } from "firebase/firestore";
 import { db } from "@firebaseConfig"
+import { MenuDTO } from "@/interfaces/admin/MenuDTO";
 
 export async function getMenuItems() {
 
@@ -7,9 +8,10 @@ export async function getMenuItems() {
     const querySnapshot = await getDocs(collection(db, 'menu'));
       const data = querySnapshot.docs.map((doc) => ({
         id: doc.id,
-        data: doc.data()
+        ...doc.data()
+        // data: doc.data()
       }))
-      return data;
+      return data as MenuDTO[];
     } catch (error) {
       console.log("Error fetching from Firestore/ inside firebaseOps", error.message)
     }

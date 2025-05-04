@@ -18,10 +18,10 @@ export default function middleware(request: NextRequest) {
   const currentLocale = locale && (locale === 'bg' || locale === 'en') ? locale : "en";
   
   const path = pathSegments.join('/');
-  console.log(currentLocale, path)
-  if (path === 'projects') {
-    return NextResponse.redirect(new URL(`/${currentLocale}/projects/danube-cycle-plans`, request.url));
-  }
+  // console.log(currentLocale, path)
+  // if (path === 'projects') {
+  //   return NextResponse.redirect(new URL(`/${currentLocale}/projects/danube-cycle-plans`, request.url));
+  // }
 
   return intlMiddleware(request);
 }
