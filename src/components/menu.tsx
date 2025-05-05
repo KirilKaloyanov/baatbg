@@ -13,6 +13,7 @@ import { MenuDTO } from "@/interfaces/admin/MenuDTO";
 import { useLoader } from "@/context/LoaderContext";
 
 import logo from "@images/logo/logo_baat.png";
+import CustomLink from "./customLink";
 
 export default function Menu({
   items,
@@ -27,10 +28,6 @@ export default function Menu({
   const toggleMenu = () => setIsOpen((current) => !current);
 
   const [openMenuItemId, setOpenMenuItemId] = useState<string | null>(null);
-
-  function openMenuItem(id: string | null) {
-    setOpenMenuItemId(id);
-  }
 
   const isLoading = useLoader();
 
@@ -62,12 +59,14 @@ export default function Menu({
             exit={{ height: 0, transition: { duration: 0.1 } }}
           >
             <div className="mt-2 container m-auto flex justify-between items-center">
-              <Image
-                className="grayscale invert"
-                src={logo}
-                alt="Logo image of BAAT"
-                height={60}
-              />
+              <CustomLink href={'/' + locale}>
+                <Image
+                  className="grayscale invert"
+                  src={logo}
+                  alt="Logo image of BAAT"
+                  height={60}
+                />
+              </CustomLink>
               <div
                 onClick={toggleMenu}
                 className="relative cursor-pointer size-12"
@@ -78,7 +77,6 @@ export default function Menu({
             </div>
             <nav className="pb-18 container m-auto text-right md:text-left md:grid md:grid-cols-4">
               {items &&
-                // subItems &&
                 items.map((i: MenuDTO) => (
                   <div key={i.id}>
                     <div className="block md:hidden">
@@ -87,7 +85,7 @@ export default function Menu({
                         subItems={filterSubItemsByItem(i)}
                         locale={locale}
                         isMenuItemOpen={openMenuItemId === i.id}
-                        openMenuItem={openMenuItem}
+                        openMenuItem={setOpenMenuItemId}
                       />
                     </div>
                     <div className="hidden md:block">
@@ -96,7 +94,7 @@ export default function Menu({
                         subItems={filterSubItemsByItem(i)}
                         locale={locale}
                         isMenuItemOpen={true}
-                        // openMenuItem={openMenuItem}
+                        openMenuItem={setOpenMenuItemId}
                       />
                     </div>
                   </div>

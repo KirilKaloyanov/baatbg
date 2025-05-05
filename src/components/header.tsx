@@ -12,6 +12,7 @@ import { MenuDTO } from '@/interfaces/admin/MenuDTO';
 import { PostsMetaDTO } from '@/interfaces/admin/PostsDTO';
 
 import logo from '@images/logo/logo_baat.png'
+import CustomLink from './customLink';
 
 export default async function Header({ locale }) {
 
@@ -20,7 +21,10 @@ export default async function Header({ locale }) {
 
   return (
     <header className="container m-auto flex justify-between items-center mb-10">
-      <Image src={logo} alt='Logo image of BAAT' height={60}/>
+
+      <CustomLink href={'/' + locale}>
+        <Image src={logo} alt='Logo image of BAAT' height={60}/>
+      </CustomLink>
 
       <div className='flex gap-3'>
         <LanguageSwitch locale={locale} />
