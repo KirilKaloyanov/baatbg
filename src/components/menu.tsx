@@ -27,7 +27,7 @@ export default function Menu({
   const [isOpen, setIsOpen] = useState(false);
   const toggleMenu = () => setIsOpen((current) => !current);
 
-  const [openMenuItemId, setOpenMenuItemId] = useState<string | null>(null);
+  const [expandedMenuItemId, setExpandedMenuItemId] = useState<string | null>(null);
 
   const isLoading = useLoader();
 
@@ -38,11 +38,11 @@ export default function Menu({
 
   useEffect(() => {
     setIsOpen(false);
-    setOpenMenuItemId(null);
+    setExpandedMenuItemId(null);
   }, [isLoading]);
 
   return (
-    <div>
+    <>
       <div onClick={toggleMenu} className="size-8 cursor-pointer">
         <div className="my-2 w-8 h-1 rounded bg-foreground"></div>
         <div className="my-2 w-8 h-1 rounded bg-foreground"></div>
@@ -58,7 +58,9 @@ export default function Menu({
             animate={{ height: "fit-content" }}
             exit={{ height: 0, transition: { duration: 0.1 } }}
           >
+
             <div className="mt-2 container m-auto flex justify-between items-center">
+               {/* Link to home */}
               <CustomLink href={'/' + locale}>
                 <Image
                   className="grayscale invert"
@@ -67,6 +69,7 @@ export default function Menu({
                   height={60}
                 />
               </CustomLink>
+              {/* Close */}
               <div
                 onClick={toggleMenu}
                 className="relative cursor-pointer size-12"
@@ -75,6 +78,7 @@ export default function Menu({
                 <div className="absolute left-4 rounded top-4.5 w-9 h-1 bg-background -rotate-45"></div>
               </div>
             </div>
+
             <nav className="pb-18 container m-auto text-right md:text-left md:grid md:grid-cols-4">
               {items &&
                 items.map((i: MenuDTO) => (
@@ -84,8 +88,8 @@ export default function Menu({
                         item={i}
                         subItems={filterSubItemsByItem(i)}
                         locale={locale}
-                        isMenuItemOpen={openMenuItemId === i.id}
-                        openMenuItem={setOpenMenuItemId}
+                        isMenuItemOpen={expandedMenuItemId === i.id}
+                        openMenuItem={setExpandedMenuItemId}
                       />
                     </div>
                     <div className="hidden md:block">
@@ -94,7 +98,7 @@ export default function Menu({
                         subItems={filterSubItemsByItem(i)}
                         locale={locale}
                         isMenuItemOpen={true}
-                        openMenuItem={setOpenMenuItemId}
+                        openMenuItem={setExpandedMenuItemId}
                       />
                     </div>
                   </div>
@@ -103,6 +107,6 @@ export default function Menu({
           </motion.div>
         ) : null}
       </AnimatePresence>
-    </div>
+    </>
   );
 }

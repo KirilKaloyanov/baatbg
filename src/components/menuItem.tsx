@@ -23,33 +23,52 @@ export default function MenuItem({
   const pathname = usePathname();
 
   useEffect(() => {
-    if (pathname.split('/')[2] == item.path) {
-        openMenuItem(item.id)
+    if (pathname.split("/")[2] == item.path) {
+      openMenuItem(item.id);
     }
-  }, [])
+    return () => console.log('destroy', item.id)
+  }, []);
 
   return (
     <div className="mt-10">
-      {pathname !== `/${locale}/${item.path}` ? (
-        <div className="flex justify-end md:justify-start">
+
+      <div className="flex justify-end md:justify-start">
+
+        {pathname !== `/${locale}/${item.path}` ? (
           <CustomLink href={`/${locale}/${item.path}`}>
             <h6 className="mb-4 hover:text-primary">{item.label[locale]}</h6>
           </CustomLink>
-          {subItems.length > 0 && (
-            <div className="flex md:hidden pt-3 pl-3 cursor-pointer p-1" onClick={() => isMenuItemOpen ? openMenuItem(null) : openMenuItem(item.id)}>
-              <div className={`w-4 h-0.5 bg-background rounded ${isMenuItemOpen ? '-' : ''}rotate-45 transition`}></div>
-              <div className={`w-4 h-0.5 -ml-1.5 bg-background rounded ${isMenuItemOpen ? '' : '-'}rotate-45 transition`}></div>
-            </div>
-          )}
-        </div>
-      ) : (
-        <h6 className="mb-4 text-primary">{item.label[locale]}</h6>
-      )}
+        ) : (
+          <h6 className="mb-4 text-primary">{item.label[locale]}</h6>
+        )}
+
+        {subItems.length > 0 && (
+          <div
+            className="flex md:hidden pt-3 pl-3 cursor-pointer p-1"
+            onClick={() =>
+              isMenuItemOpen ? openMenuItem(null) : openMenuItem(item.id)
+            }
+          >
+            <div
+              className={`w-4 h-0.5 bg-background rounded ${
+                (isMenuItemOpen ? "-" : "") + "rotate-45 transition"
+              }`}
+            ></div>
+            <div
+              className={`w-4 h-0.5 -ml-1.5 bg-background rounded ${
+                (isMenuItemOpen ? "" : "-") + "rotate-45 transition"
+              }`}
+            ></div>
+          </div>
+        )}
+      </div>
+
       {subItems && (
         <motion.div
           className="overflow-hidden h-0"
           animate={{ height: isMenuItemOpen ? "auto" : 0 }}
         >
+
           {subItems.map((si: PostsMetaDTO) => (
             <div key={si.id}>
               {pathname !== `/${locale}/${si.menuPath}/${si.subMenuPath}` ? (
@@ -65,8 +84,10 @@ export default function MenuItem({
               )}
             </div>
           ))}
+
         </motion.div>
       )}
+
     </div>
   );
 }
