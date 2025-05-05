@@ -1,99 +1,110 @@
-'use client'
+"use client";
 
-import { useEffect, useState } from 'react';
-import Image from 'next/image';
+import { useEffect, useState } from "react";
+import Image from "next/image";
 
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence, motion } from "framer-motion";
 
-import hamburger from '@icons/hamburger.svg';
-import CustomLink from './customLink';
-import { PostsMetaDTO } from '@/interfaces/admin/PostsDTO';
-import { MenuDTO } from '@/interfaces/admin/MenuDTO';
+import MenuItem from "./menuItem";
 
-import logo from '@images/logo/logo_baat.png'
-import { useLoader } from '@/context/LoaderContext';
-import { usePathname } from 'next/navigation';
+import { PostsMetaDTO } from "@/interfaces/admin/PostsDTO";
+import { MenuDTO } from "@/interfaces/admin/MenuDTO";
 
+import { useLoader } from "@/context/LoaderContext";
 
-export default function Menu({ 
-    items, subItems, locale 
-} : {
-    items: MenuDTO[] | null, subItems: PostsMetaDTO[] | null, locale: string
-})  {
-    const [isOpen, setIsOpen] = useState(false);
-    const toggleMenu = () => setIsOpen((current)  => !current);
+import logo from "@images/logo/logo_baat.png";
 
-    const isLoading = useLoader();
-    const pathname = usePathname();
+export default function Menu({
+  items,
+  subItems,
+  locale,
+}: {
+  items: MenuDTO[] | null;
+  subItems: PostsMetaDTO[] | null;
+  locale: string;
+}) {
+  const [isOpen, setIsOpen] = useState(false);
+  const toggleMenu = () => setIsOpen((current) => !current);
 
-    useEffect(() => {
-        setIsOpen(false);
-    }, [isLoading]);
-    
-    return (
-        <div>
-            <Image src={hamburger} alt='menu icon' className='cursor-pointer hover:bg-accent' onClick={toggleMenu}/>
+  const [openMenuItemId, setOpenMenuItemId] = useState<string | null>(null);
 
-            <AnimatePresence>
-                {isOpen ? 
-                    <motion.div 
-                        className='pr-4 pl-2 md:pl-4 absolute left-0 top-0 w-full bg-foreground text-background z-10 overflow-hidden'
-                        layout
-                        initial={{ height: 0}}
-                        animate={{ height: "auto"}}
-                        exit={{ height: 0, transition: {duration: 0.1} }}
-                        transition={{type: 'spring', stiffness: 700, damping: 30}}
-                    >
-                        <div className='mt-2 container m-auto flex justify-between items-center'>
-                            <Image className='grayscale invert' src={logo} alt='Logo image of BAAT' height={60}/>
-                            <span className='material-symbols-rounded text-white cursor-pointer ' onClick={toggleMenu}>
-                                close
-                            </span>
-                        </div>
-                        <nav className='pb-18 container m-auto text-right md:text-left md:grid md:grid-cols-4'>
+  function openMenuItem(id: string | null) {
+    setOpenMenuItemId(id);
+  }
 
-                            { items &&
-                                items.map((i: MenuDTO) => (
-                                <div key={i.id} className='mt-10'>
-                                    { pathname !== `/${locale}/${i.path}` ?
-                                        
-                                        <CustomLink href={`/${locale}/${i.path}`}>
-                                            <h6 className='mb-4 hover:text-primary'>{i.label[locale]}</h6>
-                                        </CustomLink>
-                                    :     
-                                        <h6 className='mb-4 text-primary'>{i.label[locale]}</h6>
-                                }
-                                    { subItems &&
-                                        subItems
-                                            .filter(si => si.menuPath === i.path)
-                                            .map((si: PostsMetaDTO) => (
-                                                <div key={si.id}>
-                                                    {pathname !== `/${locale}/${si.menuPath}/${si.subMenuPath}` ?
+  const isLoading = useLoader();
 
-                                                        <CustomLink  href={`/${locale}/${si.menuPath}/${si.subMenuPath}`} >
-                                                            <span className="hover:text-primary">{si.heading[locale]}</span>
-                                                        </CustomLink>
-                                                    :
-                                                        <span className="text-primary">{si.heading[locale]}</span>
-                                                    }
-                                                </div>
-                                            ))  
-                                    }
+  const filterSubItemsByItem = (item: MenuDTO) => {
+    if (subItems == null) return [];
+    return subItems.filter((si) => si.menuPath == item.path);
+  };
 
-                                </div>
-                                ))
+  useEffect(() => {
+    setIsOpen(false);
+    setOpenMenuItemId(null);
+  }, [isLoading]);
 
-                            }
+  return (
+    <div>
+      <div onClick={toggleMenu} className="size-8 cursor-pointer">
+        <div className="my-2 w-8 h-1 rounded bg-foreground"></div>
+        <div className="my-2 w-8 h-1 rounded bg-foreground"></div>
+        <div className="w-8 h-1 rounded bg-foreground"></div>
+      </div>
 
-
-                        </nav>
-                        
-                    </motion.div>
-                    : null
-                }
-            </AnimatePresence>
-            
-        </div>
-    )
+      <AnimatePresence>
+        {isOpen ? (
+          <motion.div
+            className="pt-2 px-2 absolute left-0 top-0 w-full bg-foreground text-background z-10 overflow-hidden"
+            layout
+            initial={{ height: 0 }}
+            animate={{ height: "fit-content" }}
+            exit={{ height: 0, transition: { duration: 0.1 } }}
+          >
+            <div className="mt-2 container m-auto flex justify-between items-center">
+              <Image
+                className="grayscale invert"
+                src={logo}
+                alt="Logo image of BAAT"
+                height={60}
+              />
+              <div
+                onClick={toggleMenu}
+                className="relative cursor-pointer size-12"
+              >
+                <div className="absolute left-4 rounded top-4.5 w-9 h-1 bg-background rotate-45"></div>
+                <div className="absolute left-4 rounded top-4.5 w-9 h-1 bg-background -rotate-45"></div>
+              </div>
+            </div>
+            <nav className="pb-18 container m-auto text-right md:text-left md:grid md:grid-cols-4">
+              {items &&
+                // subItems &&
+                items.map((i: MenuDTO) => (
+                  <div key={i.id}>
+                    <div className="block md:hidden">
+                      <MenuItem
+                        item={i}
+                        subItems={filterSubItemsByItem(i)}
+                        locale={locale}
+                        isMenuItemOpen={openMenuItemId === i.id}
+                        openMenuItem={openMenuItem}
+                      />
+                    </div>
+                    <div className="hidden md:block">
+                      <MenuItem
+                        item={i}
+                        subItems={filterSubItemsByItem(i)}
+                        locale={locale}
+                        isMenuItemOpen={true}
+                        // openMenuItem={openMenuItem}
+                      />
+                    </div>
+                  </div>
+                ))}
+            </nav>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
+    </div>
+  );
 }
-
