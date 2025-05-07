@@ -5,7 +5,7 @@ const Video = ({ videoId }: { videoId: string }) => {
     <div className={styles.videoContainer}>
       <iframe
         className={styles.videoIframe}
-        src={`https://www.youtube.com/embed/${videoId}`}
+        src={videoId}
         title="YouTube video player"
         allow="accelerometer; 
         autoplay; 

@@ -1,35 +1,43 @@
-// "use client";
+"use client";
 
-import Image from 'next/image';
-import Menu from "./menu"
+import Image from "next/image";
 
+import { motion, useMotionValueEvent, useScroll } from "framer-motion";
+
+import Menu from "./menu";
 import LanguageSwitch from "./localeSwtich";
+import CustomLink from "./customLink";
 
-import { getMenuItems } from "@services/menuService";
-import { getAllPostsMetaData } from '@/services/postsService';
+import logo from "@images/logo/logo_baat.png";
+import { useEffect, useState } from "react";
 
-import { MenuDTO } from '@/interfaces/admin/MenuDTO';
-import { PostsMetaDTO } from '@/interfaces/admin/PostsDTO';
+export default function Header({ locale, items, subItems }) {
+  const { scrollY } = useScroll();
+  const [scrollDirection, setScrollDirection] = useState("up");
 
-import logo from '@images/logo/logo_baat.png'
-import CustomLink from './customLink';
+  useMotionValueEvent(scrollY, "change", (current) => {
+    const diff = current - (scrollY.getPrevious() || 0);
+    setScrollDirection(diff > 0 ? "down" : "up");
+  });
 
-export default async function Header({ locale }) {
-
-  const items: MenuDTO[] | null = await getMenuItems();
-  const subItems: PostsMetaDTO[] | null = await getAllPostsMetaData();
+  const [isOpen, setIsOpen] = useState(false);
+  const toggleMenu = (newState: boolean) => setIsOpen(newState);
 
   return (
-    <header className="container m-auto flex justify-between items-center mb-10">
+    <motion.header
+      className="fixed w-full top-0 bg-background shadow-sm bg-secondary/90"
+      animate={{ translateY: scrollDirection == "down" && !isOpen ? "-90px" : 0 }}
+    >
+      <div className="container m-auto flex justify-between items-center p-2 md:py-4">
+        <CustomLink href={"/" + locale}>
+          <Image src={logo} alt="Logo image of BAAT" height={60} />
+        </CustomLink>
 
-      <CustomLink href={'/' + locale}>
-        <Image src={logo} alt='Logo image of BAAT' height={60}/>
-      </CustomLink>
-
-      <div className='flex gap-3'>
-        <LanguageSwitch locale={locale} />
-        <Menu items={items} subItems={subItems} locale={locale}/>
+        <div className="flex gap-5">
+          <LanguageSwitch locale={locale} />
+          <Menu isOpen={isOpen} toggleMenu={toggleMenu} items={items} subItems={subItems} locale={locale} />
+        </div>
       </div>
-    </header>
+    </motion.header>
   );
 }

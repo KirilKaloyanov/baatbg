@@ -26,7 +26,7 @@ export default function MenuItem({
     if (pathname.split("/")[2] == item.path) {
       openMenuItem(item.id);
     }
-    return () => console.log('destroy', item.id)
+    // return () => console.log('destroy', item.id)
   }, []);
 
   return (
@@ -35,16 +35,22 @@ export default function MenuItem({
       <div className="flex justify-end md:justify-start">
 
         {pathname !== `/${locale}/${item.path}` ? (
+            // Link to menuPath
           <CustomLink href={`/${locale}/${item.path}`}>
-            <h6 className="mb-4 hover:text-primary">{item.label[locale]}</h6>
+            <h6 className="hover:text-primary">{item.label[locale]}</h6>
           </CustomLink>
         ) : (
-          <h6 className="mb-4 text-primary">{item.label[locale]}</h6>
+            // Activated menuPath
+          <h6 className="text-primary">{item.label[locale]}</h6>
         )}
 
-        {subItems.length > 0 && (
+        {subItems.length < 1 ? (
+            //Empty space where no subMenuPaths for this menuPath
+            <div className="w-12 md:w-0"></div>
+        ) : (
+            // Chevron for expand/collapse subMenuPaths of this menuPath
           <div
-            className="flex md:hidden pt-3 pl-3 cursor-pointer p-1"
+            className="flex md:hidden pt-3 pl-5 cursor-pointer p-1"
             onClick={() =>
               isMenuItemOpen ? openMenuItem(null) : openMenuItem(item.id)
             }
@@ -64,14 +70,17 @@ export default function MenuItem({
       </div>
 
       {subItems && (
+        // subMenuPaths collapsible
         <motion.div
           className="overflow-hidden h-0"
           animate={{ height: isMenuItemOpen ? "auto" : 0 }}
         >
 
           {subItems.map((si: PostsMetaDTO) => (
-            <div key={si.id}>
+            //
+            <div key={si.id} className="p-4 md:p-1">
               {pathname !== `/${locale}/${si.menuPath}/${si.subMenuPath}` ? (
+                // Link to subMenuPath
                 <CustomLink
                   href={`/${locale}/${si.menuPath}/${si.subMenuPath}`}
                 >
@@ -80,6 +89,7 @@ export default function MenuItem({
                   </span>
                 </CustomLink>
               ) : (
+                // Activated subMenuPath
                 <span className="text-primary">{si.heading[locale]}</span>
               )}
             </div>

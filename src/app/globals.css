@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
@@ -45,14 +45,17 @@
 
 :root {
   --radius: 0.625rem;
-  /* --font-heading: "Oswald", sans-serif; */
   --background: oklch(0.99 0 0); /* #fcfcfc WHITE */
   --foreground: oklch(0.25 0.04 158.89); /*  #0b2719 GREEN */
   --card: oklch(0.96 0.02 58);
-  --card-foreground: oklch(0.25 0.04 158.89);  /* #d83713 ORANGE  <--  original was --card-foreground: oklch(0.141 0.005 285.823); */
+  --card-foreground: oklch(
+    0.25 0.04 158.89
+  ); /* #d83713 ORANGE  <--  original was --card-foreground: oklch(0.141 0.005 285.823); */
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.141 0.005 285.823);
-  --primary: oklch(0.58 0.2 33.31); /* #d83713 ORANGE  <--  original was --primary: oklch(0.21 0.006 285.885); */
+  --primary: oklch(
+    0.58 0.2 33.31
+  ); /* #d83713 ORANGE  <--  original was --primary: oklch(0.21 0.006 285.885); */
   --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.967 0.001 286.375);
   --secondary-foreground: oklch(0.21 0.006 285.885);
@@ -116,26 +119,87 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
-    h1, h2, h3, h4, h5, h6 {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
       font-family: var(--font-oswald);
-    } 
+    }
 
-    a, ul, li, p {
+    a,
+    ul,
+    li,
+    p,
+    span {
       font-family: "Raleway", sans-serif;
       word-spacing: 4px;
-      /* color:rgb(255, 0, 0) */
     }
   }
   body {
-    @apply bg-background text-foreground mt-2 px-2;
+    @apply bg-background text-foreground;
   }
 
-  /* h1, h2, h3, h4, h5, h6 {
-    @apply font-heading;
-  } */
+  main {
+    @apply mt-2 px-2;
+  }
 
-  p, li {
-    @apply leading-[1.8];
-    @apply tracking-[-0.3px];
+  h1 {
+    @apply text-5xl mb-5;
+  }
+
+  h2 {
+    @apply text-4xl mb-4;
+  }
+
+  h3 {
+    @apply text-3xl mb-3;
+  }
+
+  h4 {
+    @apply text-2xl mb-2;
+  }
+
+  h5 {
+    @apply text-xl;
+  }
+
+  h6 {
+    @apply mb-4;
+  }
+
+  p,
+  li {
+    @apply leading-[1.8] tracking-[-0.3px];
+  }
+
+  ul,
+  ol {
+    @apply list-outside pl-10;
+  }
+
+  ul {
+    @apply list-disc;
+  }
+
+  ol {
+    @apply list-decimal;
+
+    li {
+      ol {
+        @apply list-[lower-alpha];
+      }
+    }
+  }
+
+  p,
+  ul,
+  ol {
+    @apply mb-4;
+  }
+  
+  a {
+    @apply hover:text-primary;
   }
 }

@@ -6,6 +6,12 @@ import { getMessages } from "next-intl/server";
 import { NextIntlClientProvider } from "next-intl";
 import { LoaderProvider } from "@context/LoaderContext";
 
+import { getMenuItems } from "@services/menuService";
+import { getAllPostsMetaData } from "@/services/postsService";
+
+import { MenuDTO } from "@/interfaces/admin/MenuDTO";
+import { PostsMetaDTO } from "@/interfaces/admin/PostsDTO";
+
 import fbLogo from '@icons/fb.svg'
 import ytLogo from '@icons/youtube.svg'
 
@@ -25,6 +31,9 @@ export default async function RootLayout({
   const { locale } = await params;
   const messages = await getMessages({ locale });
 
+  const items: MenuDTO[] | null = await getMenuItems();
+  const subItems: PostsMetaDTO[] | null = await getAllPostsMetaData();
+
   return (
     <html lang={locale}>
       <head>
@@ -37,9 +46,9 @@ export default async function RootLayout({
           <NextIntlClientProvider messages={messages}>
             <LoaderProvider>
               <Loader />
-              <Header locale={locale} />
+              <Header locale={locale} items={items} subItems={subItems} />
 
-              <main className="container m-auto">
+              <main className="container mx-auto mt-25">
                 {children}
               </main>
 
