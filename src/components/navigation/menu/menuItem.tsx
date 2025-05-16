@@ -1,11 +1,12 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import CustomLink from "./customLink";
+import CustomLink from "../customLink";
 import { PostsMetaDTO } from "@/interfaces/admin/PostsDTO";
 import { MenuDTO } from "@/interfaces/admin/MenuDTO";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
+import AnimatedChevron from "./animatedChevron";
 
 export default function MenuItem({
   item,
@@ -31,41 +32,26 @@ export default function MenuItem({
 
   return (
     <div className="mt-10">
-
       <div className="flex justify-end md:justify-start">
-
         {pathname !== `/${locale}/${item.path}` ? (
-            // Link to menuPath
+          // Link to menuPath
           <CustomLink href={`/${locale}/${item.path}`}>
             <h6 className="hover:text-primary">{item.label[locale]}</h6>
           </CustomLink>
         ) : (
-            // Activated menuPath
+          // Activated menuPath
           <h6 className="text-primary">{item.label[locale]}</h6>
         )}
 
         {subItems.length < 1 ? (
-            //Empty space where no subMenuPaths for this menuPath
-            <div className="w-12 md:w-0"></div>
+          //Empty space where no subMenuPaths for this menuPath
+          <div className="w-12 md:w-0"></div>
         ) : (
-            // Chevron for expand/collapse subMenuPaths of this menuPath
-          <div
-            className="flex md:hidden pt-3 pl-5 cursor-pointer p-1"
-            onClick={() =>
-              isMenuItemOpen ? openMenuItem(null) : openMenuItem(item.id)
-            }
-          >
-            <div
-              className={`w-4 h-0.5 bg-background rounded ${
-                (isMenuItemOpen ? "-" : "") + "rotate-45 transition"
-              }`}
-            ></div>
-            <div
-              className={`w-4 h-0.5 -ml-1.5 bg-background rounded ${
-                (isMenuItemOpen ? "" : "-") + "rotate-45 transition"
-              }`}
-            ></div>
-          </div>
+          <AnimatedChevron
+            isMenuItemOpen={isMenuItemOpen}
+            openMenuItem={openMenuItem}
+            itemId={item.id}
+          />
         )}
       </div>
 
@@ -75,10 +61,9 @@ export default function MenuItem({
           className="overflow-hidden h-0"
           animate={{ height: isMenuItemOpen ? "auto" : 0 }}
         >
-
           {subItems.map((si: PostsMetaDTO) => (
             //
-            <div key={si.id} className="p-4 md:p-1">
+            <div key={si.id} className="p-4 md:p-1 text-right md:text-left">
               {pathname !== `/${locale}/${si.menuPath}/${si.subMenuPath}` ? (
                 // Link to subMenuPath
                 <CustomLink
@@ -94,10 +79,8 @@ export default function MenuItem({
               )}
             </div>
           ))}
-
         </motion.div>
       )}
-
     </div>
   );
 }

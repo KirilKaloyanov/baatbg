@@ -5,7 +5,7 @@ import Image from "next/image";
 
 import { motion, useMotionValueEvent, useScroll } from "framer-motion";
 
-import Menu from "./menu";
+import Menu from "./menu/menu";
 import LanguageSwitch from "./localeSwtich";
 import CustomLink from "./customLink";
 
