@@ -1,7 +1,7 @@
 import Image from 'next/image';
 
-import Header from "../../components/header";
-import Loader from "@components/loader";
+import Header from "../../components/navigation/header";
+import Loader from "@/components/navigation/loader";
 import { getMessages } from "next-intl/server";
 import { NextIntlClientProvider } from "next-intl";
 import { LoaderProvider } from "@context/LoaderContext";
@@ -42,13 +42,13 @@ export default async function RootLayout({
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Raleway:ital,wght@0,100..900;1,100..900&family=Oswald:wght@200..700&display=swap" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,1,0" />  
       </head>
-      <body>
+      <body className='min-h-screen flex flex-col'>
           <NextIntlClientProvider messages={messages}>
             <LoaderProvider>
               <Loader />
               <Header locale={locale} items={items} subItems={subItems} />
 
-              <main className="container mx-auto mt-25">
+              <main className="container mx-auto mt-25 grow-1">
                 {children}
               </main>
 

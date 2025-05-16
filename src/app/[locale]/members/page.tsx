@@ -1,4 +1,4 @@
-import CustomLink from "@components/customLink";
+import CustomLink from "@/components/navigation/customLink";
 import { getAllMembers } from "@services/memberService";
 
 export default async function Members({

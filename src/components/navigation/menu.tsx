@@ -2,18 +2,18 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-
 import { AnimatePresence, motion } from "framer-motion";
 
+import { useLoader } from "@/context/LoaderContext";
 import MenuItem from "./menuItem";
+import CustomLink from "./customLink";
 
 import { PostsMetaDTO } from "@/interfaces/admin/PostsDTO";
 import { MenuDTO } from "@/interfaces/admin/MenuDTO";
 
-import { useLoader } from "@/context/LoaderContext";
-
 import logo from "@images/logo/logo_baat.png";
-import CustomLink from "./customLink";
+
+
 
 export default function Menu({
   isOpen,
@@ -51,16 +51,18 @@ export default function Menu({
         <div className="w-8 h-1 rounded bg-foreground"></div>
       </div>
 
+        {/* Menu animation container */}
       <AnimatePresence>
         {isOpen ? (
           <motion.div
-            className="p-2 absolute left-0 top-0 w-full bg-foreground text-background z-10 max-h-[100vh] overflow-y-auto md:overflow-hidden"
-            layout
-            initial={{ height: 0 }}
-            animate={{ height: "fit-content" }}
-            exit={{ height: 0, transition: { duration: 0.1 } }}
+          className="p-2 absolute left-0 top-0 w-full bg-foreground text-background z-10 max-h-[100vh] overflow-y-auto md:overflow-hidden"
+          layout
+          initial={{ height: 0 }}
+          animate={{ height: "fit-content" }}
+          exit={{ height: 0, transition: { duration: 0.1 } }}
           >
 
+               {/* Menu container */}
             <div className="md:mt-2 md:px-2 container m-auto flex justify-between items-center">
                {/* Link to home */}
               <CustomLink href={'/' + locale}>
@@ -71,7 +73,8 @@ export default function Menu({
                   height={60}
                 />
               </CustomLink>
-              {/* Close */}
+
+                {/* Close button */}
               <div
                 onClick={() => toggleMenu(false)}
                 className="relative cursor-pointer size-12"
@@ -80,7 +83,8 @@ export default function Menu({
                 <div className="absolute left-3 rounded top-6 w-9 h-1 bg-background -rotate-45"></div>
               </div>
             </div>
-
+            
+              {/* Navigation container */}
             <nav className="pb-18 container m-auto text-right md:text-left md:grid md:grid-cols-4">
               {items &&
                 items.map((i: MenuDTO) => (

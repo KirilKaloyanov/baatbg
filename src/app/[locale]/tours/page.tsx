@@ -1,5 +1,5 @@
 "use client";
-import CustomLink from "@components/customLink";
+import CustomLink from "@/components/navigation/customLink";
 
 export default function ToursList() {
   return (

@@ -1,6 +1,6 @@
 "use client";
 
-import { useLoader } from "../context/LoaderContext";
+import { useLoader } from "../../context/LoaderContext";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 

@@ -1,6 +1,6 @@
 import { getPostBySubMenuId } from "@services/postsService";
 import './submenu.css';
-import Video from "@components/video";
+import Video from "@/components/video/video";
 
 export default async function SubMenu({
   params,

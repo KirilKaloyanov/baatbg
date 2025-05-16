@@ -1,5 +1,5 @@
 import { getAllPostsByMenuId } from "@services/postsService";
-import CustomLink from "@components/customLink";
+import CustomLink from "@/components/navigation/customLink";
 
 export default async function MainMenu({
   params,

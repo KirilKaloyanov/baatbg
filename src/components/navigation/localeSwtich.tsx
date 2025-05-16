@@ -1,7 +1,7 @@
 "use client";
 
 import { useLoader } from "@context/LoaderContext";
-import { usePathname, useRouter } from "../i18n/navigation";
+import { usePathname, useRouter } from "../../i18n/navigation";
 import { motion } from "framer-motion";
 import { useState } from "react";
 

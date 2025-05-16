@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 
 import { motion, useMotionValueEvent, useScroll } from "framer-motion";
@@ -9,7 +10,6 @@ import LanguageSwitch from "./localeSwtich";
 import CustomLink from "./customLink";
 
 import logo from "@images/logo/logo_baat.png";
-import { useEffect, useState } from "react";
 
 export default function Header({ locale, items, subItems }) {
   const { scrollY } = useScroll();
@@ -25,8 +25,8 @@ export default function Header({ locale, items, subItems }) {
 
   return (
     <motion.header
-      className="fixed w-full top-0 bg-background shadow-sm bg-secondary/90"
-      animate={{ translateY: scrollDirection == "down" && !isOpen ? "-90px" : 0 }}
+      className="fixed w-full top-0 shadow-sm bg-secondary/90"
+      animate={{ translateY: scrollDirection == "down" && !isOpen ? "-95px" : 0 }}
     >
       <div className="container m-auto flex justify-between items-center p-2 md:py-4">
         <CustomLink href={"/" + locale}>
