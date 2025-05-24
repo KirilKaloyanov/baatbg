@@ -1,14 +1,15 @@
-export interface PostsMetaDTO {
+export interface PostMetaDTO {
     heading: {
         bg: string,
         en: string,
     }
     menuPath: string,
     subMenuPath: string,
-    id: string
+    id: string,
+    linkVideo: string
 }
 
-export interface PostsDTO extends PostsMetaDTO {
+export interface PostDTO extends PostMetaDTO {
     text: {
         bg: string,
         en: string

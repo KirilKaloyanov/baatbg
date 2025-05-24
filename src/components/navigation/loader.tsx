@@ -10,13 +10,13 @@ export default function Loader() {
       {isLoading && (
         <motion.div
           key="spinner"
-          className="bg-zinc-800/30 fixed inset-0 z-5 flex items-center justify-center"
+          className="bg-stone-800/30 fixed inset-0 z-5 flex items-center justify-center"
           initial={{ opacity: 0 }} //, scale: 0.8
           animate={{ opacity: 1 }} //, scale: 1 
           exit={{ opacity: 0 }}
           transition={{ duration: 0.1}}
         >
-          <div className="size-16 animate-spin rounded-full border-6 border-t-transparent border-primary" />
+          <div className="size-16 animate-spin rounded-full border-6 border-t-transparent border-accent-500" />
         </motion.div>
       )}
     </AnimatePresence>

@@ -25,7 +25,7 @@ export default function Header({ locale, items, subItems }) {
 
   return (
     <motion.header
-      className="fixed w-full top-0 shadow-sm bg-secondary/90"
+      className="fixed w-full top-0 shadow-sm bg-stone-200"
       animate={{ translateY: scrollDirection == "down" && !isOpen ? "-95px" : 0 }}
     >
       <div className="container m-auto flex justify-between items-center p-2 md:py-4">

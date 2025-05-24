@@ -9,11 +9,11 @@ import { useLoader } from "@/context/LoaderContext";
 import MenuItem from "./menuItem";
 import CustomLink from "../customLink";
 
-import { PostsMetaDTO } from "@/interfaces/admin/PostsDTO";
+import { PostMetaDTO } from "@/interfaces/admin/PostsDTO";
 import { MenuDTO } from "@/interfaces/admin/MenuDTO";
 
 import logo from "@images/logo/logo_baat.png";
-import TopMenuItems from "./topMenu/topMenuItems";
+import StaticMenuItems from "./staticMenus/staticMenuItems";
 
 export default function Menu({
   isOpen,
@@ -25,7 +25,7 @@ export default function Menu({
   isOpen: boolean;
   toggleMenu: (newState: boolean) => void;
   items: MenuDTO[] | null;
-  subItems: PostsMetaDTO[] | null;
+  subItems: PostMetaDTO[] | null;
   locale: string;
 }) {
   const [expandedMenuItemId, setExpandedMenuItemId] = useState<string | null>(
@@ -48,16 +48,16 @@ export default function Menu({
     <>
       {/* Hamburger element */}
       <div onClick={() => toggleMenu(true)} className="size-8 cursor-pointer">
-        <div className="my-2 w-8 h-1 rounded bg-foreground"></div>
-        <div className="my-2 w-8 h-1 rounded bg-foreground"></div>
-        <div className="w-8 h-1 rounded bg-foreground"></div>
+        <div className="my-2 w-8 h-1 rounded bg-base-900"></div>
+        <div className="my-2 w-8 h-1 rounded bg-base-900"></div>
+        <div className="w-8 h-1 rounded bg-base-900"></div>
       </div>
 
       {/* Menu animation container */}
       <AnimatePresence>
         {isOpen ? (
           <motion.div
-            className="p-2 absolute left-0 top-0 w-full bg-foreground text-background z-10 max-h-[100vh] overflow-y-auto md:overflow-hidden"
+            className="p-2 absolute left-0 top-0 w-full bg-base-900 text-background z-10 max-h-[100vh] overflow-y-auto"
             layout
             initial={{ height: 0 }}
             animate={{ height: "fit-content" }}
@@ -88,7 +88,7 @@ export default function Menu({
             {/* Navigation container */}
             <nav className="pb-18 container m-auto">
               {/* Default menus */}
-                <TopMenuItems
+                <StaticMenuItems
                   locale={locale}
                   expandedMenuItemId={expandedMenuItemId}
                   setExpandedMenuItemId={setExpandedMenuItemId}

@@ -28,7 +28,7 @@ export default function LanguageSwitch({ locale }) {
   return (
     <>
       <div
-        className="relative inline-flex items-center justify-end w-20 h-10 p-1 font-medium text-sm bg-gray-200 rounded-full cursor-pointer"
+        className="relative inline-flex items-center justify-end w-20 h-10 p-1 font-medium text-sm bg-stone-300 rounded-full cursor-pointer"
         onClick={switching}
       >
         <span className="w-1/2 text-center z-10">{languages[0].label}</span>
@@ -37,7 +37,7 @@ export default function LanguageSwitch({ locale }) {
         <motion.div
           layout  
           transition={{ type: "spring", stiffness: 300, damping: 30 }}
-          className={`absolute top-0 left-0 w-1/2 h-full bg-primary-foreground rounded-full z-0 border-2 border-gray-200 ${
+          className={`absolute top-0 left-0 w-1/2 h-full bg-stone-50 rounded-full z-0 border-2 border-stone-300 ${
             currentLocale === "en" ? "translate-x-full" : ""
           }`}
         />

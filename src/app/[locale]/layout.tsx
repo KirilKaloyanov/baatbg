@@ -10,16 +10,33 @@ import { getMenuItems } from "@services/menuService";
 import { getAllPostsMetaData } from "@/services/postsService";
 
 import { MenuDTO } from "@/interfaces/admin/MenuDTO";
-import { PostsMetaDTO } from "@/interfaces/admin/PostsDTO";
+import { PostMetaDTO } from "@/interfaces/admin/PostsDTO";
 
 import fbLogo from '@icons/fb.svg'
 import ytLogo from '@icons/youtube.svg'
 
-import '../globals.css'
+import { Raleway, Oswald, Cormorant_Garamond } from 'next/font/google';
 
-export const metadata = {
-  title: "BAAT application",
-};
+const raleway = Raleway({
+  subsets: ['cyrillic', 'latin'],
+  display: 'swap',
+  variable: '--font-raleway'
+})
+
+const oswald = Oswald({
+  subsets: ['cyrillic', 'latin'],
+  display: 'swap',
+  variable: '--font-oswald'
+})
+
+const cormorant = Cormorant_Garamond({
+  subsets: ['cyrillic', 'latin'],
+  display: 'swap',
+  weight: '300',
+  variable: '--font-cormorant'
+})
+
+import '../globals.css'
 
 export default async function RootLayout({
   children,
@@ -32,15 +49,12 @@ export default async function RootLayout({
   const messages = await getMessages({ locale });
 
   const items: MenuDTO[] | null = await getMenuItems();
-  const subItems: PostsMetaDTO[] | null = await getAllPostsMetaData();
+  const subItems: PostMetaDTO[] | null = await getAllPostsMetaData();
 
   return (
-    <html lang={locale}>
+    <html lang={locale} className={`${oswald.variable} ${raleway.variable} ${cormorant.variable}`}>
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" />
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Raleway:ital,wght@0,100..900;1,100..900&family=Oswald:wght@200..700&display=swap" />
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,1,0" />  
+        
       </head>
       <body className='min-h-screen flex flex-col'>
           <NextIntlClientProvider messages={messages}>
@@ -52,9 +66,9 @@ export default async function RootLayout({
                 {children}
               </main>
 
-              <footer className="h-[30vh] bg-foreground text-background flex justify-center items-center">
-                <Image src={fbLogo} alt='Icon' className='text-primary' height={20}/>
-                <Image src={ytLogo} alt='Icon' className='text-primary' height={20}/>
+              <footer className="h-[30vh] bg-base-900 text-background flex justify-center items-center">
+                <Image src={fbLogo} alt='Icon' height={20}/>
+                <Image src={ytLogo} alt='Icon' height={20}/>
               </footer>
             </LoaderProvider>
           </NextIntlClientProvider>
@@ -62,3 +76,25 @@ export default async function RootLayout({
     </html>
   );
 }
+
+
+export async function generateMetadata({ params } : { params: Promise<{ locale: string }>}) {
+  const { locale } = await params;
+  const labels = {
+    prefix: {
+      en: "BAAT",
+      bg: "БААТ"
+    },
+    suffix: {
+      en: "Welcome",
+      bg: "Начало"
+    },
+  }
+  const metadata = {
+    title: {
+      template: `${labels.prefix[locale]} | %s`,
+      default: `${labels.prefix[locale]} | ${labels.suffix[locale]}`,
+    }
+  }
+  return metadata;
+};

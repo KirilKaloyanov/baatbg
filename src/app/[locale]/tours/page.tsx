@@ -1,4 +1,4 @@
-"use client";
+// "use client";
 import CustomLink from "@/components/navigation/customLink";
 
 export default function ToursList() {
@@ -8,4 +8,8 @@ export default function ToursList() {
       <CustomLink href={`/bg/tours/awoinaera435wh`}> Tour </CustomLink>
     </>
   );
+}
+
+export const metadata = {
+  title: "Tours"
 }

@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import CustomLink from "../customLink";
-import { PostsMetaDTO } from "@/interfaces/admin/PostsDTO";
+import { PostMetaDTO } from "@/interfaces/admin/PostsDTO";
 import { MenuDTO } from "@/interfaces/admin/MenuDTO";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
@@ -16,7 +16,7 @@ export default function MenuItem({
   openMenuItem,
 }: {
   item: MenuDTO;
-  subItems: PostsMetaDTO[];
+  subItems: PostMetaDTO[];
   locale: string;
   isMenuItemOpen: boolean;
   openMenuItem: (id: string | null) => void;
@@ -36,11 +36,11 @@ export default function MenuItem({
         {pathname !== `/${locale}/${item.path}` ? (
           // Link to menuPath
           <CustomLink href={`/${locale}/${item.path}`}>
-            <h6 className="hover:text-primary">{item.label[locale]}</h6>
+            <h4 className="hover:text-accent-100">{item.label[locale]}</h4>
           </CustomLink>
         ) : (
           // Activated menuPath
-          <h6 className="text-primary">{item.label[locale]}</h6>
+          <h4 className="text-accent-100">{item.label[locale]}</h4>
         )}
 
         {subItems.length < 1 ? (
@@ -61,21 +61,21 @@ export default function MenuItem({
           className="overflow-hidden h-0"
           animate={{ height: isMenuItemOpen ? "auto" : 0 }}
         >
-          {subItems.map((si: PostsMetaDTO) => (
+          {subItems.map((si: PostMetaDTO) => (
             //
-            <div key={si.id} className="p-4 md:p-1 text-right md:text-left">
+            <div key={si.id} className="p-4 pr-12 md:p-1 text-right md:text-left">
               {pathname !== `/${locale}/${si.menuPath}/${si.subMenuPath}` ? (
                 // Link to subMenuPath
                 <CustomLink
                   href={`/${locale}/${si.menuPath}/${si.subMenuPath}`}
                 >
-                  <span className="hover:text-primary">
+                  <span className="hover:text-accent-100">
                     {si.heading[locale]}
                   </span>
                 </CustomLink>
               ) : (
                 // Activated subMenuPath
-                <span className="text-primary">{si.heading[locale]}</span>
+                <span className="text-accent-100">{si.heading[locale]}</span>
               )}
             </div>
           ))}

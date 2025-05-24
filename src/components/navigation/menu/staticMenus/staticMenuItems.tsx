@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import RegionsMap from "./regionsMap";
 import StaticMenuItem from "./staticMenuItem";
 
-export default function TopMenuItems({
+export default function StaticMenuItems({
   locale,
   expandedMenuItemId,
   setExpandedMenuItemId,
@@ -22,14 +22,14 @@ export default function TopMenuItems({
           <div className="flex justify-end md:justify-start">
             {pathname !== `/${locale}/regions` ? (
               <CustomLink href={`/${locale}/regions`}>
-                <h6 className="hover:text-primary">
+                <h4 className="hover:text-accent-100">
                   {locale == "bg" ? "Региони" : "Regions"}
-                </h6>
+                </h4>
               </CustomLink>
             ) : (
-              <h6 className="text-primary">
+              <h4 className="text-accent-100">
                 {locale == "bg" ? "Региони" : "Regions"}
-              </h6>
+              </h4>
             )}
 
             <AnimatedChevron

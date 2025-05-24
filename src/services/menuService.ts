@@ -1,4 +1,4 @@
-import { collection, getDocs, } from "firebase/firestore";
+import { collection, doc, DocumentData, getDoc, getDocs, } from "firebase/firestore";
 import { db } from "@firebaseConfig"
 import { MenuDTO } from "@/interfaces/admin/MenuDTO";
 
@@ -25,3 +25,19 @@ export async function getMenuItems() {
     return null;
 }
 
+export async function getMenuById( itemId: string) {
+    try {
+        const docRef = doc(db, 'menu', itemId);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          const data = docSnap.data() as MenuDTO
+            return data;
+        } else {
+          console.log("No such document (getMenuById)", docSnap, docRef)
+          return null
+        }
+    } catch(e) {
+      console.log("Error fetching from Firestore/ inside firebaseOps", e);
+      return null;
+    }
+  }

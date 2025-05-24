@@ -1,5 +1,7 @@
 import { getAllPostsByMenuId } from "@services/postsService";
 import CustomLink from "@/components/navigation/customLink";
+import { getMenuById } from "@/services/menuService";
+import { MenuDTO } from "@/interfaces/admin/MenuDTO";
 
 export default async function MainMenu({
   params,
@@ -23,4 +25,19 @@ export default async function MainMenu({
       ))}
     </>
   );
+}
+
+export async function generateMetadata({
+  params
+} : {
+  params: Promise<{ menu: string, locale: string }>;
+}) {
+  const { menu, locale } = await params;
+
+  const menuData: MenuDTO | null = await getMenuById(menu);
+
+  const metadata = {
+    title: `${menuData?.label[locale] || ''}`,
+  };
+  return metadata;
 }

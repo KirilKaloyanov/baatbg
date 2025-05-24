@@ -1,23 +1,7 @@
-import { doc, getDoc, collection, DocumentData, getDocs, query, where } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
 import { db } from "@firebaseConfig"
 
-import { PostsDTO, PostsMetaDTO } from "@/interfaces/admin/PostsDTO";
-
-
-// export async function getPostById( itemId: string) : Promise <PostData | undefined> {
-//     try {
-//         const docRef = doc(db, 'posts', itemId);
-//         const docSnap = await getDoc(docRef);
-//         if (docSnap.exists()) {
-//           const data = docSnap.data() as DocumentData
-//             return { content: data.content || ''}
-//         } else {
-//             console.log("No such document")
-//         }
-//     } catch(e) {
-//         console.log("Error fetching from Firestore/ inside firebaseOps", e);
-//     }
-//   }
+import { PostDTO, PostMetaDTO } from "@/interfaces/admin/PostsDTO";
 
   export async function getAllPostsMetaData() {
     try {
@@ -26,11 +10,27 @@ import { PostsDTO, PostsMetaDTO } from "@/interfaces/admin/PostsDTO";
           id: doc.id,
           ...doc.data()
         }))
-        return data as PostsMetaDTO[];
+        return data as PostMetaDTO[];
       } catch (error) {
         console.log("Error fetching from Firestore/ inside firebaseOps", error)
       }
       return null;
+  }
+
+  export async function getPostMetaDataByPostId(id: string) {
+    try {
+      const docRef = doc(db, 'posts', id);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        return docSnap.data() as PostMetaDTO;
+      } else {
+        console.log('No such document (getPostMetaDataByPostId)', docRef, docSnap);
+      }
+    } catch (e) {
+      console.log("Error fetching from Firestore/ inside firebaseOps", e);
+    }
+    return null;
   }
 
   export async function getPostBySubMenuId(id: string) {
@@ -42,10 +42,11 @@ import { PostsDTO, PostsMetaDTO } from "@/interfaces/admin/PostsDTO";
       snapShot.forEach((res) => {
         data = res.data();
       })
-      return data;
+      return data as PostDTO;
     } catch (err) {
       console.error(err)
     }
+    return null;
   }
 
   export async function getAllPostsByMenuId(id: string ) {
