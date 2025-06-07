@@ -33,11 +33,10 @@ export async function getMenuById( itemId: string) {
           const data = docSnap.data() as MenuDTO
             return data;
         } else {
-          console.log("No such document (getMenuById)", docSnap, docRef)
-          return null
+          console.log("No such document (getMenuById)");
         }
     } catch(e) {
       console.log("Error fetching from Firestore/ inside firebaseOps", e);
-      return null;
     }
+    return null;
   }

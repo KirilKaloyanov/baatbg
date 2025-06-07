@@ -25,17 +25,25 @@ export default function Header({ locale, items, subItems }) {
 
   return (
     <motion.header
-      className="fixed w-full top-0 shadow-sm bg-stone-200"
-      animate={{ translateY: scrollDirection == "down" && !isOpen ? "-95px" : 0 }}
+      className="fixed -top-6 w-full bg-stone-200 shadow-sm"
+      animate={{
+        translateY: scrollDirection == "down" && !isOpen ? "-120px" : 0,
+      }}
     >
-      <div className="container m-auto flex justify-between items-center p-2 md:py-4">
+      <div className="container m-auto flex items-center justify-between px-2 pt-8 pb-2 md:pt-10 md:pb-4">
         <CustomLink href={"/" + locale}>
           <Image src={logo} alt="Logo image of BAAT" height={60} />
         </CustomLink>
 
         <div className="flex gap-5">
           <LanguageSwitch locale={locale} />
-          <Menu isOpen={isOpen} toggleMenu={toggleMenu} items={items} subItems={subItems} locale={locale} />
+          <Menu
+            isOpen={isOpen}
+            toggleMenu={toggleMenu}
+            items={items}
+            subItems={subItems}
+            locale={locale}
+          />
         </div>
       </div>
     </motion.header>

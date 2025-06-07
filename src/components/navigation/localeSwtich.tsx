@@ -28,7 +28,7 @@ export default function LanguageSwitch({ locale }) {
   return (
     <>
       <div
-        className="relative inline-flex items-center justify-end w-20 h-10 p-1 font-medium text-sm bg-stone-300 rounded-full cursor-pointer"
+        className="relative inline-flex items-center justify-end w-20 h-10 py-1 font-medium text-sm bg-stone-300 rounded-full cursor-pointer"
         onClick={switching}
       >
         <span className="w-1/2 text-center z-10">{languages[0].label}</span>

@@ -25,7 +25,7 @@ import { PostDTO, PostMetaDTO } from "@/interfaces/admin/PostsDTO";
       if (docSnap.exists()) {
         return docSnap.data() as PostMetaDTO;
       } else {
-        console.log('No such document (getPostMetaDataByPostId)', docRef, docSnap);
+        console.log('No such document (getPostMetaDataByPostId)');
       }
     } catch (e) {
       console.log("Error fetching from Firestore/ inside firebaseOps", e);

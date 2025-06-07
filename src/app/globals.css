@@ -15,7 +15,7 @@
   --color-accent-50: var(--accent-50);
   --color-accent-100: var(--accent-100);
   --color-accent-500: var(--accent-500);
-  --color-card: var(--card);
+  /* --color-card: var(--card); */
 }
 
 :root {
@@ -27,7 +27,7 @@
   --accent-50: oklch(0.95 0.07 33.31);
   --accent-100: oklch(0.9 0.2 33.31);
   --accent-500: oklch(0.58 0.2 33.31);
-  --card: oklch(0.96 0.02 58);
+  /* --card: oklch(0.96 0.02 58); */
 }
 
 .dark {
@@ -69,23 +69,23 @@
   }
 
   h1 {
-    @apply text-5xl mb-5;
+    @apply mb-5 text-5xl;
   }
 
   h2 {
-    @apply text-4xl mb-4;
+    @apply mb-4 text-4xl;
   }
 
   h3 {
-    @apply text-3xl mb-3;
+    @apply mb-3 text-3xl;
   }
 
   h4 {
-    @apply text-2xl mb-2;
+    @apply mb-2 text-2xl;
   }
 
   h5 {
-    @apply text-xl mb-2;
+    @apply mb-2 text-xl;
   }
 
   h6 {

@@ -1,5 +1,4 @@
 import { getPostBySubMenuId, getPostMetaDataByPostId } from "@services/postsService";
-import './submenu.css';
 import Video from "@/components/video/video";
 import { PostDTO, PostMetaDTO } from "@/interfaces/admin/PostsDTO";
 
