@@ -5,7 +5,7 @@ export default function Page() {
   return (
     //cormorant
     <>
-      <blockquote className="text-3xl font-cormorant my-3">{t("title")}</blockquote> 
+      <blockquote className="text-3xl font-cormorant my-3 font-bold">{t("title")}</blockquote> 
 
 
       <div className="bg-background h-10"></div>

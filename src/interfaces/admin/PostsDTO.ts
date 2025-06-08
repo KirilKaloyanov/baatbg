@@ -4,6 +4,7 @@ export interface PostMetaDTO {
         en: string,
     }
     menuPath: string,
+    position: number,
     subMenuPath: string,
     id: string,
     linkVideo: string

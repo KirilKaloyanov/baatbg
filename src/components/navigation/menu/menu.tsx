@@ -36,7 +36,9 @@ export default function Menu({
 
   const filterSubItemsByItem = (item: MenuDTO) => {
     if (subItems == null) return [];
-    return subItems.filter((si) => si.menuPath == item.path);
+    return subItems
+              .filter((si) => si.menuPath == item.path)
+              .sort((a, b) => a.position - b.position);
   };
 
   useEffect(() => {
@@ -56,73 +58,73 @@ export default function Menu({
       {/* Menu animation container */}
       <AnimatePresence>
         {isOpen ? (
-          <motion.div
-            className="bg-base-900 text-background absolute top-6 left-0 z-10 max-h-[100vh] w-full overflow-y-auto py-2 md:overflow-y-hidden"
-            layout
-            initial={{ height: 0 }}
-            animate={{ height: "fit-content" }}
-            exit={{ height: 0, transition: { duration: 0.1 } }}
-          >
-            {/* Menu container */}
-            <div className="container m-auto flex items-center justify-between px-2 md:mt-2">
-              {/* Link to home */}
-              <CustomLink href={"/" + locale}>
-                <Image
-                  className="grayscale invert"
-                  src={logo}
-                  alt="Logo image of BAAT"
-                  height={60}
+            <motion.div
+              className="bg-base-900 text-background absolute top-6 left-0 z-10 max-h-[100vh] w-full overflow-y-auto py-2 md:overflow-y-hidden"
+              layout
+              initial={{ height: 0 }}
+              animate={{ height: "fit-content" }}
+              exit={{ height: 0, transition: { duration: 0.1 } }}
+            >
+              {/* Menu container */}
+              <div className="container m-auto flex items-center justify-between px-2 md:mt-2">
+                {/* Link to home */}
+                <CustomLink href={"/" + locale}>
+                  <Image
+                    className="grayscale invert"
+                    src={logo}
+                    alt="Logo image of BAAT"
+                    height={60}
+                  />
+                </CustomLink>
+
+                {/* Close button */}
+                <div
+                  onClick={() => toggleMenu(false)}
+                  className="relative size-12 cursor-pointer"
+                >
+                  <div className="bg-background absolute top-5 left-3.5 h-1 w-9 rotate-45 rounded"></div>
+                  <div className="bg-background absolute top-5 left-3.5 h-1 w-9 -rotate-45 rounded"></div>
+                </div>
+              </div>
+
+              {/* Navigation container */}
+              <nav className="container m-auto px-6 pb-18">
+                {/* Default menus */}
+                <StaticMenuItems
+                  locale={locale}
+                  expandedMenuItemId={expandedMenuItemId}
+                  setExpandedMenuItemId={setExpandedMenuItemId}
                 />
-              </CustomLink>
 
-              {/* Close button */}
-              <div
-                onClick={() => toggleMenu(false)}
-                className="relative size-12 cursor-pointer"
-              >
-                <div className="bg-background absolute top-5 left-3.5 h-1 w-9 rotate-45 rounded"></div>
-                <div className="bg-background absolute top-5 left-3.5 h-1 w-9 -rotate-45 rounded"></div>
-              </div>
-            </div>
-
-            {/* Navigation container */}
-            <nav className="container m-auto px-6 pb-18">
-              {/* Default menus */}
-              <StaticMenuItems
-                locale={locale}
-                expandedMenuItemId={expandedMenuItemId}
-                setExpandedMenuItemId={setExpandedMenuItemId}
-              />
-
-              {/* Dynamic menus from DB */}
-              <div className="md:grid md:grid-cols-4">
-                {items &&
-                  items.map((i: MenuDTO) => (
-                    <div key={i.id}>
-                      <div className="block md:hidden">
-                        <MenuItem
-                          item={i}
-                          subItems={filterSubItemsByItem(i)}
-                          locale={locale}
-                          isMenuItemOpen={expandedMenuItemId === i.id}
-                          openMenuItem={setExpandedMenuItemId}
-                        />
+                {/* Dynamic menus from DB */}
+                <div className="md:grid md:grid-cols-4">
+                  {items &&
+                    items.map((i: MenuDTO) => (
+                      <div key={i.id}>
+                        <div className="block md:hidden">
+                          <MenuItem
+                            item={i}
+                            subItems={filterSubItemsByItem(i)}
+                            locale={locale}
+                            isMenuItemOpen={expandedMenuItemId === i.id}
+                            openMenuItem={setExpandedMenuItemId}
+                          />
+                        </div>
+                        <div className="hidden md:block">
+                          <MenuItem
+                            item={i}
+                            subItems={filterSubItemsByItem(i)}
+                            locale={locale}
+                            isMenuItemOpen={true}
+                            openMenuItem={setExpandedMenuItemId}
+                          />
+                        </div>
                       </div>
-                      <div className="hidden md:block">
-                        <MenuItem
-                          item={i}
-                          subItems={filterSubItemsByItem(i)}
-                          locale={locale}
-                          isMenuItemOpen={true}
-                          openMenuItem={setExpandedMenuItemId}
-                        />
-                      </div>
-                    </div>
-                  ))}
-              </div>
-            </nav>
-          </motion.div>
-        ) : null}
+                    ))}
+                </div>
+              </nav>
+            </motion.div>
+         ) : null}
       </AnimatePresence>
     </>
   );

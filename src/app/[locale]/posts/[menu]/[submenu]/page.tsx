@@ -13,8 +13,9 @@ export default async function SubMenu({
 
   return (
     <>
-      <h1>.:{submenu}:. Submenu item</h1>
+      <h1 className="mt-8">{data?.heading[locale]}</h1>
       <div
+        className="my-8 lg:columns-2 gap-10 xl:gap-20"
         dangerouslySetInnerHTML={{ __html: data?.text[locale] || "No content" }}
       ></div>
       
