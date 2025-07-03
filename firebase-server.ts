@@ -13,6 +13,9 @@ import { getFirestore, setLogLevel } from "firebase/firestore";
 import admin, { ServiceAccount } from "firebase-admin";
 console.log("process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n')",process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'))
 console.log("FIREBASE_PRIVATE_KEY", typeof process.env.FIREBASE_PRIVATE_KEY)
+console.log('NEXT_PUBLIC_FIREBASE_API_KEY', typeof  process.env.NEXT_PUBLIC_FIREBASE_API_KEY, process.env.NEXT_PUBLIC_FIREBASE_API_KEY)
+console.log('NEXT_PUBLIC_FIREBASE_DATABASE_URL', typeof  process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL, process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL)
+
 
 const serviceAccount: ServiceAccount = {
     projectId: "baatbgorg",
