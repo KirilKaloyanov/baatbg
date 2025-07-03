@@ -12,7 +12,6 @@ export default async function Members({
   const { locale } = await params;
   const data = await getAllMembers();
 
-console.log(data)
   // if (!data) return <h1>Loading...</h1>;
   return (
     !data ?  <h1>Loading...</h1>
