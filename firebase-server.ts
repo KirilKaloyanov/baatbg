@@ -11,11 +11,13 @@ import { getFirestore, setLogLevel } from "firebase/firestore";
 // export { db };
 
 import admin, { ServiceAccount } from "firebase-admin";
+console.log("process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n')",process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'))
+console.log("FIREBASE_PRIVATE_KEY", typeof process.env.FIREBASE_PRIVATE_KEY)
 
 const serviceAccount: ServiceAccount = {
     projectId: "baatbgorg",
     clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-    privateKey: process.env.FIREBASE_PRIVATE_KEY,
+    privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
 }
 
 const databaseURL = "https://baatbgorg-default-rtdb.europe-west1.firebasedatabase.app";
