@@ -1,13 +1,10 @@
-import { collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
-import { db } from "@firebaseServer"
+import { getCollection, getDocument, getDocumentByFieldValue } from '@services/dbService';
 
 import { PostDTO, PostMetaDTO } from "@/interfaces/admin/PostsDTO";
-import { snapshot } from "node:test";
 
   export async function getAllPostsMetaData() {
     try {
-        // const querySnapshot = await getDocs(collection(db, "posts"));
-        const querySnapshot = await db.collection('posts').get();
+        const querySnapshot = await getCollection('posts');
         const data = querySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data()
@@ -24,11 +21,9 @@ import { snapshot } from "node:test";
 
   export async function getPostMetaDataByPostId(id: string) {
     try {
-      // const docRef = doc(db, 'posts', id);
-      const docRef = db.collection('posts').doc(id);
-      const docSnap = await docRef.get();
+      const docSnap = await getDocument('posts', id);
 
-      if (docSnap.exists) {
+      if (docSnap.exists()) {
         return docSnap.data() as PostMetaDTO;
       } else {
         console.log('No such document (getPostMetaDataByPostId)');
@@ -43,12 +38,7 @@ import { snapshot } from "node:test";
 
   export async function getPostBySubMenuId(id: string) {
     try {
-
-      const querySnapshot = await db
-        .collection('posts')
-        .where('subMenuPath', '==', id)
-        .get();
-
+      const querySnapshot = await getDocumentByFieldValue('posts', 'subMenuPath', id) 
       let data: any = null;
 
       querySnapshot.forEach((res) => {
@@ -65,12 +55,7 @@ import { snapshot } from "node:test";
 
   export async function getAllPostsByMenuId(id: string ) {
     try {
-
-      const querySnapshot = await db
-        .collection('posts')
-        .where('menuPath', '==', id)
-        .get();
-        
+      const querySnapshot = await getDocumentByFieldValue('posts', 'menuPath', id); 
         
       let data = querySnapshot.docs.map((doc) => ({
         id: doc.id,
