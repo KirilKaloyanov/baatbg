@@ -101,6 +101,7 @@ export default function Menu({
                   {items &&
                     items.map((i: MenuDTO) => (
                       <div key={i.id}>
+                        {/*  Renders on Mobile expanding only one item */}
                         <div className="block md:hidden">
                           <MenuItem
                             item={i}
@@ -108,8 +109,9 @@ export default function Menu({
                             locale={locale}
                             isMenuItemOpen={expandedMenuItemId === i.id}
                             openMenuItem={setExpandedMenuItemId}
-                          />
+                            />
                         </div>
+                          {/* Renders on Desktop expanding all items */}
                         <div className="hidden md:block">
                           <MenuItem
                             item={i}

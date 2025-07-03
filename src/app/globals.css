@@ -78,7 +78,7 @@
   }
   
   body {
-    @apply bg-background text-base-900;
+    @apply bg-background text-base-900 selection:bg-accent-100 selection:text-stone-900;
   }
 
   main {

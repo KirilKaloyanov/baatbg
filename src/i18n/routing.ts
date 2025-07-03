@@ -5,10 +5,10 @@ export const routing = defineRouting({
   defaultLocale: "bg",
   pathnames: {
     "/": "/",
-    "/pathnames": {
-      en: "/pathnames",
-      bg: "/patishta",
-    },
+    // "/posts/about/us": {
+    //   en: "/posts/about/us", 
+    //   bg: "/posts/za/nas"
+    // },
   },
 });
 

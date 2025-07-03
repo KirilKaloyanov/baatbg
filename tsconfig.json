@@ -10,8 +10,8 @@
       "@interfaces/*": ["src/interfaces/*"],
       "@icons/*": ["public/icons/*"],
       "@images/*": ["public/images/*"],
-      "@firebaseConfig": ["firebaseConfig.ts"],
-      "@firebaseAdminConfig": ["firebaseAdminConfig.ts"]
+      "@firebaseServer": ["firebase-server.ts"],
+      "@firebaseClient": ["firebase-client.ts"]
     },
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
@@ -33,6 +33,6 @@
     "strictNullChecks": true,
     "target": "ES2017"
   },
-  "include": ["next-env.d.ts", ".next/types/**/*.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", ".next/types/**/*.ts", "**/*.ts", "**/*.tsx", "firebase-client.ts"],
   "exclude": ["node_modules"]
 }

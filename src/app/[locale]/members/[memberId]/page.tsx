@@ -11,7 +11,7 @@ export default async function Member({
   if (!member) return <h1>Loading...</h1>;
   return (
     <>
-      <h1>{member.name[locale]}</h1>
+      <h1 className="mt-10 text-center">{member.name[locale]}</h1>
       <div>{member.phone}</div>
       <div>{member.address ? member.address[locale] : ""}</div>
       <div>{member.description[locale]}</div>

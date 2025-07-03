@@ -1,6 +1,7 @@
 {
     "HomePage": {
-        "title": "Hello world",
-        "about": "about"
+        "about": "about",
+        "members": "Members",
+        "title": "Hello world"
     }
 }

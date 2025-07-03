@@ -1,38 +1,13 @@
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
-import { db } from "@firebaseConfig";
+import { MemberDTO as Member, MemberTypeDTO as MemberType } from "@/interfaces/admin/MemberDTO";
+import { db } from "@firebaseServer";
 
-interface MemberType {
-  en: string;
-  bg: string;
-}
-
-interface Member {
-  id: string;
-  typeId: string;
-  name: {
-    bg: string;
-    en: string;
-  };
-  description: {
-    bg: string;
-    en: string;
-  };
-  address?: {
-    bg: string;
-    en: string;
-  };
-  website?: string;
-  phone?: string;
-  email?: string;
-  img?: string;
-}
 
 export async function getMemberById(id: string) {
-  try {
-    const docRef = collection(db, "members");
-    const docData = doc(docRef, id);
-    const data = await getDoc(docData);
-    if (data.exists()) {
+  try {    
+    const docReference = db.collection('members').doc(id)
+    const data = await docReference.get();
+    if (data.exists) {
       return { id: data.id, ...data.data() } as Member;
     } else throw new Error("Document not found!");
   } catch (err) {
@@ -42,16 +17,16 @@ export async function getMemberById(id: string) {
 
 export async function getAllMembers() {
   try {
-    const membersSnapshot = await getDocs(collection(db, "members"));
+    const membersSnapshot = await db.collection('members').get();
     const members = membersSnapshot.docs.map((doc) => {
-      //   console.log(doc.id);
+        // console.log(doc.id);
       return {
         id: doc.id,
         ...doc.data(),
       } as Member;
     });
 
-    const typesSnapshot = await getDocs(collection(db, "memberType"));
+    const typesSnapshot = await db.collection('memberType').get();
     const types = typesSnapshot.docs.reduce((acc, doc) => {
       acc[doc.id] = { ...doc.data() } as MemberType;
       return acc;

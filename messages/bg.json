@@ -1,6 +1,7 @@
 {
     "HomePage": {
-        "title": "Здравей Свят",
-        "about": "about"
+        "about": "about",
+        "members": "Членове",
+        "title": "Здравей Свят"
     }
 }

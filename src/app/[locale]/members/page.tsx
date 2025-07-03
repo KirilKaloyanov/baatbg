@@ -1,4 +1,6 @@
+import { getTranslations } from "next-intl/server";
 import CustomLink from "@/components/navigation/customLink";
+import { MemberCard } from "./member-card";
 import { getAllMembers } from "@services/memberService";
 
 export default async function Members({
@@ -6,21 +8,26 @@ export default async function Members({
 }: {
   params: Promise<{ locale: string }>;
 }) {
+  const t = await getTranslations("HomePage");
   const { locale } = await params;
   const data = await getAllMembers();
 
-  if (!data) return <h1>Loading...</h1>;
+console.log(data)
+  // if (!data) return <h1>Loading...</h1>;
   return (
-    <>
-      <h1>Members</h1>
+    !data ?  <h1>Loading...</h1>
+      :
+    <div>
+      <h1 className="mt-10 text-center">{t("members")}</h1>
       {data.map((member) => (
         <div key={member.id}>
+          <MemberCard member={member} />
           <CustomLink href={`/${locale}/members/${member.id}`}>
             {member.name[locale]}
           </CustomLink>{" "}
           - {member.typeLabel.label[locale]}
         </div>
       ))}
-    </>
+    </div>
   );
 }
