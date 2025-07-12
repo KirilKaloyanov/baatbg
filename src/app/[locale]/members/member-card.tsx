@@ -9,6 +9,7 @@ export function MemberCard({ member } : {member: MemberDTO}) {
         
         <>
             <h1>Member card</h1>
+            <img src={member.img} />
         </>
     )
 }
