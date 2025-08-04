@@ -13,20 +13,18 @@ export default async function Members({
   const data = await getAllMembers();
 
   // if (!data) return <h1>Loading...</h1>;
-  return (
-    !data ?  <h1>Loading...</h1>
-      :
+  return !data ? (
+    <h1>Loading...</h1>
+  ) : (
     <div>
       <h1 className="mt-10 text-center">{t("members")}</h1>
-      {data.map((member) => (
-        <div key={member.id}>
-          <MemberCard member={member} />
-          <CustomLink href={`/${locale}/members/${member.id}`}>
-            {member.name[locale]}
-          </CustomLink>{" "}
-          - {member.typeLabel.label[locale]}
-        </div>
-      ))}
+      <div className="grid grid-cols-3">
+        {data.map((member) => (
+          <div key={member.id}>
+            <MemberCard member={member} locale={locale} />
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

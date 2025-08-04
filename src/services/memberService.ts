@@ -1,5 +1,5 @@
 import { getCollection, getDocument } from "./dbService";
-import { MemberDTO as Member, MemberTypeDTO as MemberType } from "@/interfaces/admin/MemberDTO";
+import { MemberDTO as Member, MemberTypeDTO as MemberType, MemberWithTypeDTO } from "@/interfaces/admin/MemberDTO";
 
 
 export async function getMemberById(id: string) {
@@ -30,7 +30,7 @@ export async function getAllMembers() {
       return acc;
     }, {});
 
-    const membersWithTypes = members.map((member) => ({
+    const membersWithTypes: MemberWithTypeDTO[] = members.map((member) => ({
       ...member,
       typeLabel: types[member.typeId],
     }));

@@ -19,6 +19,15 @@ export interface MemberDTO {
   img?: string;
 }
 
+export interface MemberWithTypeDTO extends MemberDTO {
+  typeLabel: {
+    label: {
+      bg: string,
+      en: string
+    }
+  }
+}
+
 export interface MemberTypeDTO {
   id: string;
   label: {
