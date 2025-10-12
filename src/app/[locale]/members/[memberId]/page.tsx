@@ -12,6 +12,7 @@ export default async function Member({
   return (
     <>
       <h1 className="mt-10 text-center">{member.name[locale]}</h1>
+      <h3 className="mt-10 text-center">{member.typeId}</h3>
       <div>{member.phone}</div>
       <div>{member.address ? member.address[locale] : ""}</div>
       <div>{member.description[locale]}</div>
