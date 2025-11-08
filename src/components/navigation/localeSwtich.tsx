@@ -37,7 +37,7 @@ export default function LanguageSwitch({ locale }) {
         <motion.div
           layout  
           transition={{ type: "spring", stiffness: 300, damping: 30 }}
-          className={`absolute top-0 left-0 w-1/2 h-full bg-stone-50 rounded-full z-0 border-2 border-stone-300 ${
+          className={`absolute left-0 w-1/2 h-full bg-stone-50 rounded-full z-0 border-2 border-stone-300 ${
             currentLocale === "en" ? "translate-x-full" : ""
           }`}
         />

@@ -13,11 +13,11 @@ export default async function Member({
     <>
       <h1 className="mt-10 text-center">{member.name[locale]}</h1>
       <h3 className="mt-10 text-center">{member.typeLabel.label[locale]}</h3>
-      <div>{member.phone}</div>
-      <div>{member.email}</div>
-      <div>{member.website}</div>
+      <p>{member.phone}</p>
+      <p>{member.email}</p>
+      <p>{member.website}</p>
       <p>{member.address ? member.address[locale] : ""}</p>
-      <div>{member.description[locale]}</div>
+      <p>{member.description[locale]}</p>
     </>
   );
 }
