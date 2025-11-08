@@ -11,6 +11,7 @@ export default function CustomLink({
 }: {
   href: string;
   children: React.ReactNode;
+  className?: string;
 }) {
   const { startNavigation } = useLoader();
   const router = useRouter();

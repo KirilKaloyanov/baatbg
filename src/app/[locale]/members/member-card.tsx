@@ -1,39 +1,48 @@
 "use client";
 
-import { MemberWithTypeDTO } from "@/interfaces/admin/MemberDTO";
-import {
-  Card,
-  CardTitle,
-  CardDescription,
-  CardFooter,
-} from "@/components/ui/card";
+import { motion } from "framer-motion";
 import CustomLink from "@/components/navigation/customLink";
-// import { storage } from "@firebaseClient";
+import { MemberWithTypeDTO } from "@/interfaces/admin/MemberDTO";
 
-export function MemberCard({
+export default function MemberCard({
   member,
   locale,
 }: {
   member: MemberWithTypeDTO;
   locale: string;
 }) {
-  console.log(member);
   return (
-    <Card className="h-[400px] m-3 p-2">
-      <CardTitle className="flex flex-col items-center mt-9">
-        <h1>{member.name[locale]}</h1>
-      </CardTitle>
-
-      <CardDescription className="flex flex-col items-center">
-        <img src={member.img} className="w-[200px] h-[200px] object-cover  rounded-full" />
-      </CardDescription>
-
-      <CardFooter>
-        <CustomLink href={`/${locale}/members/${member.id}`}>
-          {member.name[locale]}
-        </CustomLink>{" "}
-         - {member.typeLabel.label[locale]}
-      </CardFooter>
-    </Card>
+    <motion.div
+      className="h-full w-full transition"
+      initial={{ y: 0 }}
+      whileHover={{ y: -5, boxShadow: "0 10px 20px rgba(0,0,0,0.2)" }}
+      transition={{ type: "spring", stiffness: 300, damping: 28 }}
+    >
+      <CustomLink
+        href={`/${locale}/members/${member.id}`}
+        className="no-marker"
+      >
+        <div className="h-8"></div>
+        <div className="bg-gray-50 text-center">
+          <div className="mx-auto flex h-50 w-50 items-center justify-center bg-white p-1">
+            {member.img && (
+              <img
+                className="max-h-full max-w-full"
+                src={member.img}
+                alt={member.name + " logo"}
+              />
+            )}
+          </div>
+        </div>
+        <div className="px-6 py-5 text-center">
+          <p className="mb-1 text-xs font-bold tracking-widest text-cyan-600 uppercase">
+            {member.typeLabel.label[locale]}
+          </p>
+          <h3 className="text-2xl leading-tight font-extrabold text-gray-800">
+            {member.name[locale]}
+          </h3>
+        </div>
+      </CustomLink>
+    </motion.div>
   );
 }

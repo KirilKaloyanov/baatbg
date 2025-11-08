@@ -12,9 +12,11 @@ export default async function Member({
   return (
     <>
       <h1 className="mt-10 text-center">{member.name[locale]}</h1>
-      <h3 className="mt-10 text-center">{member.typeId}</h3>
+      <h3 className="mt-10 text-center">{member.typeLabel.label[locale]}</h3>
       <div>{member.phone}</div>
-      <div>{member.address ? member.address[locale] : ""}</div>
+      <div>{member.email}</div>
+      <div>{member.website}</div>
+      <p>{member.address ? member.address[locale] : ""}</p>
       <div>{member.description[locale]}</div>
     </>
   );

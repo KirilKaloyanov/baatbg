@@ -4,10 +4,12 @@ import { MemberDTO as Member, MemberTypeDTO as MemberType, MemberWithTypeDTO } f
 
 export async function getMemberById(id: string) {
   try {    
+    const memberTypes = await getMemberTypes();
     // const docReference = db.collection('members').doc(id)
     const data = await getDocument("members", id);
     if (data.exists()) {
-      return { id: data.id, ...data.data() } as Member;
+      const typeLabel = memberTypes[data.data().typeId];
+      return { id: data.id, ...data.data(), typeLabel } as MemberWithTypeDTO;
     } else throw new Error("Document not found!");
   } catch (err) {
     console.error(err);
@@ -24,11 +26,7 @@ export async function getAllMembers() {
       } as Member;
     });
 
-    const typesSnapshot = await getCollection('memberType');
-    const types = typesSnapshot.docs.reduce((acc, doc) => {
-      acc[doc.id] = { ...doc.data() } as MemberType;
-      return acc;
-    }, {});
+    const types = await getMemberTypes();
 
     const membersWithTypes: MemberWithTypeDTO[] = members.map((member) => ({
       ...member,
@@ -39,4 +37,14 @@ export async function getAllMembers() {
     console.error(err);
   }
   return null;
+}
+
+
+async function getMemberTypes() {
+
+    const typesSnapshot = await getCollection('memberType');
+    return typesSnapshot.docs.reduce((acc, doc) => {
+      acc[doc.id] = { ...doc.data() } as MemberType;
+      return acc;
+    }, {});
 }
