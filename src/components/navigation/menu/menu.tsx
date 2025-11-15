@@ -9,8 +9,8 @@ import { useLoader } from "@/context/LoaderContext";
 import MenuItem from "./menuItem";
 import CustomLink from "../customLink";
 
-import { PostMetaDTO } from "@/interfaces/admin/PostsDTO";
-import { MenuDTO } from "@/interfaces/admin/MenuDTO";
+import { PostMetaDTO } from "@/interfaces/PostsDTO";
+import { MenuDTO } from "@/interfaces/MenuDTO";
 
 import logo from "@images/logo/logo_baat.png";
 import StaticMenuItems from "./staticMenus/staticMenuItems";

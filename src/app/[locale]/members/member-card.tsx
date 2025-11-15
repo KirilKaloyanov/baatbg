@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import CustomLink from "@/components/navigation/customLink";
-import { MemberWithTypeDTO } from "@/interfaces/admin/MemberDTO";
+import { MemberWithTypeDTO } from "@/interfaces/MemberDTO";
 
 export default function MemberCard({
   member,
@@ -22,7 +22,7 @@ export default function MemberCard({
         href={`/${locale}/members/${member.id}`}
         className="no-marker"
       >
-        <div className="h-8"></div>
+        <div className="h-8">{/*empty space for top border effect*/}</div>
         <div className="bg-gray-50 text-center">
           <div className="mx-auto flex h-50 w-50 items-center justify-center bg-white p-1">
             {member.img && (

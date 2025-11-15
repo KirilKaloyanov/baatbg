@@ -1,5 +1,5 @@
 import { getCollection, getDocument } from "./dbService";
-import { MemberDTO as Member, MemberTypeDTO as MemberType, MemberWithTypeDTO } from "@/interfaces/admin/MemberDTO";
+import { MemberDTO as Member, MemberTypeDTO as MemberType, MemberWithTypeDTO } from "@/interfaces/MemberDTO";
 
 
 export async function getMemberById(id: string) {

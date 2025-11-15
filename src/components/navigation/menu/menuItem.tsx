@@ -2,8 +2,8 @@
 
 import { motion } from "framer-motion";
 import CustomLink from "../customLink";
-import { PostMetaDTO } from "@/interfaces/admin/PostsDTO";
-import { MenuDTO } from "@/interfaces/admin/MenuDTO";
+import { PostMetaDTO } from "@/interfaces/PostsDTO";
+import { MenuDTO } from "@/interfaces/MenuDTO";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 import AnimatedChevron from "./animatedChevron";

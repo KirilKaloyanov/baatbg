@@ -9,8 +9,8 @@ import { LoaderProvider } from "@context/LoaderContext";
 import { getMenuItems } from "@services/menuService";
 import { getAllPostsMetaData } from "@/services/postsService";
 
-import { MenuDTO } from "@/interfaces/admin/MenuDTO";
-import { PostMetaDTO } from "@/interfaces/admin/PostsDTO";
+import { MenuDTO } from "@/interfaces/MenuDTO";
+import { PostMetaDTO } from "@/interfaces/PostsDTO";
 
 import fbLogo from "@icons/fb.svg";
 import ytLogo from "@icons/youtube.svg";
@@ -64,9 +64,9 @@ export default async function RootLayout({
             <Loader />
             <Header locale={locale} items={items} subItems={subItems} />
 
-            <main className="container mx-auto mt-25 grow-1">{children}</main>
+            <main className="grow-1">{children}</main>
 
-            <footer className="bg-base-900 text-background flex h-[20vh] mt-8 items-center justify-center gap-10">
+            <footer className="bg-base-900 text-background flex h-[20vh] mt-8 items-center justify-between gap-10">
               <a
                 href="https://www.facebook.com/BAATBulgaria/"
                 target="_blank"

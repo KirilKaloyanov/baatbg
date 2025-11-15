@@ -1,6 +1,6 @@
 import { getCollection, getDocument, getDocumentByFieldValue } from '@services/dbService';
 
-import { PostDTO, PostMetaDTO } from "@/interfaces/admin/PostsDTO";
+import { PostDTO, PostMetaDTO } from "@/interfaces/PostsDTO";
 
   export async function getAllPostsMetaData() {
     try {

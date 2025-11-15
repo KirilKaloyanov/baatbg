@@ -1,5 +1,5 @@
 import { getCollection, getDocument } from "./dbService";
-import { MenuDTO } from "@/interfaces/admin/MenuDTO";
+import { MenuDTO } from "@/interfaces/MenuDTO";
 
 export async function getMenuItems() {
 

@@ -35,11 +35,10 @@ export default function LanguageSwitch({ locale }) {
         <span className="w-1/2 text-center z-10">{languages[1].label}</span>
 
         <motion.div
-          layout  
+          initial={false}
+          animate={{ x: currentLocale === "en" ? "100%" : 0 }}  
           transition={{ type: "spring", stiffness: 300, damping: 30 }}
-          className={`absolute left-0 w-1/2 h-full bg-stone-50 rounded-full z-0 border-2 border-stone-300 ${
-            currentLocale === "en" ? "translate-x-full" : ""
-          }`}
+          className={"absolute left-0 w-1/2 h-full bg-stone-50 rounded-full z-0 border-2 border-stone-300"}
         />
       </div>
     </>

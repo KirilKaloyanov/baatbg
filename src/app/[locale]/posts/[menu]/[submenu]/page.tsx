@@ -1,6 +1,6 @@
 import { getPostBySubMenuId, getPostMetaDataByPostId } from "@services/postsService";
 import Video from "@/components/video/video";
-import { PostDTO, PostMetaDTO } from "@/interfaces/admin/PostsDTO";
+import { PostDTO, PostMetaDTO } from "@/interfaces/PostsDTO";
 
 export default async function SubMenu({
   params,

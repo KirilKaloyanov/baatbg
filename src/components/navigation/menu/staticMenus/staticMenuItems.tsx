@@ -41,7 +41,7 @@ export default function StaticMenuItems({
         </div>
 
         <div className="md:hidden">
-          <RegionsMap expandedMenuItemId={expandedMenuItemId} />
+          <RegionsMap expandedMenuItemId={expandedMenuItemId} locale={locale} />
         </div>
 
         <StaticMenuItem locale={locale} path={"lodges"} />
@@ -50,7 +50,7 @@ export default function StaticMenuItems({
       </div>
 
       <div className="hidden md:block">
-        <RegionsMap expandedMenuItemId={expandedMenuItemId} />
+        <RegionsMap expandedMenuItemId={expandedMenuItemId} locale={locale} />
       </div>
     </>
   );
