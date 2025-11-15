@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Portal from "./portal";
+import Portal from "./portal/portal";
 import Image from "next/image";
 
 import { motion, useMotionValueEvent, useScroll } from "framer-motion";
