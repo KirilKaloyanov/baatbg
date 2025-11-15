@@ -2,15 +2,11 @@
 
 import { useRef, useEffect } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import "leaflet/dist/leaflet.css";
+import ZoomInButton from "./controls/zoomInButton";
+import ZoomOutButton from "./controls/zoomOutButton";
 import L from "leaflet";
-// import iconImg from "/icons/map/marker-icon.png"
+import "leaflet/dist/leaflet.css";
 
-// L.Icon.Default.mergeOptions({
-//   iconUrl: '/icons/map/marker-icon.png',
-//   iconRetinaUrl: '/icons/map/marker-icon-2x.png',
-//   shadowUrl: '/icons/map/marker-shadow.png',
-// });
 
 const icon = {
   iconUrl: "/icons/map/marker-icon.png",
@@ -30,7 +26,7 @@ interface OverviewMapProps {
   markers?: { position: [number, number]; popupText: string }[];
 }
 
-const OverviewMap: React.FC<OverviewMapProps> = ({
+function OverviewMap ({
   center = [42.6977, 23.3219], // Default to Sofia, Bulgaria
   zoom = 7,
   markers = [
@@ -38,7 +34,7 @@ const OverviewMap: React.FC<OverviewMapProps> = ({
     { position: [43.2141, 27.9147], popupText: "Varna" },
     { position: [42.1354, 24.7453], popupText: "Plovdiv" },
   ],
-}) => {
+}: OverviewMapProps) {
   const mapInstanceRef = useRef<any | null>(null);
 
   useEffect(() => {
@@ -56,13 +52,17 @@ const OverviewMap: React.FC<OverviewMapProps> = ({
 
   return (
     <>
-      <div style={{ height: "500px", width: "100%" }} className="relative mt-10">
+      <div
+        style={{ height: "800px", width: "100%" }}
+        className="relative mt-10"
+      >
         <MapContainer
           center={center}
           zoom={zoom}
           scrollWheelZoom={false}
-          style={{ height: "100%", width: "100%" }}
-          className="absolute -z-10"
+          zoomControl={false}
+          style={{ height: "500px", width: "100%", zIndex: 0 }}
+          className="!box-content"
           ref={mapInstanceRef}
         >
           <TileLayer
@@ -74,8 +74,11 @@ const OverviewMap: React.FC<OverviewMapProps> = ({
               <Popup>{marker.popupText}</Popup>
             </Marker>
           ))}
+          <ZoomInButton />
+          <ZoomOutButton />
         </MapContainer>
       </div>
+
       <h1 className="mt-10">Content...</h1>
     </>
   );

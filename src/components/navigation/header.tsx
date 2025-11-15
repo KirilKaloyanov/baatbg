@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Portal from "./Portal";
+import Portal from "./portal";
 import Image from "next/image";
 
 import { motion, useMotionValueEvent, useScroll } from "framer-motion";
@@ -25,10 +25,10 @@ export default function Header({ locale, items, subItems }) {
   const toggleMenu = (newState: boolean) => setIsOpen(newState);
 
   return (
-    <Portal>
+    <Portal key="header-portal">
       {isOpen && (
         <div
-          className="fixed top-0 right-0 bottom-0 left-0 bg-stone-500/30 backdrop-blur-xs transition-all"
+          className="fixed z-50 top-0 right-0 bottom-0 left-0 bg-stone-500/30 backdrop-blur-xs transition-all"
           onClick={() => setIsOpen(false)}
         ></div>
       )}
