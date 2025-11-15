@@ -1,43 +1,43 @@
-// import { getAllPostsByMenuId } from "@services/postsService";
-// import CustomLink from "@/components/navigation/customLink";
-// import { getMenuById } from "@/services/menuService";
-// import { MenuDTO } from "@/interfaces/admin/MenuDTO";
+import { getAllPostsByMenuId } from "@services/postsService";
+import CustomLink from "@/components/navigation/customLink";
+import { getMenuById } from "@/services/menuService";
+import { MenuDTO } from "@/interfaces/MenuDTO";
 
-// export default async function MainMenu({
-//   params,
-// }: {
-//   params: Promise<{ menu: string; locale: string }>;
-// }) {
-//   const { menu, locale } = await params;
+export default async function MainMenu({
+  params,
+}: {
+  params: Promise<{ menu: string; locale: string }>;
+}) {
+  const { menu, locale } = await params;
 
-//   const items = await getAllPostsByMenuId(menu);
-//   return (
-//     <>
-//       <h1 className="text-3xl">.:{menu}:. Main menu gallery</h1>
-//       {items?.map((item) => (
-//         <div key={item.id}>
-//           <CustomLink
-//             href={`/${locale}/posts/${item.data.menuPath}/${item.data.subMenuPath}`}
-//           >
-//             {item.data.heading[locale]}
-//           </CustomLink>
-//         </div>
-//       ))}
-//     </>
-//   );
-// }
+  const items = await getAllPostsByMenuId(menu);
+  return (
+    <>
+      <h1 className="text-3xl">.:{menu}:. Main menu gallery</h1>
+      {items?.map((item) => (
+        <div key={item.id}>
+          <CustomLink
+            href={`/${locale}/posts/${item.data.menuPath}/${item.data.subMenuPath}`}
+          >
+            {item.data.heading[locale]}
+          </CustomLink>
+        </div>
+      ))}
+    </>
+  );
+}
 
-// export async function generateMetadata({
-//   params
-// } : {
-//   params: Promise<{ menu: string, locale: string }>;
-// }) {
-//   const { menu, locale } = await params;
+export async function generateMetadata({
+  params
+} : {
+  params: Promise<{ menu: string, locale: string }>;
+}) {
+  const { menu, locale } = await params;
 
-//   const menuData: MenuDTO | null = await getMenuById(menu);
+  const menuData: MenuDTO | null = await getMenuById(menu);
 
-//   const metadata = {
-//     title: `${menuData?.label[locale] || ''}`,
-//   };
-//   return metadata;
-// }
+  const metadata = {
+    title: `${menuData?.label[locale] || ''}`,
+  };
+  return metadata;
+}
