@@ -1,3 +1,4 @@
+import React from "react";
 import Image from "next/image";
 
 import Header from "../../components/navigation/header";
@@ -46,6 +47,9 @@ export default async function RootLayout({
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
 }) {
+  const StrictMode =
+    process.env.NODE_ENV !== "development" ? React.Fragment : React.StrictMode;
+
   const { locale } = await params;
   const messages = await getMessages({ locale });
 
@@ -61,38 +65,38 @@ export default async function RootLayout({
       <body className="flex min-h-screen flex-col">
         <NextIntlClientProvider messages={messages}>
           <LoaderProvider>
-            <Loader />
-            <Header locale={locale} items={items} subItems={subItems} />
+              <Loader />
+              <Header locale={locale} items={items} subItems={subItems} />
 
-            <main className="grow-1">{children}</main>
+              <main className="grow-1">{children}</main>
 
-            <footer className="bg-base-900 text-background flex h-[20vh] mt-8 items-center justify-between gap-10">
-              <a
-                href="https://www.facebook.com/BAATBulgaria/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Image
-                  className="cursor-pointer"
-                  src={fbLogo}
-                  alt="Icon"
-                  height={40}
-                />
-              </a>
-              <a
-                href="https://www.youtube.com/channel/UC-HTJkh-ktMiw6UBO8FjV_w"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Image
-                  className="cursor-pointer"
-                  src={ytLogo}
-                  alt="Icon"
-                  height={40}
-                />
-              </a>
-              <CustomButton label="Subscribe" cb={() => {}} />
-            </footer>
+              <footer className="bg-base-900 text-background mt-8 flex h-[20vh] items-center justify-between gap-10">
+                <a
+                  href="https://www.facebook.com/BAATBulgaria/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Image
+                    className="cursor-pointer"
+                    src={fbLogo}
+                    alt="Icon"
+                    height={40}
+                  />
+                </a>
+                <a
+                  href="https://www.youtube.com/channel/UC-HTJkh-ktMiw6UBO8FjV_w"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Image
+                    className="cursor-pointer"
+                    src={ytLogo}
+                    alt="Icon"
+                    height={40}
+                  />
+                </a>
+                <CustomButton label="Subscribe" cb={() => {}} />
+              </footer>
           </LoaderProvider>
         </NextIntlClientProvider>
       </body>
