@@ -1,36 +1,24 @@
 "use client";
 
-import { useRef, useEffect, useMemo } from "react";
-import { MapContainer, TileLayer, Marker } from "react-leaflet";
+import { useRef, useEffect } from "react";
+import { MapContainer, TileLayer } from "react-leaflet";
+import MarkerLayer from "./controls/markerLayer";
 import ZoomInButton from "./controls/zoomInButton";
 import ZoomOutButton from "./controls/zoomOutButton";
-import L from "leaflet";
-import myIcon from "./pin.png";
-// import justIconFile from "./pin.png";
+import { IMarker } from "@interfaces/Marker";
 import "leaflet/dist/leaflet.css";
 
-// const icon = {
-//   iconUrl: "/icons/map/pin.png",
-//   iconRetinaUrl: "/icons/map/pin.png",
-//   shadowUrl: "/icons/map/marker-shadow.png",
-//   iconSize: [50, 50],
-//   iconAnchor: [12, 41],
-//   popupAnchor: [1, -34],
-//   shadowSize: [41, 41],
-// };
-
-// L.Icon.Default.mergeOptions(icon);
 
 interface OverviewMapProps {
   center?: [number, number];
   zoom?: number;
-  markers?: { key: string; position: [number, number] }[];
-  onMarkerClick?: (markerId: string) => void;
-  selectedMarker?: string | null;
+  markers?: IMarker[];
+  onMarkerClick: (marker: IMarker) => void;
+  selectedMarker?: IMarker | null;
 }
 
 function OverviewMap({
-  center = [42.6977, 24.8219], // Default to Sofia, Bulgaria
+  center = [42.6977, 25.219], // Default to Sofia, Bulgaria
   zoom = 7,
   markers = [
     { key: "sofia", position: [42.6977, 23.3219] },
@@ -40,16 +28,12 @@ function OverviewMap({
   onMarkerClick,
   selectedMarker = null,
 }: OverviewMapProps) {
-  const icon = useMemo(() => L.icon({ iconUrl: myIcon.src, iconSize: [50, 50] }), []);
-  const selectedIcon = useMemo(() => L.icon({ iconUrl: myIcon.src, iconSize: [80, 80] }), []);
   const mapInstanceRef = useRef<any | null>(null);
 
   useEffect(() => {
     return () => {
       try {
-        if (mapInstanceRef.current) {
-          mapInstanceRef.current.remove();
-        }
+        if (mapInstanceRef.current) mapInstanceRef.current.remove();
       } catch (error) {
         console.warn("Error removing map instance:", error);
       }
@@ -58,10 +42,20 @@ function OverviewMap({
   }, []);
 
   return (
-    <>
+    <div className="flex flex-col lg:flex-row">
+      <div className="flex-1 mt-10">
+        <h1>Content...</h1>
+        <h1>Content...</h1>
+        <h1>Content...</h1>
+        <h1>Content...</h1>
+        <h1>Content...</h1>
+        <h1>Content...</h1>
+        <h1>Content...</h1>
+        <h1>Content...</h1>
+      </div>
       <div
-        style={{ height: "800px", width: "100%" }}
-        className="relative mt-10"
+        style={{ height: "600px", width: "100%" }}
+        className="flex-1 mt-10"
       >
         <MapContainer
           center={center}
@@ -75,31 +69,17 @@ function OverviewMap({
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           />
-          {markers.map((marker, index) => {
-            const eventHandlers = {
-              click: () => {
-                if (onMarkerClick) {
-                  onMarkerClick(marker.key);
-                }
-              },
-            };
-            const selected = selectedMarker === marker.key ? selectedIcon : icon;
-            return (
-              <Marker
-                key={marker.key}
-                position={marker.position}
-                icon={selected}
-                eventHandlers={eventHandlers}
-              />
-            )
-          })}
+            <MarkerLayer 
+              markers={markers} 
+              onMarkerClick={onMarkerClick}
+              selectedMarker={selectedMarker}
+            />
           <ZoomInButton />
           <ZoomOutButton />
         </MapContainer>
       </div>
 
-      <h1 className="mt-10">Content...</h1>
-    </>
+    </div>
   );
 }
 

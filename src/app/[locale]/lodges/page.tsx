@@ -4,7 +4,7 @@ export default function LodgesPage() {
 
     return (
         <>
-        <h1 className="mt-10">Map</h1>
+        <h1 className="text-center mt-10">Map</h1>
         <LodgesMap />
         </>
     );

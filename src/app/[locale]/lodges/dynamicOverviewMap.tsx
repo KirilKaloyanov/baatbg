@@ -1,6 +1,7 @@
 "use client";
 import dynamic from "next/dynamic";
 import { useState } from "react";
+import { IMarker } from "@interfaces/Marker";
 
 const DynamicOverviewMap = dynamic(
   () => import("@components/map/overviewMap"),
@@ -8,16 +9,16 @@ const DynamicOverviewMap = dynamic(
 );
 
 export default function LodgesMap() {
-  const [ selectedMarker, setSelectedMarker ] = useState<string | null>(null);
+  const [ selectedMarker, setSelectedMarker ] = useState<IMarker | null>(null);
 
-  const handlerMarkerClick = (markerId: string) => {
-    console.log("Marker clicked:", markerId);
-    setSelectedMarker(markerId);
+  const handlerMarkerClick = (marker: IMarker) => {
+    console.log("Marker clicked:", );
+    setSelectedMarker(marker);
   };
 
   return (
     <>
-        <DynamicOverviewMap onMarkerClick={handlerMarkerClick} selectedMarker={selectedMarker} />
+        <DynamicOverviewMap center={selectedMarker?.position} onMarkerClick={handlerMarkerClick} selectedMarker={selectedMarker} />
     </>
   );
 }
