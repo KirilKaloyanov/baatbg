@@ -23,7 +23,7 @@ function ZoomInButton() {
             style={{ 
                 position: 'absolute', 
                 top: '10px', 
-                left: '10px', 
+                right: '100px', 
                 zIndex: 1000,
                 width: '80px',
                 height: '80px',

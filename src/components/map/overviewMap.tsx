@@ -1,40 +1,47 @@
 "use client";
 
-import { useRef, useEffect } from "react";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { useRef, useEffect, useMemo } from "react";
+import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import ZoomInButton from "./controls/zoomInButton";
 import ZoomOutButton from "./controls/zoomOutButton";
 import L from "leaflet";
+import myIcon from "./pin.png";
+// import justIconFile from "./pin.png";
 import "leaflet/dist/leaflet.css";
 
+// const icon = {
+//   iconUrl: "/icons/map/pin.png",
+//   iconRetinaUrl: "/icons/map/pin.png",
+//   shadowUrl: "/icons/map/marker-shadow.png",
+//   iconSize: [50, 50],
+//   iconAnchor: [12, 41],
+//   popupAnchor: [1, -34],
+//   shadowSize: [41, 41],
+// };
 
-const icon = {
-  iconUrl: "/icons/map/marker-icon.png",
-  iconRetinaUrl: "/icons/map/marker-icon-2x.png",
-  shadowUrl: "/icons/map/marker-shadow.png",
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  shadowSize: [41, 41],
-};
-
-L.Icon.Default.mergeOptions(icon);
+// L.Icon.Default.mergeOptions(icon);
 
 interface OverviewMapProps {
   center?: [number, number];
   zoom?: number;
-  markers?: { position: [number, number]; popupText: string }[];
+  markers?: { key: string; position: [number, number] }[];
+  onMarkerClick?: (markerId: string) => void;
+  selectedMarker?: string | null;
 }
 
-function OverviewMap ({
-  center = [42.6977, 23.3219], // Default to Sofia, Bulgaria
+function OverviewMap({
+  center = [42.6977, 24.8219], // Default to Sofia, Bulgaria
   zoom = 7,
   markers = [
-    { position: [42.6977, 23.3219], popupText: "Sofia" },
-    { position: [43.2141, 27.9147], popupText: "Varna" },
-    { position: [42.1354, 24.7453], popupText: "Plovdiv" },
+    { key: "sofia", position: [42.6977, 23.3219] },
+    { key: "varna", position: [43.2141, 27.9147] },
+    { key: "plovdiv", position: [42.1354, 24.7453] },
   ],
+  onMarkerClick,
+  selectedMarker = null,
 }: OverviewMapProps) {
+  const icon = useMemo(() => L.icon({ iconUrl: myIcon.src, iconSize: [50, 50] }), []);
+  const selectedIcon = useMemo(() => L.icon({ iconUrl: myIcon.src, iconSize: [80, 80] }), []);
   const mapInstanceRef = useRef<any | null>(null);
 
   useEffect(() => {
@@ -62,18 +69,30 @@ function OverviewMap ({
           scrollWheelZoom={false}
           zoomControl={false}
           style={{ height: "500px", width: "100%", zIndex: 0 }}
-          className="!box-content"
           ref={mapInstanceRef}
         >
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           />
-          {markers.map((marker, index) => (
-            <Marker key={index} position={marker.position}>
-              <Popup>{marker.popupText}</Popup>
-            </Marker>
-          ))}
+          {markers.map((marker, index) => {
+            const eventHandlers = {
+              click: () => {
+                if (onMarkerClick) {
+                  onMarkerClick(marker.key);
+                }
+              },
+            };
+            const selected = selectedMarker === marker.key ? selectedIcon : icon;
+            return (
+              <Marker
+                key={marker.key}
+                position={marker.position}
+                icon={selected}
+                eventHandlers={eventHandlers}
+              />
+            )
+          })}
           <ZoomInButton />
           <ZoomOutButton />
         </MapContainer>
@@ -82,6 +101,6 @@ function OverviewMap ({
       <h1 className="mt-10">Content...</h1>
     </>
   );
-};
+}
 
 export default OverviewMap;

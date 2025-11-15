@@ -84,21 +84,7 @@
   main {
     @apply mt-19 md:mt-23 mx-2;
 
-    a {
-      @apply font-bold
-    }
 
-    a::before {
-      content: "> "
-    }
-
-    a:hover::before {
-      color: rgba(0, 0, 0, 0)
-    }
-
-    .no-marker::before {
-      content: none;
-    }
   }
 
   h1 {
@@ -158,6 +144,24 @@
 
   a {
     @apply hover:text-accent-500;
+  }
+
+  #posts {
+    a {
+      @apply font-bold
+    }
+
+    a::before {
+      content: "> "
+    }
+
+    a:hover::before {
+      color: rgba(0, 0, 0, 0)
+    }
+
+    .no-marker::before {
+      content: none;
+    }
   }
 
 }

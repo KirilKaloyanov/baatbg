@@ -23,11 +23,11 @@ function ZoomOutButton() {
             style={{ 
                 position: 'absolute', 
                 top: '10px', 
-                left: '100px', 
+                right: '10px', 
                 zIndex: 1000,
                 width: '80px',
                 height: '80px',
-                paddingBottom: '3px',
+                paddingBottom: '4px',
                 backgroundColor: 'var(--accent-100)',
                 color: 'white',
                 border: 'none',
