@@ -1,37 +1,34 @@
 "use client";
 
-import { useRef, useEffect } from "react";
-import { MapContainer, TileLayer } from "react-leaflet";
+import { useRef, useEffect, MutableRefObject } from "react";
+import { MapContainer, TileLayer, useMap } from "react-leaflet";
+
 import MarkerLayer from "./controls/markerLayer";
-import ZoomInButton from "./controls/zoomInButton";
-import ZoomOutButton from "./controls/zoomOutButton";
+import ZoomButton from "./controls/zoomButton";
+
 import { IMarker } from "@interfaces/Marker";
+
 import "leaflet/dist/leaflet.css";
 
 
-interface OverviewMapProps {
-  center?: [number, number];
-  zoom?: number;
-  markers?: IMarker[];
-  onMarkerClick: (marker: IMarker) => void;
-  selectedMarker?: IMarker | null;
-}
-
 function OverviewMap({
-  center = [42.6977, 25.219], // Default to Sofia, Bulgaria
-  zoom = 7,
-  markers = [
-    { key: "sofia", position: [42.6977, 23.3219] },
-    { key: "varna", position: [43.2141, 27.9147] },
-    { key: "plovdiv", position: [42.1354, 24.7453] },
-  ],
+  mapParentRef,
+  markers = [],
+  selectedMarker,
   onMarkerClick,
-  selectedMarker = null,
-}: OverviewMapProps) {
+}: {
+  mapParentRef: MutableRefObject<any | null>,
+  markers: IMarker[];
+  selectedMarker: IMarker;
+  onMarkerClick: (marker: IMarker) => void;
+}) {
+
   const mapInstanceRef = useRef<any | null>(null);
 
   useEffect(() => {
     return () => {
+      if (mapParentRef) mapParentRef.current = null;
+
       try {
         if (mapInstanceRef.current) mapInstanceRef.current.remove();
       } catch (error) {
@@ -39,48 +36,62 @@ function OverviewMap({
       }
       mapInstanceRef.current = null;
     };
-  }, []);
+  }, [mapParentRef]);
 
   return (
-    <div className="flex flex-col lg:flex-row">
-      <div className="flex-1 mt-10">
-        <h1>Content...</h1>
-        <h1>Content...</h1>
-        <h1>Content...</h1>
-        <h1>Content...</h1>
-        <h1>Content...</h1>
-        <h1>Content...</h1>
-        <h1>Content...</h1>
-        <h1>Content...</h1>
-      </div>
-      <div
-        style={{ height: "600px", width: "100%" }}
-        className="flex-1 mt-10"
-      >
+    
         <MapContainer
-          center={center}
-          zoom={zoom}
+          center={selectedMarker.position}
+          zoom={8}
           scrollWheelZoom={false}
           zoomControl={false}
+          doubleClickZoom={false}
           style={{ height: "500px", width: "100%", zIndex: 0 }}
           ref={mapInstanceRef}
         >
           <TileLayer
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
           />
             <MarkerLayer 
               markers={markers} 
-              onMarkerClick={onMarkerClick}
               selectedMarker={selectedMarker}
+              onMarkerClick={onMarkerClick}
             />
-          <ZoomInButton />
-          <ZoomOutButton />
-        </MapContainer>
-      </div>
 
-    </div>
+          <ZoomButton type="in" />
+          <ZoomButton type="out" />
+
+          <MapBridge mapBridgeRef={mapParentRef} />
+        </MapContainer>
+
   );
 }
 
 export default OverviewMap;
+
+
+
+function MapBridge({ mapBridgeRef }: { mapBridgeRef?: MutableRefObject<any | null> }) {
+  const map = useMap();
+
+  useEffect(() => {
+    if (!mapBridgeRef) return;
+    mapBridgeRef.current = map;
+
+    return () => {
+      if (mapBridgeRef) mapBridgeRef.current = null;
+    }
+  }, [map, mapBridgeRef])
+
+  return null;
+}
+
+//https://{s}.tile.opentopomap.org/{z}/{x}/{y}.
+// Cartography: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>). Data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>.
+
+//https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png
+//&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>
+
+// url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+// attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
