@@ -38,7 +38,6 @@ const cormorant = Cormorant_Garamond({
 });
 
 import "../globals.css";
-import { CustomButton } from "@/components/ui/button";
 
 export default async function RootLayout({
   children,
@@ -95,7 +94,7 @@ export default async function RootLayout({
                     height={40}
                   />
                 </a>
-                <CustomButton label="Subscribe" cb={() => {}} />
+                <button className="w-30 h-12 p-2 hover:bg-accent-500 bg-accent-100 text-base-900 transition-all cursor-pointer rounded-full">Subscribe</button>
               </footer>
           </LoaderProvider>
         </NextIntlClientProvider>

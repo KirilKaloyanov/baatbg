@@ -1,5 +1,5 @@
 import { getPostBySubMenuId, getPostMetaDataByPostId } from "@services/postsService";
-import Video from "@/components/video/video";
+import Video from "@/app/[locale]/posts/[menu]/[submenu]/_video/video";
 import { PostDTO, PostMetaDTO } from "@/interfaces/PostsDTO";
 
 export default async function SubMenu({
@@ -11,16 +11,18 @@ export default async function SubMenu({
 
   const data: PostDTO | null = await getPostBySubMenuId(submenu);
 
+  if (!data) return null;
+
   return (
     <>
-      <h1 className="mt-8">{data?.heading[locale]}</h1>
+      <h1 className="mt-8">{data.heading[locale]}</h1>
       <div
         className="my-8 lg:columns-2 gap-10 xl:gap-20"
-        dangerouslySetInnerHTML={{ __html: data?.text[locale] || "No content" }}
+        dangerouslySetInnerHTML={{ __html: data.text[locale] || "No content" }}
       ></div>
       
-      { data?.linkVideo &&
-      <Video videoId={data?.linkVideo} />}
+      { data.linkVideo &&
+      <Video videoId={data.linkVideo} />}
     </>
   );
 }
@@ -36,7 +38,7 @@ export async function generateMetadata({
   const postData: PostMetaDTO | null = await getPostMetaDataByPostId(submenu);
 
   const metadata = {
-    title: `${postData?.heading[locale] || ''}`,
+    title:postData?.heading[locale] || (locale === "bg" ? "БААТ" : "BAAT"),
   };
   return metadata;
 }

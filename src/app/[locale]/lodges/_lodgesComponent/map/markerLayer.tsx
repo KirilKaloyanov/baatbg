@@ -7,7 +7,7 @@ import L from 'leaflet';
 
 import { IMarker } from '@/interfaces/Marker';
 
-import myIcon from "../pin.png";
+import myIcon from "@components/mapControls/pin.png";
 
 function MarkerLayer ({ 
     markers, 

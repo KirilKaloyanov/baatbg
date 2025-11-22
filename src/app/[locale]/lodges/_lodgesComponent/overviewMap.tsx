@@ -3,8 +3,8 @@
 import { useRef, useEffect, MutableRefObject } from "react";
 import { MapContainer, TileLayer, useMap } from "react-leaflet";
 
-import MarkerLayer from "./controls/markerLayer";
-import ZoomButton from "./controls/zoomButton";
+import MarkerLayer from "./map/markerLayer";
+import ZoomButton from "@components/mapControls/zoomButton";
 
 import { IMarker } from "@interfaces/Marker";
 
@@ -13,7 +13,7 @@ import "leaflet/dist/leaflet.css";
 
 function OverviewMap({
   mapParentRef,
-  markers = [],
+  markers,
   selectedMarker,
   onMarkerClick,
 }: {

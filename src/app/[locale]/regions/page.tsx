@@ -1,7 +1,7 @@
-import { RegionDTO } from "@/interfaces/RegionDTO";
 import { getAllRegions } from "@/services/regionsService";
-import Image from "next/image";
+import { RegionDTO } from "@/interfaces/RegionDTO";
 import RegionCard from "./region-card";
+import Image from "next/image";
 
 export default async function RegionsPage({
   params,

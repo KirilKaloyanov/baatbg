@@ -2,12 +2,12 @@
 import dynamic from "next/dynamic";
 import { useState, useEffect, useRef } from "react";
 
-import ImageSlider from "@/components/slider/slider";
+import ImageSlider from "@/app/[locale]/lodges/_lodgesComponent/imageSlider";
 
 import { IMarker } from "@interfaces/Marker";
 
-const DynamicOverviewMap = dynamic(
-  () => import("@components/map/overviewMap"),
+const OverviewMap = dynamic(
+  () => import("@/app/[locale]/lodges/_lodgesComponent/overviewMap"),
   { ssr: false },
 );
 
@@ -47,7 +47,7 @@ export default function LodgesComponent({
           />
         </div>
         <div className="h-[500px] w-full flex-1">
-          <DynamicOverviewMap
+          <OverviewMap
             mapParentRef={mapParentRef}
             markers={markers}
             selectedMarker={selectedMarker}

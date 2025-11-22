@@ -1,7 +1,8 @@
 import { getAllLodges } from "@/services/lodges.service";
-import LodgesComponent from "./lodgesComponent";
+import LodgesComponent from "./_lodgesComponent/lodgesComponent";
 import { LodgeDTO } from "@/interfaces/LodgeDTO";
 import { IMarker } from "@/interfaces/Marker";
+import LodgeCard from "@/components/lodges/marker-card";
 
 export default async function LodgesPage({
   params,
@@ -14,11 +15,9 @@ export default async function LodgesPage({
   const markers: IMarker[] = lodges.map((lodge) => ({
     key: lodge.id,
     position: [lodge.location.lat, lodge.location.lng],
+    community: lodge.community,
     imgHero: lodge.imgHero,
-    name: {
-      bg: lodge.name.bg,
-      en: lodge.name.en,
-    }
+    name: lodge.name
   }));  
 
   const optimisticMarker: IMarker = markers[Math.floor(Math.random() * markers.length)];
@@ -26,6 +25,7 @@ export default async function LodgesPage({
     ? {
         key: '',
         position: [42.6977, 25.219],
+        community: { bg: '', en: '' },
         imgHero: '',
         name: { bg: '', en: '' },
       } as IMarker 
@@ -37,6 +37,9 @@ export default async function LodgesPage({
         {locale === "en" ? "Guesthouses" : "Къщи за гости"}
       </h1>
       <LodgesComponent locale={locale} markers={markers} initialSelectedMarker={initialSelectedMarker} />
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-6"> 
+        {markers.length > 0 && markers.map((marker) => <LodgeCard key={marker.key} marker={marker} locale={locale} />)}
+      </div>
     </>
   );
 }

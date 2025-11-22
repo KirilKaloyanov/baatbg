@@ -1,4 +1,4 @@
-import { getCollection, getDocument } from "./dbService";
+import { getCollection, getDocument, getDocumentByFieldValue } from "./dbService";
 import { LodgeDTO } from "@/interfaces/LodgeDTO";
 
 export async function getAllLodges() {
@@ -37,4 +37,32 @@ export async function getLodgeById(id: string) {
     console.error(err);
   }
   return null;
+}
+
+export async function getLodgesByRegionId(regionId: string) {
+  try {
+    const querySnapshot = await getDocumentByFieldValue('lodges', 'regionId', regionId);
+
+    return querySnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }) as LodgeDTO);
+
+  } catch (err) {
+    console.error("Error fetching from Firestore/ inside getLodgesByRegionId", err);
+  }
+}
+
+export async function getLodgesByMemberId(memberId: string) {
+  try {
+    const querySnapshot = await getDocumentByFieldValue('lodges', 'memberId', memberId);
+
+    return querySnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }) as LodgeDTO);
+
+  } catch (err) {
+    console.error("Error fetching from Firestore/ inside getLodgesByMemberId", err);
+  }
 }

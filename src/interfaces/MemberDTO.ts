@@ -1,6 +1,7 @@
 export interface MemberDTO {
   id: string;
   typeId: string;
+  memberId: string;
   name: {
     bg: string;
     en: string;
