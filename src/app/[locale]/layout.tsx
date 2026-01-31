@@ -3,7 +3,7 @@ import Image from "next/image";
 
 import Header from "../../components/navigation/header";
 import Loader from "@/components/navigation/loader";
-import { getMessages } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import { NextIntlClientProvider } from "next-intl";
 import { LoaderProvider } from "@context/LoaderContext";
 
@@ -50,7 +50,7 @@ export default async function RootLayout({
     process.env.NODE_ENV !== "development" ? React.Fragment : React.StrictMode;
 
   const { locale } = await params;
-  const messages = await getMessages({ locale });
+  // const messages = await getTranslations({ locale });
 
   const items: MenuDTO[] | null = await getMenuItems();
   const subItems: PostMetaDTO[] | null = await getAllPostsMetaData();
@@ -62,7 +62,7 @@ export default async function RootLayout({
     >
       <head></head>
       <body className="flex min-h-screen flex-col">
-        <NextIntlClientProvider messages={messages}>
+        <NextIntlClientProvider>
           <LoaderProvider>
               <Loader />
               <Header locale={locale} items={items} subItems={subItems} />
