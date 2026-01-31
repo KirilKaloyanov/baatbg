@@ -25,7 +25,7 @@ export default function Header({ locale, items, subItems }) {
   const toggleMenu = (newState: boolean) => setIsOpen(newState);
 
   return (
-    <Portal key="header-portal">
+    <Portal >
       {isOpen && (
         <div
           className="fixed top-0 right-0 bottom-0 left-0 bg-stone-500/30 backdrop-blur-xs transition-all"

@@ -1,4 +1,6 @@
 import { ContactDTO } from "@/interfaces/ContactDTO";
+import Image from "next/image";
+import bullet from "@icons/icon_small_bw.png";
 
 export default function ContactsCard({ contact, locale }: { contact: ContactDTO; locale: string }) {
   return (
@@ -21,8 +23,8 @@ export default function ContactsCard({ contact, locale }: { contact: ContactDTO;
         <div className="flex w-full justify-around">
           <div className="flex-1">
             <div className="flex">
-              <img
-                src="/icons/icon_small_bw.png"
+              <Image
+                src={bullet}
                 alt="Bullet icon"
                 className="mr-2 hidden h-6 w-6 md:inline-block"
               />
@@ -36,8 +38,8 @@ export default function ContactsCard({ contact, locale }: { contact: ContactDTO;
           </div>
           <div className="flex-1">
             <div className="flex">
-              <img
-                src="/icons/icon_small_bw.png"
+              <Image
+                src={bullet}
                 alt="Bullet icon"
                 className="mr-2 hidden h-6 w-6 md:inline-block"
               />
