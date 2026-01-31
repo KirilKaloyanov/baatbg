@@ -1,6 +1,6 @@
 import ContactsCard from "@/components/cards/contact-card";
 import LodgeCard from "@/components/cards/lodge-card";
-import { LodgeDTO } from "@/interfaces/LodgeExtendedDTO";
+import { LodgeExtendedDTO } from "@/interfaces/LodgeExtendedDTO";
 import { getLodgesByMemberId } from "@/services/lodges.service";
 import { getMemberById } from "@services/memberService";
 
@@ -15,7 +15,7 @@ export default async function Member({
 
   if (!member) return <h1>Loading...</h1>;
 
-  const lodges: LodgeDTO[] = (await getLodgesByMemberId(memberId)) || [];
+  const lodges: LodgeExtendedDTO[] = (await getLodgesByMemberId(memberId)) || [];
   return (
     <>
       <h1 className="mt-10 text-center">{member.name[locale]}</h1>
@@ -34,11 +34,7 @@ export default async function Member({
             lodges.map((lodge) => (
               <LodgeCard
                 key={lodge.id}
-                marker={{
-                  ...lodge,
-                  position: [lodge.location.lat, lodge.location.lng],
-                  key: lodge.id,
-                }}
+                marker={lodge}
                 locale={locale}
               />
             ))}
