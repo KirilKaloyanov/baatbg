@@ -6,9 +6,10 @@ import { MapContainer, TileLayer, useMap } from "react-leaflet";
 import MarkerLayer from "./map/markerLayer";
 import ZoomButton from "@components/mapControls/zoomButton";
 
-import { IMarker } from "@interfaces/Marker";
+// import { IMarker } from "@interfaces/Marker";
 
 import "leaflet/dist/leaflet.css";
+import { LodgeSimpleDTO } from "@/interfaces/LodgeSimpleDTO";
 
 
 function OverviewMap({
@@ -18,9 +19,9 @@ function OverviewMap({
   onMarkerClick,
 }: {
   mapParentRef: MutableRefObject<any | null>,
-  markers: IMarker[];
-  selectedMarker: IMarker;
-  onMarkerClick: (marker: IMarker) => void;
+  markers: LodgeSimpleDTO[];
+  selectedMarker: LodgeSimpleDTO;
+  onMarkerClick: (marker: LodgeSimpleDTO) => void;
 }) {
 
   const mapInstanceRef = useRef<any | null>(null);
@@ -41,7 +42,7 @@ function OverviewMap({
   return (
     
         <MapContainer
-          center={selectedMarker.position}
+          center={[selectedMarker.location.lat, selectedMarker.location.lng]}
           zoom={8}
           scrollWheelZoom={false}
           zoomControl={false}

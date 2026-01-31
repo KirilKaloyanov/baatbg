@@ -4,7 +4,8 @@ import { useState, useEffect, useRef } from "react";
 
 import ImageSlider from "@/app/[locale]/lodges/_lodgesComponent/imageSlider";
 
-import { IMarker } from "@interfaces/Marker";
+// import { IMarker } from "@interfaces/Marker";
+import { LodgeSimpleDTO } from "@/interfaces/LodgeSimpleDTO";
 
 const OverviewMap = dynamic(
   () => import("@/app/[locale]/lodges/_lodgesComponent/overviewMap"),
@@ -17,21 +18,20 @@ export default function LodgesComponent({
   initialSelectedMarker,
 }: {
   locale: string;
-  markers: IMarker[];
-  initialSelectedMarker: IMarker;
+  markers: LodgeSimpleDTO[];
+  initialSelectedMarker: LodgeSimpleDTO;
 }) {
 
-  const [selectedMarker, setSelectedMarker] = useState<IMarker>(initialSelectedMarker);
-
+  const [selectedMarker, setSelectedMarker] = useState<LodgeSimpleDTO>(initialSelectedMarker);
   const mapParentRef = useRef<any | null>(null);
 
   useEffect(() => {
-    if (mapParentRef.current && selectedMarker.position) {
-      mapParentRef.current.flyTo(selectedMarker.position, 8, { animate: true });
+    if (mapParentRef.current && selectedMarker.location) {
+      mapParentRef.current.flyTo([selectedMarker.location.lat, selectedMarker.location.lng], 8, { animate: true });
     }
   }, [selectedMarker]);
 
-  const handlerMarkerClick = (marker: IMarker) => {
+  const handlerMarkerClick = (marker: LodgeSimpleDTO) => {
     setSelectedMarker(marker);
   };
 

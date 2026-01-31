@@ -2,13 +2,14 @@
 
 import { motion } from "framer-motion";
 import CustomLink from "@/components/navigation/customLink";
-import { IMarker } from "@interfaces/Marker";
+// import { IMarker } from "@interfaces/Marker";
+import { LodgeSimpleDTO } from "@/interfaces/LodgeSimpleDTO";
 
 export default function LodgeCard({
   marker,
   locale,
 }: {
-  marker: IMarker;
+  marker: LodgeSimpleDTO;
   locale: string;
 }) {
   return (
@@ -19,7 +20,7 @@ export default function LodgeCard({
       transition={{ type: "spring", stiffness: 300, damping: 28 }}
     >
       <CustomLink
-        href={`/${locale}/lodges/${marker.key}`}
+        href={`/${locale}/lodges/${marker.id}`}
         className="no-marker"
       >
         <div className="h-8">{/*empty space for top border effect*/}</div>
@@ -28,15 +29,15 @@ export default function LodgeCard({
               <img
                 className="h-full w-full object-cover"
                 src={marker.imgHero}
-                alt={marker.key + " logo"}
+                alt={marker.id + " logo"}
               />
             )}
         </div>
         <div className="px-6 py-5 text-center">
-          <h3 className="text-2xl leading-tight font-extrabold text-gray-800">
+          <h3 className="text-2xl leading-tight font-extrabold text-base-900">
             {marker.name[locale]}
           </h3>
-          <p className="mb-1 text-xs font-bold tracking-widest text-cyan-600 uppercase">
+          <p className="mb-1 text-xs font-bold tracking-widest text-stone-500 uppercase">
             {marker.community[locale]}
           </p>
         </div>

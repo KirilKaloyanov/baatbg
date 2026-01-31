@@ -1,8 +1,9 @@
 import { getAllLodges } from "@/services/lodges.service";
 import LodgesComponent from "./_lodgesComponent/lodgesComponent";
-import { LodgeDTO } from "@/interfaces/LodgeDTO";
-import { IMarker } from "@/interfaces/Marker";
-import LodgeCard from "@/components/lodges/marker-card";
+import { LodgeExtendedDTO } from "@/interfaces/LodgeExtendedDTO";
+// import { IMarker } from "@/interfaces/Marker";
+import LodgeCard from "@/components/cards/lodge-card";
+import { LodgeSimpleDTO } from "@/interfaces/LodgeSimpleDTO";
 
 export default async function LodgesPage({
   params,
@@ -10,25 +11,26 @@ export default async function LodgesPage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const lodges: LodgeDTO[] = await getAllLodges() || [];
+  const lodges: LodgeExtendedDTO[] = await getAllLodges() || [];
   
-  const markers: IMarker[] = lodges.map((lodge) => ({
-    key: lodge.id,
-    position: [lodge.location.lat, lodge.location.lng],
-    community: lodge.community,
-    imgHero: lodge.imgHero,
-    name: lodge.name
-  }));  
+  const markers: LodgeSimpleDTO[] = lodges.map((lodge) => ({...lodge}) as LodgeSimpleDTO);  
+  // const markers: IMarker[] = lodges.map((lodge) => ({
+  //   key: lodge.id,
+  //   position: [lodge.location.lat, lodge.location.lng],
+  //   community: lodge.community,
+  //   imgHero: lodge.imgHero,
+  //   name: lodge.name
+  // }));  
 
-  const optimisticMarker: IMarker = markers[Math.floor(Math.random() * markers.length)];
-  const initialSelectedMarker: IMarker = markers.length === 0 
+  const optimisticMarker: LodgeSimpleDTO = markers[Math.floor(Math.random() * markers.length)];
+  const initialSelectedMarker: LodgeSimpleDTO = markers.length === 0 
     ? {
-        key: '',
-        position: [42.6977, 25.219],
+        id: '',
+        location: { lat: 42.6977, lng: 25.219 },
         community: { bg: '', en: '' },
         imgHero: '',
         name: { bg: '', en: '' },
-      } as IMarker 
+      } as LodgeSimpleDTO 
     : optimisticMarker;
 
   return (
@@ -38,7 +40,7 @@ export default async function LodgesPage({
       </h1>
       <LodgesComponent locale={locale} markers={markers} initialSelectedMarker={initialSelectedMarker} />
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-6"> 
-        {markers.length > 0 && markers.map((marker) => <LodgeCard key={marker.key} marker={marker} locale={locale} />)}
+        {markers.length > 0 && markers.map((marker) => <LodgeCard key={marker.id} marker={marker} locale={locale} />)}
       </div>
     </>
   );
@@ -46,4 +48,10 @@ export default async function LodgesPage({
 
 export const metadata = {
   title: "Lodges",
+  // todo
+  // todo
+  // todo
+  // todo
+  // todo
+  // todo
 };

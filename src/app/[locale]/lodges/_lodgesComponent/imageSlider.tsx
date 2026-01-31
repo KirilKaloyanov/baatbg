@@ -5,7 +5,9 @@ import Image from "next/image";
 
 import { motion, AnimatePresence, wrap } from "framer-motion";
 
-import { IMarker } from "@/interfaces/Marker";
+// import { IMarker } from "@/interfaces/Marker";
+import CustomLink from "@/components/navigation/customLink";
+import { LodgeSimpleDTO } from "@/interfaces/LodgeSimpleDTO";
 
 // We use a custom variant to control the direction of the slide (1 for next, -1 for previous)
 const variants = {
@@ -38,9 +40,9 @@ function ImageSlider({
   onMarkerClick,
 }: {
   locale: string;
-  markers: IMarker[];
-  onMarkerClick: (marker: IMarker) => void;
-  selectedMarker: IMarker;
+  markers: LodgeSimpleDTO[];
+  onMarkerClick: (marker: LodgeSimpleDTO) => void;
+  selectedMarker: LodgeSimpleDTO;
 }) {
   const selectedMarkerIdx = markers.indexOf(selectedMarker);
 
@@ -100,7 +102,7 @@ function ImageSlider({
             {/* Text Overlay */}
             <div className="absolute top-65 md:top-72 bottom-10 left-1/4 md:left-1/2 right-5 md:right-10 xl:right-15 bg-stone-900 opacity-80 flex flex-col items-start justify-end p-2 md:p-10 lg:p-4">
               <p className="text-white m-0 md:text-2xl lg:text-xl xl:text-2xl 2xl:text-3xl font-semibold">
-                <span className="block leading-6 md:leading-7 ">{currentMarker.name[locale]}</span>
+                <CustomLink href={`lodges/${currentMarker.id}`} className="block leading-6 md:leading-7 hover:text-accent-100">{currentMarker.name[locale]}</CustomLink>
                 <span className="block leading-6 md:leading-10 text-xs font-light tracking-wide text-background">
                   {currentMarker.community[locale]}
                 </span>

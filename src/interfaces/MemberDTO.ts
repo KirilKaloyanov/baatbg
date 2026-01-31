@@ -1,4 +1,7 @@
-export interface MemberDTO {
+
+import { ContactDTO } from "./ContactDTO";
+
+export interface MemberDTO extends ContactDTO {
   id: string;
   typeId: string;
   memberId: string;
@@ -10,13 +13,6 @@ export interface MemberDTO {
     bg: string;
     en: string;
   };
-  address?: {
-    bg: string;
-    en: string;
-  };
-  website?: string;
-  phone?: string;
-  email?: string;
   img?: string;
 }
 

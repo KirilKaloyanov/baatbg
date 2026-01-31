@@ -2,9 +2,9 @@ import Image from "next/image";
 
 import { RegionDTO } from "@/interfaces/RegionDTO";
 import { getRegionById } from "@/services/regionsService";
-import { LodgeDTO } from "@/interfaces/LodgeDTO";
+import { LodgeSimpleDTO } from "@/interfaces/LodgeSimpleDTO";
 import { getLodgesByRegionId } from "@/services/lodges.service";
-import LodgeCard from "@/components/lodges/marker-card";
+import LodgeCard from "@/components/cards/lodge-card";
 
 export default async function RegionPage({
   params,
@@ -14,7 +14,7 @@ export default async function RegionPage({
   const { locale, regionId } = await params;
 
   const region: RegionDTO | null = await getRegionById(regionId);
-  const lodges: LodgeDTO[] = await getLodgesByRegionId(regionId) || [];
+  const lodges: LodgeSimpleDTO[] = await getLodgesByRegionId(regionId) || [];
 
   if (!region) return null;
 
@@ -47,9 +47,9 @@ export default async function RegionPage({
       </div>
       {lodges && lodges.length > 0 && (
         <div className="container mx-auto">
-          <h2 className="my-8 text-2xl font-bold">{locale === "en" ? "Guesthouses" : "Къщи за гости"}</h2>
+          <h1 className="my-8 text-2xl font-bold">{locale === "en" ? "Guesthouses" : "Къщи за гости"}</h1>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"> 
-            {lodges.map((lodge) => (<LodgeCard key={lodge.id} marker={{...lodge, position: [lodge.location.lat, lodge.location.lng], key: lodge.id}} locale={locale} />))}
+            {lodges.map((lodge) => (<LodgeCard key={lodge.id} marker={{...lodge, location: {lat: lodge.location.lat, lng: lodge.location.lng}, id: lodge.id}} locale={locale} />))}
           </div>
         </div>
       )}

@@ -1,5 +1,6 @@
-import LodgeCard from "@/components/lodges/marker-card";
-import { LodgeDTO } from "@/interfaces/LodgeDTO";
+import ContactsCard from "@/components/cards/contact-card";
+import LodgeCard from "@/components/cards/lodge-card";
+import { LodgeDTO } from "@/interfaces/LodgeExtendedDTO";
 import { getLodgesByMemberId } from "@/services/lodges.service";
 import { getMemberById } from "@services/memberService";
 
@@ -11,24 +12,36 @@ export default async function Member({
   const { memberId, locale } = await params;
 
   const member = await getMemberById(memberId);
-  
+
   if (!member) return <h1>Loading...</h1>;
-  
-  const lodges: LodgeDTO[] = await getLodgesByMemberId(memberId) || [];
+
+  const lodges: LodgeDTO[] = (await getLodgesByMemberId(memberId)) || [];
   return (
     <>
       <h1 className="mt-10 text-center">{member.name[locale]}</h1>
-      <h3 className="mt-10 text-center">{member.typeLabel.label[locale]}</h3>
-      <p>{member.phone}</p>
-      <p>{member.email}</p>
-      <p>{member.website}</p>
-      <p>{member.address ? member.address[locale] : ""}</p>
-      <p>{member.description[locale]}</p>
+          <h3 className="mt-8 text-center">{member.typeLabel.label[locale]}</h3>
+
+      <div className="mt-8 grid gap-8 lg:grid-cols-2">
+        <ContactsCard contact={member} locale={locale} />
+        <div className="flex justify-center">
+          <p>{member.description[locale]}</p>
+        </div>
+      </div>
+
       {lodges && lodges.length > 0 && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {lodges.length > 0 && lodges.map((lodge) => (
-            <LodgeCard key={lodge.id} marker={{...lodge, position: [lodge.location.lat, lodge.location.lng], key: lodge.id}} locale={locale} />
-          ))}
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          {lodges.length > 0 &&
+            lodges.map((lodge) => (
+              <LodgeCard
+                key={lodge.id}
+                marker={{
+                  ...lodge,
+                  position: [lodge.location.lat, lodge.location.lng],
+                  key: lodge.id,
+                }}
+                locale={locale}
+              />
+            ))}
         </div>
       )}
     </>

@@ -1,5 +1,5 @@
 import { getCollection, getDocument, getDocumentByFieldValue } from "./dbService";
-import { LodgeDTO } from "@/interfaces/LodgeDTO";
+import { LodgeExtendedDTO } from "@/interfaces/LodgeExtendedDTO";
 
 export async function getAllLodges() {
 
@@ -9,7 +9,7 @@ export async function getAllLodges() {
       return {
         id: doc.id,
         ...doc.data(),
-      } as LodgeDTO;
+      } as LodgeExtendedDTO;
     });
 
     return lodges;
@@ -27,7 +27,7 @@ export async function getLodgeById(id: string) {
     
     if (data.exists()) {
 
-      return { id: data.id, ...data.data() } as LodgeDTO;
+      return { id: data.id, ...data.data() } as LodgeExtendedDTO;
       
     } else {
       console.log("No such document from (getLodgeById)");
@@ -46,7 +46,7 @@ export async function getLodgesByRegionId(regionId: string) {
     return querySnapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data()
-    }) as LodgeDTO);
+    }) as LodgeExtendedDTO);
 
   } catch (err) {
     console.error("Error fetching from Firestore/ inside getLodgesByRegionId", err);
@@ -60,7 +60,7 @@ export async function getLodgesByMemberId(memberId: string) {
     return querySnapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data()
-    }) as LodgeDTO);
+    }) as LodgeExtendedDTO);
 
   } catch (err) {
     console.error("Error fetching from Firestore/ inside getLodgesByMemberId", err);

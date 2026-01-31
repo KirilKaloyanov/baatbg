@@ -35,10 +35,10 @@ export default function MemberCard({
           </div>
         </div>
         <div className="px-6 py-5 text-center">
-          <p className="mb-1 text-xs font-bold tracking-widest text-cyan-600 uppercase">
+          <p className="mb-1 text-xs font-bold tracking-widest text-stone-500 uppercase">
             {member.typeLabel.label[locale]}
           </p>
-          <h3 className="text-2xl leading-tight font-extrabold text-gray-800">
+          <h3 className="text-2xl leading-tight font-extrabold text-base-900">
             {member.name[locale]}
           </h3>
         </div>
