@@ -10,6 +10,6 @@ export default function robots(): MetadataRoute.Robots {
         '/_next/',   // Optional: block internal next.js folders
       ],
     },
-    // sitemap: 'https://yourdomain.com/sitemap.xml',
+    sitemap: 'https://baat-api--baatbgorg.us-central1.hosted.app/sitemap.xml',
   }
 }
