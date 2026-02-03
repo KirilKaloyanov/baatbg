@@ -38,6 +38,7 @@ const cormorant = Cormorant_Garamond({
 });
 
 import "../globals.css";
+import Footer from "@/components/navigation/footer";
 
 export default async function RootLayout({
   children,
@@ -46,8 +47,8 @@ export default async function RootLayout({
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
 }) {
-  const StrictMode =
-    process.env.NODE_ENV !== "development" ? React.Fragment : React.StrictMode;
+  // const StrictMode =
+  //   process.env.NODE_ENV !== "development" ? React.Fragment : React.StrictMode;
 
   const { locale } = await params;
   // const messages = await getTranslations({ locale });
@@ -65,37 +66,11 @@ export default async function RootLayout({
         <NextIntlClientProvider>
           <LoaderProvider>
               <Loader />
-              <Header locale={locale} items={items} subItems={subItems} />
+              <Header locale={locale} menuItems={items} subMenuItems={subItems} />
 
-              <main className="grow-1">{children}</main>
+              <main className="grow">{children}</main>
 
-              <footer className="bg-base-900 text-background mt-8 flex h-[20vh] items-center justify-between gap-10">
-                <a
-                  href="https://www.facebook.com/BAATBulgaria/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Image
-                    className="cursor-pointer"
-                    src={fbLogo}
-                    alt="Icon"
-                    height={40}
-                  />
-                </a>
-                <a
-                  href="https://www.youtube.com/channel/UC-HTJkh-ktMiw6UBO8FjV_w"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Image
-                    className="cursor-pointer"
-                    src={ytLogo}
-                    alt="Icon"
-                    height={40}
-                  />
-                </a>
-                <button className="w-30 h-12 p-2 hover:bg-accent-500 bg-accent-100 text-base-900 transition-all cursor-pointer rounded-full">Subscribe</button>
-              </footer>
+              <Footer locale={locale} menuItems={items} subMenuItems={subItems} />
           </LoaderProvider>
         </NextIntlClientProvider>
       </body>

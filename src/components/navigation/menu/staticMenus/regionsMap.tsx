@@ -3,10 +3,10 @@ import CustomLink from "../../customLink";
 import { getAllRegions } from "@/services/regionsService";
 
 export default function RegionsMap({
-  expandedMenuItemId,
+  activeMenuItemId,
   locale,
 }: {
-  expandedMenuItemId: string | null;
+  activeMenuItemId: string | null;
   locale: string;
 }) {
 
@@ -15,7 +15,7 @@ export default function RegionsMap({
     <motion.div
       className="overflow-hidden h-0"
       animate={{
-        height: expandedMenuItemId === "regions" ? "auto" : 0,
+        height: activeMenuItemId === "regions" ? "auto" : 0,
       }}
     >
       <div className="p-4 md:p-1 flex md:justify-center w-full md:w-1/3 md:mx-auto">

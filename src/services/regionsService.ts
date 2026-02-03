@@ -1,42 +1,28 @@
 import { getCollection, getDocument } from "./dbService";
 import { RegionDTO } from "@/interfaces/RegionDTO";
+import { mapFirestoreDocs } from "@/utils/firestoreUtils";
+import { COLLECTIONS } from "@/constants/collections";
 
-export async function getAllRegions() {
-
+export async function getAllRegions(): Promise<RegionDTO[] | null> {
   try {
-    const regionsSnapshot = await getCollection('regions');
-    const regions = regionsSnapshot.docs.map((doc) => {
-
-      return {
-        id: doc.id,
-        ...doc.data(),
-      } as RegionDTO;
-
-    });
-
-    return regions;
-
+    const regionsSnapshot = await getCollection(COLLECTIONS.REGIONS);
+    return mapFirestoreDocs<RegionDTO>(regionsSnapshot.docs);
   } catch (err) {
-    console.error(err);
+    console.error("[RegionsService] Error fetching all regions:", err);
+    throw new Error("Failed to fetch regions");
   }
-  return null;
 }
 
-export async function getRegionById(id: string) {
-
-  try {    
-    const data = await getDocument("regions", id);
-    
+export async function getRegionById(id: string): Promise<RegionDTO | null> {
+  try {
+    const data = await getDocument(COLLECTIONS.REGIONS, id);
     if (data.exists()) {
-
       return { id: data.id, ...data.data() } as RegionDTO;
-      
-    } else {
-      console.log("No such document from (getRegionById)");
     }
-    
+    console.warn("[RegionsService] Region not found:", id);
+    return null;
   } catch (err) {
-    console.error(err);
+    console.error("[RegionsService] Error fetching region by ID:", err);
+    throw new Error("Failed to fetch region by ID");
   }
-  return null;
 }

@@ -1,3 +1,5 @@
+"use client";
+
 import AnimatedChevron from "../animatedChevron";
 import CustomLink from "../../customLink";
 import { usePathname } from "next/navigation";
@@ -6,12 +8,14 @@ import StaticMenuItem from "./staticMenuItem";
 
 export default function StaticMenuItems({
   locale,
-  expandedMenuItemId,
-  setExpandedMenuItemId,
+  activeMenuItemId,
+  setActiveMenuItemId,
+  regionsExpandable,
 }: {
   locale: string;
-  expandedMenuItemId: string | null;
-  setExpandedMenuItemId: (id: string | null) => void;
+  activeMenuItemId: string | null;
+  setActiveMenuItemId: (id: string | null) => void;
+  regionsExpandable: boolean;
 }) {
   const pathname = usePathname();
 
@@ -32,16 +36,18 @@ export default function StaticMenuItems({
               </h4>
             )}
 
-            <AnimatedChevron
-              isMenuItemOpen={expandedMenuItemId === "regions"}
-              openMenuItem={setExpandedMenuItemId}
-              itemId="regions"
-            />
+            {regionsExpandable && (
+              <AnimatedChevron
+                isMenuItemOpen={activeMenuItemId === "regions"}
+                setActiveMenuItemId={setActiveMenuItemId}
+                menuItemId="regions"
+              />
+            )}
           </div>
         </div>
 
         <div className="md:hidden">
-          <RegionsMap expandedMenuItemId={expandedMenuItemId} locale={locale} />
+          <RegionsMap activeMenuItemId={activeMenuItemId} locale={locale} />
         </div>
 
         <StaticMenuItem locale={locale} path={"lodges"} />
@@ -50,7 +56,7 @@ export default function StaticMenuItems({
       </div>
 
       <div className="hidden md:block">
-        <RegionsMap expandedMenuItemId={expandedMenuItemId} locale={locale} />
+        <RegionsMap activeMenuItemId={activeMenuItemId} locale={locale} />
       </div>
     </>
   );

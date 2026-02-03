@@ -4,7 +4,6 @@ import { ContactDTO } from "./ContactDTO";
 export interface MemberDTO extends ContactDTO {
   id: string;
   typeId: string;
-  memberId: string;
   name: {
     bg: string;
     en: string;

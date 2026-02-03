@@ -12,7 +12,7 @@ import CustomLink from "./customLink";
 
 import logo from "@images/logo/logo_baat.png";
 
-export default function Header({ locale, items, subItems }) {
+export default function Header({ locale, menuItems, subMenuItems }) {
   const { scrollY } = useScroll();
   const [scrollDirection, setScrollDirection] = useState("up");
 
@@ -21,21 +21,20 @@ export default function Header({ locale, items, subItems }) {
     setScrollDirection(diff > 0 ? "down" : "up");
   });
 
-  const [isOpen, setIsOpen] = useState(false);
-  const toggleMenu = (newState: boolean) => setIsOpen(newState);
+  const [isMenuOpen, setMenuOpen] = useState(false);
 
   return (
     <Portal >
-      {isOpen && (
+      {isMenuOpen && (
         <div
           className="fixed top-0 right-0 bottom-0 left-0 bg-stone-500/30 backdrop-blur-xs transition-all"
-          onClick={() => setIsOpen(false)}
+          onClick={() => setMenuOpen(false)}
         ></div>
       )}
       <motion.header
         className="fixed -top-6 w-full bg-stone-200 shadow-sm"
         animate={{
-          translateY: scrollDirection == "down" && !isOpen ? "-120px" : 0,
+          translateY: scrollDirection == "down" && !isMenuOpen ? "-120px" : 0,
         }}
       >
         <div className="container m-auto flex items-center justify-between px-2 pt-8 pb-2 md:pt-10 md:pb-4">
@@ -74,10 +73,10 @@ export default function Header({ locale, items, subItems }) {
           <div className="flex gap-5 flex-1 justify-end">
             <LanguageSwitch locale={locale} />
             <Menu
-              isOpen={isOpen}
-              toggleMenu={toggleMenu}
-              items={items}
-              subItems={subItems}
+              isMenuOpen={isMenuOpen}
+              setMenuOpen={setMenuOpen}
+              menuItems={menuItems}
+              subMenuItems={subMenuItems}
               locale={locale}
             />
           </div>

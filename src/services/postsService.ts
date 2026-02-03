@@ -1,71 +1,53 @@
-import { getCollection, getDocument, getDocumentByFieldValue } from '@services/dbService';
-
+import { getCollection, getDocument, getDocumentByFieldValue } from "@/services/dbService";
 import { PostDTO, PostMetaDTO } from "@/interfaces/PostsDTO";
+import { mapFirestoreDocs } from "@/utils/firestoreUtils";
+import { COLLECTIONS } from "@/constants/collections";
 
-  export async function getAllPostsMetaData() {
-    try {
-        const querySnapshot = await getCollection('posts');
-        const data = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data()
-        }))
-
-        return data as PostMetaDTO[];
-        
-      } catch (error) {
-        console.log("Error fetching from Firestore/ inside getAllPostsMetaData", error)
-      }
-
-      return null;
+export async function getAllPostsMetaData(): Promise<PostMetaDTO[] | null> {
+  try {
+    const querySnapshot = await getCollection(COLLECTIONS.POSTS);
+    return mapFirestoreDocs<PostMetaDTO>(querySnapshot.docs);
+  } catch (error) {
+    console.error("[PostsService] Error fetching all posts metadata:", error);
+    throw new Error("Failed to fetch posts metadata");
   }
+}
 
-  export async function getPostMetaDataByPostId(id: string) {
-    try {
-      const docSnap = await getDocument('posts', id);
-
-      if (docSnap.exists()) {
-        return docSnap.data() as PostMetaDTO;
-      } else {
-        console.log('No such document (getPostMetaDataByPostId)');
-      }
-
-    } catch (e) {
-      console.log("Error fetching from Firestore/ inside getPostMetaDataByPostId", e);
+export async function getPostMetaDataByPostId(id: string): Promise<PostMetaDTO | null> {
+  try {
+    const docSnap = await getDocument(COLLECTIONS.POSTS, id);
+    if (docSnap.exists()) {
+      return docSnap.data() as PostMetaDTO;
     }
-
+    console.warn("[PostsService] Post metadata not found:", id);
     return null;
+  } catch (error) {
+    console.error("[PostsService] Error fetching post metadata by ID:", error);
+    throw new Error("Failed to fetch post metadata by ID");
   }
+}
 
-  export async function getPostBySubMenuId(id: string) {
-    try {
-      const querySnapshot = await getDocumentByFieldValue('posts', 'subMenuPath', id) 
-      let data: any = null;
-
-      querySnapshot.forEach((res) => {
-        data = res.data();
-      })
-
-      return data as PostDTO;
-
-    } catch (err) {
-      console.error("Error fetching from Firestore/ inside getPostBySubMenuId", err)
+export async function getPostBySubMenuId(id: string): Promise<PostDTO | null> {
+  try {
+    const querySnapshot = await getDocumentByFieldValue(COLLECTIONS.POSTS, "subMenuPath", id);
+    if (!querySnapshot.empty) {
+      return querySnapshot.docs[0].data() as PostDTO;
     }
+    console.warn("[PostsService] Post not found for submenu ID:", id);
     return null;
+  } catch (error) {
+    console.error("[PostsService] Error fetching post by submenu ID:", error);
+    throw new Error("Failed to fetch post by submenu ID");
   }
+}
 
-  export async function getAllPostsByMenuId(id: string ) {
-    try {
-      const querySnapshot = await getDocumentByFieldValue('posts', 'menuPath', id); 
-        
-      let data = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        data: doc.data()
-      }))
-
-      return data;
-
-    } catch (err) {
-      console.error("Error fetching from Firestore/ inside getAllPostsByMenuId", err)
-    }
+export async function getAllPostsByMenuId(id: string): Promise<PostDTO[] | null> {
+  try {
+    const querySnapshot = await getDocumentByFieldValue(COLLECTIONS.POSTS, "menuPath", id);
+    return mapFirestoreDocs<PostDTO>(querySnapshot.docs);
+  } catch (error) {
+    console.error("[PostsService] Error fetching all posts by menu ID:", error);
+    throw new Error("Failed to fetch posts by menu ID");
   }
+}
 

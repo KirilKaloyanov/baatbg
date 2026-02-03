@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { getLodgeById } from "@/services/lodges.service";
-import { LodgeExtendedDTO } from "@/interfaces/LodgeExtendedDTO";
+import { LodgeDetailsDTO } from "@/interfaces/LodgeDTO";
 import MapContainerComponent from "./mapContainer";
 import Button from "@/components/button";
 import ContactsCard from "@/components/cards/contact-card";
@@ -12,7 +12,7 @@ export default async function LodgePage({
   params: Promise<{ locale: string; lodgeId: string }>;
 }) {
   const { locale, lodgeId } = await params;
-  const lodge: LodgeExtendedDTO | null = await getLodgeById(lodgeId);
+  const lodge: LodgeDetailsDTO | null = await getLodgeById(lodgeId);
 
   if (!lodge) return null;
 
@@ -29,8 +29,8 @@ export default async function LodgePage({
       </div>
 
       <div className="flex flex-col lg:flex-row">
-        <div className="h-[400px] flex-1 md:h-[500px]">
-          <div className="relative h-[400px] w-full max-w-4xl overflow-hidden md:h-[500px]">
+        <div className="h-100 flex-1 md:h-125">
+          <div className="relative h-100 w-full max-w-4xl overflow-hidden md:h-125">
             <Image
               src={lodge.imgHero}
               alt={lodge.name[locale]}
@@ -39,7 +39,7 @@ export default async function LodgePage({
             />
           </div>
         </div>
-        <div className="h-[500px] w-full flex-1">
+        <div className="h-125 w-full flex-1">
           <MapContainerComponent
             center={[lodge.location.lat, lodge.location.lng]}
           />
@@ -54,12 +54,12 @@ export default async function LodgePage({
               key={idx}
               className={`mt-8 flex flex-col p-4 md:p-10 ${idx % 2 === 0 ? "bg-stone-300 md:flex-row" : "md:flex-row-reverse"} gap-8`}
             >
-              <div className="mb-8 flex w-full flex-col items-center justify-center md:mb-0 md:min-h-[200px]">
+              <div className="mb-8 flex w-full flex-col items-center justify-center md:mb-0 md:min-h-50">
                 <h2>{wb.heading[locale]}</h2>
                 <p>{wb.text[locale]}</p>
               </div>
               {wb.img && (
-                <div className="relative h-[400px] w-full overflow-hidden">
+                <div className="relative h-100 w-full overflow-hidden">
                   <Image
                     src={wb.img}
                     alt={wb.heading[locale] + idx}
@@ -78,7 +78,7 @@ export default async function LodgePage({
             return (
               <div
                 key={idx}
-                className="relative h-[400px] w-full overflow-hidden"
+                className="relative h-100 w-full overflow-hidden"
               >
                 <Image
                   src={img}
@@ -107,7 +107,7 @@ export async function generateMetadata({
   params: Promise<{ locale: string; lodgeId: string }>;
 }) {
   const { locale, lodgeId } = await params;
-  const lodgeData: LodgeExtendedDTO | null = await getLodgeById(lodgeId);
+  const lodgeData: LodgeDetailsDTO | null = await getLodgeById(lodgeId);
 
   const metadata = {
     title: lodgeData?.name[locale] || (locale === "bg" ? "БААТ" : "BAAT"),

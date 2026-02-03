@@ -1,13 +1,13 @@
 export default function AnimatedChevron({
-    isMenuItemOpen, openMenuItem, itemId
+    isMenuItemOpen, setActiveMenuItemId, menuItemId
 } : {
-    isMenuItemOpen: boolean, openMenuItem: (id: string | null) => void, itemId: string
+    isMenuItemOpen: boolean, setActiveMenuItemId: (id: string | null) => void, menuItemId: string
 }) {
     return (
        <div
-            className={`flex ${itemId !== 'regions' && 'md:hidden'} pt-3 pl-5 cursor-pointer p-1`}
+            className={`flex ${menuItemId !== 'regions' && 'md:hidden'} pt-3 pl-5 cursor-pointer p-1`}
             onClick={() =>
-              isMenuItemOpen ? openMenuItem(null) : openMenuItem(itemId)
+              isMenuItemOpen ? setActiveMenuItemId(null) : setActiveMenuItemId(menuItemId)
             }
           >
             <div
@@ -24,21 +24,3 @@ export default function AnimatedChevron({
     )
 }
 
-            // Chevron for expand/collapse subMenuPaths of this menuPath
-          // <div
-          //   className="flex md:hidden pt-3 pl-5 cursor-pointer p-1"
-          //   onClick={() =>
-          //     isMenuItemOpen ? openMenuItem(null) : openMenuItem(item.id)
-          //   }
-          // >
-          //   <div
-          //     className={`w-4 h-0.5 bg-background rounded ${
-          //       (isMenuItemOpen ? "-" : "") + "rotate-45 transition"
-          //     }`}
-          //   ></div>
-          //   <div
-          //     className={`w-4 h-0.5 -ml-1.5 bg-background rounded ${
-          //       (isMenuItemOpen ? "" : "-") + "rotate-45 transition"
-          //     }`}
-          //   ></div>
-          // </div>

@@ -6,22 +6,20 @@ import { MapContainer, TileLayer, useMap } from "react-leaflet";
 import MarkerLayer from "./map/markerLayer";
 import ZoomButton from "@components/mapControls/zoomButton";
 
-// import { IMarker } from "@interfaces/Marker";
-
 import "leaflet/dist/leaflet.css";
-import { LodgeSimpleDTO } from "@/interfaces/LodgeSimpleDTO";
+import { LodgeBaseDTO } from "@/interfaces/LodgeDTO";
 
 
 function OverviewMap({
   mapParentRef,
-  markers,
-  selectedMarker,
-  onMarkerClick,
+  lodges,
+  selectedLodge,
+  onLodgeClick,
 }: {
   mapParentRef: MutableRefObject<any | null>,
-  markers: LodgeSimpleDTO[];
-  selectedMarker: LodgeSimpleDTO;
-  onMarkerClick: (marker: LodgeSimpleDTO) => void;
+  lodges: LodgeBaseDTO[];
+  selectedLodge: LodgeBaseDTO;
+  onLodgeClick: (lodge: LodgeBaseDTO) => void;
 }) {
 
   const mapInstanceRef = useRef<any | null>(null);
@@ -42,7 +40,7 @@ function OverviewMap({
   return (
     
         <MapContainer
-          center={[selectedMarker.location.lat, selectedMarker.location.lng]}
+          center={[selectedLodge.location.lat, selectedLodge.location.lng]}
           zoom={8}
           scrollWheelZoom={false}
           zoomControl={false}
@@ -55,9 +53,9 @@ function OverviewMap({
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
           />
             <MarkerLayer 
-              markers={markers} 
-              selectedMarker={selectedMarker}
-              onMarkerClick={onMarkerClick}
+              lodges={lodges} 
+              selectedLodge={selectedLodge}
+              onLodgeClick={onLodgeClick}
             />
 
           <ZoomButton type="in" />

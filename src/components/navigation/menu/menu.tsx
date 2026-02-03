@@ -6,50 +6,42 @@ import { AnimatePresence, motion } from "framer-motion";
 
 import { useLoader } from "@/context/LoaderContext";
 
-import MenuItem from "./menuItem";
 import CustomLink from "../customLink";
+import DynamicMenu from "./DynamicMenu";
 
 import { PostMetaDTO } from "@/interfaces/PostsDTO";
 import { MenuDTO } from "@/interfaces/MenuDTO";
 
 import logo from "@images/logo/logo_baat.png";
-import StaticMenuItems from "./staticMenus/staticMenuItems";
 
 export default function Menu({
-  isOpen,
-  toggleMenu,
-  items,
-  subItems,
+  isMenuOpen,
+  setMenuOpen,
+  menuItems,
+  subMenuItems,
   locale,
 }: {
-  isOpen: boolean;
-  toggleMenu: (newState: boolean) => void;
-  items: MenuDTO[] | null;
-  subItems: PostMetaDTO[] | null;
+  isMenuOpen: boolean;
+  setMenuOpen: (newState: boolean) => void;
+  menuItems: MenuDTO[] | null;
+  subMenuItems: PostMetaDTO[] | null;
   locale: string;
 }) {
-  const [expandedMenuItemId, setExpandedMenuItemId] = useState<string | null>(
+  const [activeMenuItemId, setActiveMenuItemId] = useState<string | null>(
     null,
   );
 
   const isLoading = useLoader();
 
-  const filterSubItemsByItem = (item: MenuDTO) => {
-    if (subItems == null) return [];
-    return subItems
-              .filter((si) => si.menuPath == item.path)
-              .sort((a, b) => a.position - b.position);
-  };
-
   useEffect(() => {
-    toggleMenu(false);
-    setExpandedMenuItemId(null);
+    setMenuOpen(false);
+    setActiveMenuItemId(null);
   }, [isLoading]);
 
   return (
     <>
       {/* Hamburger element */}
-      <div onClick={() => toggleMenu(true)} className="size-8 cursor-pointer">
+      <div onClick={() => setMenuOpen(true)} className="size-8 cursor-pointer">
         <div className="bg-base-900 my-2 h-1 w-8 rounded"></div>
         <div className="bg-base-900 my-2 h-1 w-8 rounded"></div>
         <div className="bg-base-900 h-1 w-8 rounded"></div>
@@ -57,9 +49,9 @@ export default function Menu({
 
       {/* Menu animation container */}
       <AnimatePresence>
-        {isOpen ? (
+        {isMenuOpen ? (
             <motion.div
-              className="bg-base-900 text-background absolute top-6 left-0 z-10 max-h-[100vh] w-full overflow-y-auto py-2 md:overflow-y-hidden"
+              className="bg-base-900 text-background absolute top-6 left-0 z-10 max-h-screen w-full overflow-y-auto py-2 md:overflow-y-hidden"
               layout
               initial={{ height: 0 }}
               animate={{ height: "fit-content" }}
@@ -79,7 +71,7 @@ export default function Menu({
 
                 {/* Close button */}
                 <div
-                  onClick={() => toggleMenu(false)}
+                  onClick={() => setMenuOpen(false)}
                   className="relative size-12 cursor-pointer"
                 >
                   <div className="bg-background absolute top-5 left-3.5 h-1 w-9 rotate-45 rounded"></div>
@@ -89,41 +81,17 @@ export default function Menu({
 
               {/* Navigation container */}
               <nav className="container m-auto px-6 pb-18">
-                {/* Default menus */}
-                <StaticMenuItems
-                  locale={locale}
-                  expandedMenuItemId={expandedMenuItemId}
-                  setExpandedMenuItemId={setExpandedMenuItemId}
-                />
+
 
                 {/* Dynamic menus from DB */}
-                <div className="md:grid md:grid-cols-4">
-                  {items &&
-                    items.map((i: MenuDTO) => (
-                      <div key={i.id}>
-                        {/*  Renders on Mobile expanding only one item */}
-                        <div className="block md:hidden">
-                          <MenuItem
-                            item={i}
-                            subItems={filterSubItemsByItem(i)}
-                            locale={locale}
-                            isMenuItemOpen={expandedMenuItemId === i.id}
-                            openMenuItem={setExpandedMenuItemId}
-                            />
-                        </div>
-                          {/* Renders on Desktop expanding all items */}
-                        <div className="hidden md:block">
-                          <MenuItem
-                            item={i}
-                            subItems={filterSubItemsByItem(i)}
-                            locale={locale}
-                            isMenuItemOpen={true}
-                            openMenuItem={setExpandedMenuItemId}
-                          />
-                        </div>
-                      </div>
-                    ))}
-                </div>
+                <DynamicMenu
+                  menuItems={menuItems}
+                  subMenuItems={subMenuItems}
+                  locale={locale}
+                  activeMenuItemId={activeMenuItemId}
+                  setActiveMenuItemId={setActiveMenuItemId}
+                  regionsExpandable={true}
+                />
               </nav>
             </motion.div>
          ) : null}

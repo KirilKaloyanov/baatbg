@@ -5,19 +5,17 @@ import { useMemo } from 'react';
 import { Marker } from 'react-leaflet';
 import L from 'leaflet'; 
 
-// import { IMarker } from '@/interfaces/Marker';
-
 import myIcon from "@components/mapControls/pin.png";
-import { LodgeSimpleDTO } from '@/interfaces/LodgeSimpleDTO';
+import { LodgeBaseDTO } from '@/interfaces/LodgeDTO';
 
 function MarkerLayer ({ 
-    markers, 
-    selectedMarker, 
-    onMarkerClick, 
+    lodges, 
+    selectedLodge, 
+    onLodgeClick, 
 }: {
-    markers: LodgeSimpleDTO[];
-    selectedMarker: LodgeSimpleDTO;
-    onMarkerClick: (marker: LodgeSimpleDTO) => void;
+    lodges: LodgeBaseDTO[];
+    selectedLodge: LodgeBaseDTO;
+    onLodgeClick: (lodge: LodgeBaseDTO) => void;
 }) {
 
     const icon = useMemo(() => L.icon({ iconUrl: myIcon.src, iconSize: [50, 50] }), []);
@@ -25,17 +23,17 @@ function MarkerLayer ({
  
     return (
         <>
-            {markers.map((marker) => {
+            {lodges.map((lodge) => {
                 const eventHandlers = {
-                    click: () => onMarkerClick(marker),
+                    click: () => onLodgeClick(lodge),
                 };
                 
-                const iconToUse = selectedMarker.id === marker.id ? selectedIcon : icon;
+                const iconToUse = selectedLodge.id === lodge.id ? selectedIcon : icon;
                 
                 return (
                     <Marker
-                        key={marker.id}
-                        position={[marker.location.lat, marker.location.lng]}
+                        key={lodge.id}
+                        position={[lodge.location.lat, lodge.location.lng]}
                         icon={iconToUse}
                         eventHandlers={eventHandlers}
                     />

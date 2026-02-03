@@ -1,37 +1,29 @@
 import { getCollection, getDocument } from "./dbService";
 import { MenuDTO } from "@/interfaces/MenuDTO";
+import { mapFirestoreDocs } from "@/utils/firestoreUtils";
+import { COLLECTIONS } from "@/constants/collections";
 
-export async function getMenuItems() {
-
+export async function getMenuItems(): Promise<MenuDTO[] | null> {
   try {
-    const querySnapshot = await getCollection('menu');
-
-      const data = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data()
-      }))
-
-      const result = data as MenuDTO[];
-      return result.sort((a:MenuDTO, b:MenuDTO) => a.position - b.position);
-
-    } catch (error) {
-      console.log("Error fetching from Firestore/ inside firebaseOps", error.message)
-    }
-    
-    return null;
+    const querySnapshot = await getCollection(COLLECTIONS.MENU);
+    const data = mapFirestoreDocs<MenuDTO>(querySnapshot.docs);
+    return data.sort((a: MenuDTO, b: MenuDTO) => a.position - b.position);
+  } catch (error) {
+    console.error("[MenuService] Error fetching menu items:", error);
+    throw new Error("Failed to fetch menu items");
+  }
 }
 
-export async function getMenuById( itemId: string) {
-    try {
-        const docSnap = await getDocument('menu', itemId);
-        if (docSnap.exists()) {
-          const data = docSnap.data() as MenuDTO
-            return data;
-        } else {
-          console.log("No such document (getMenuById)");
-        }
-    } catch(e) {
-      console.log("Error fetching from Firestore/ inside (getMenuById)", e);
+export async function getMenuById(itemId: string): Promise<MenuDTO | null> {
+  try {
+    const docSnap = await getDocument(COLLECTIONS.MENU, itemId);
+    if (docSnap.exists()) {
+      return docSnap.data() as MenuDTO;
     }
+    console.warn("[MenuService] Menu item not found:", itemId);
     return null;
+  } catch (error) {
+    console.error("[MenuService] Error fetching menu by ID:", error);
+    throw new Error("Failed to fetch menu by ID");
   }
+}

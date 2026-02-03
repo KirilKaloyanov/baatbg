@@ -9,23 +9,23 @@ import { useEffect } from "react";
 import AnimatedChevron from "./animatedChevron";
 
 export default function MenuItem({
-  item,
-  subItems,
-  locale,
+  menuItem,
+  subMenuItems,
+  currentLocale,
   isMenuItemOpen,
   openMenuItem,
 }: {
-  item: MenuDTO;
-  subItems: PostMetaDTO[];
-  locale: string;
+  menuItem: MenuDTO;
+  subMenuItems: PostMetaDTO[];
+  currentLocale: string;
   isMenuItemOpen: boolean;
   openMenuItem: (id: string | null) => void;
 }) {
-  const pathname = usePathname();
+  const currentPathname = usePathname();
 
   useEffect(() => {
-    if (pathname.split("/")[3] == item.path) {
-      openMenuItem(item.id);
+    if (currentPathname.split("/")[3] == menuItem.path) {
+      openMenuItem(menuItem.id);
     }
   }, []);
 
@@ -33,42 +33,42 @@ export default function MenuItem({
     <div className="mt-10">
       <div className="flex justify-end md:justify-start">
 
-        <h4>{item.label[locale]}</h4>
+        <h4>{menuItem.label[currentLocale]}</h4>
 
-        {subItems.length < 1 ? (
-          //Empty space where no subMenuPaths for this menuPath
+        {subMenuItems.length < 1 ? (
+          //Empty space where no subMenuItems for this menuItem
           <div className="w-12 md:w-0"></div>
         ) : (
           <AnimatedChevron
             isMenuItemOpen={isMenuItemOpen}
-            openMenuItem={openMenuItem}
-            itemId={item.id}
+            setActiveMenuItemId={openMenuItem}
+            menuItemId={menuItem.id}
           />
         )}
       </div>
 
-      {subItems && (
-        // subMenuPaths collapsible
+      {subMenuItems && (
+        // subMenuItems collapsible
         <motion.div
           className="overflow-hidden h-0"
           animate={{ height: isMenuItemOpen ? "auto" : 0 }}
         >
-          {subItems.map((si: PostMetaDTO) => {
+          {subMenuItems.map((subMenuItem: PostMetaDTO) => {
             // Construct pathlink from subMenuPath
-            const pathlink = `/${locale}/posts/${si.menuPath}/${si.subMenuPath}`;
-            return <div key={si.id} className="p-4 pr-12 md:p-0 md:py-3 text-right md:text-left">
-              {pathname !== pathlink ? (
+            const pathlink = `/${currentLocale}/posts/${subMenuItem.menuPath}/${subMenuItem.subMenuPath}`;
+            return <div key={subMenuItem.id} className="p-4 pr-12 md:p-0 md:py-3 text-right md:text-left">
+              {currentPathname !== pathlink ? (
                 // Link to subMenuPath
                 <CustomLink
                   href={pathlink}
                 >
                   <span className="hover:text-accent-100">
-                    {si.heading[locale]}
+                    {subMenuItem.heading[currentLocale]}
                   </span>
                 </CustomLink>
               ) : (
                 // Activated subMenuPath
-                <span className="text-accent-100">{si.heading[locale]}</span>
+                <span className="text-accent-100">{subMenuItem.heading[currentLocale]}</span>
               )}
             </div>
 })}

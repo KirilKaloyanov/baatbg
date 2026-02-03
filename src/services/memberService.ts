@@ -1,50 +1,53 @@
 import { getCollection, getDocument } from "./dbService";
-import { MemberDTO as Member, MemberTypeDTO as MemberType, MemberWithTypeDTO } from "@/interfaces/MemberDTO";
+import { MemberDTO as Member, MemberWithTypeDTO, MemberTypeDTO as MemberType } from "@/interfaces/MemberDTO";
+import { mapFirestoreDocs, mapFireStoreSingleDoc } from "@/utils/firestoreUtils";
+import { COLLECTIONS } from "@/constants/collections";
 
-
-export async function getMemberById(id: string) {
-  try {    
-    const memberTypes = await getMemberTypes();
-    // const docReference = db.collection('members').doc(id)
-    const data = await getDocument("members", id);
-    if (data.exists()) {
-      const typeLabel = memberTypes[data.data().typeId];
-      return { id: data.id, ...data.data(), typeLabel } as MemberWithTypeDTO;
-    } else throw new Error("Document not found!");
-  } catch (err) {
-    console.error(err);
-  }
-}
-
-export async function getAllMembers() {
+export async function getMemberById(id: string): Promise<MemberWithTypeDTO | null> {
   try {
-    const membersSnapshot = await getCollection('members');
-    const members = membersSnapshot.docs.map((doc) => {
-      return {
-        id: doc.id,
-        ...doc.data(),
-      } as Member;
-    });
+    const memberTypes = await getMemberTypes();
+    const data = await getDocument(COLLECTIONS.MEMBERS, id);
 
-    const types = await getMemberTypes();
+    if (data.exists()) {
+      const member = mapFireStoreSingleDoc<Member>(data);
+      const typeLabel = memberTypes[member.typeId];
+      return { ...member, typeLabel } as MemberWithTypeDTO;
+    }
 
-    const membersWithTypes: MemberWithTypeDTO[] = members.map((member) => ({
-      ...member,
-      typeLabel: types[member.typeId],
-    }));
-    return membersWithTypes;
+    console.warn("[MemberService] Member not found:", id);
+    return null;
   } catch (err) {
-    console.error(err);
+    console.error("[MemberService] Error fetching member by ID:", err);
+    throw new Error("Failed to fetch member");
   }
-  return null;
 }
 
+export async function getAllMembers(): Promise<MemberWithTypeDTO[] | null> {
+  try {
+    const membersSnapshot = await getCollection(COLLECTIONS.MEMBERS);
+    const members = mapFirestoreDocs<Member>(membersSnapshot.docs);
 
-async function getMemberTypes() {
+    const memberTypes = await getMemberTypes();
 
-    const typesSnapshot = await getCollection('memberType');
+    return members.map((member) => ({
+      ...member,
+      typeLabel: memberTypes[member.typeId],
+    }));
+  } catch (err) {
+    console.error("[MemberService] Error fetching all members:", err);
+    throw new Error("Failed to fetch members");
+  }
+}
+
+async function getMemberTypes(): Promise<Record<string, MemberType>> {
+  try {
+    const typesSnapshot = await getCollection(COLLECTIONS.MEMBER_TYPE);
     return typesSnapshot.docs.reduce((acc, doc) => {
       acc[doc.id] = { ...doc.data() } as MemberType;
       return acc;
     }, {});
+  } catch (err) {
+    console.error("[MemberService] Error fetching member types:", err);
+    throw new Error("Failed to fetch member types");
+  }
 }

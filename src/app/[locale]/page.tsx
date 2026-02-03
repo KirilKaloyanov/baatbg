@@ -5,7 +5,7 @@ export default async function Page() {
   return (
     //cormorant
     <>
-      <blockquote className="text-3xl my-3 font-bold">Hello world</blockquote> 
+      <blockquote className="my-3 text-3xl font-bold">Hello world</blockquote>
 
       <div className="bg-background h-10"></div>
 
@@ -26,10 +26,14 @@ export default async function Page() {
       <div className="bg-background h-10"></div>
 
       <div className="grid grid-cols-3">
-        <div className="bg-stone-50 h-20"></div>
-        <div className="bg-stone-200 h-20"></div>
-        <div className="bg-stone-500 h-20"></div>
+        <div className="h-20 bg-stone-50"></div>
+        <div className="h-20 bg-stone-200"></div>
+        <div className="h-20 bg-stone-500"></div>
       </div>
+      <br />
+      <button className="hover:bg-accent-500 bg-accent-100 text-base-900 h-12 w-30 cursor-pointer rounded-full p-2 transition-all">
+        Subscribe
+      </button>
     </>
   );
 }

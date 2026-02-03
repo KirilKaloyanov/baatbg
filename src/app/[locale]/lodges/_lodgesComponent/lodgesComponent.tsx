@@ -4,8 +4,7 @@ import { useState, useEffect, useRef } from "react";
 
 import ImageSlider from "@/app/[locale]/lodges/_lodgesComponent/imageSlider";
 
-// import { IMarker } from "@interfaces/Marker";
-import { LodgeSimpleDTO } from "@/interfaces/LodgeSimpleDTO";
+import { LodgeBaseDTO } from "@/interfaces/LodgeDTO";
 
 const OverviewMap = dynamic(
   () => import("@/app/[locale]/lodges/_lodgesComponent/overviewMap"),
@@ -14,44 +13,44 @@ const OverviewMap = dynamic(
 
 export default function LodgesComponent({
   locale,
-  markers,
-  initialSelectedMarker,
+  lodges,
+  initialSelectedLodge,
 }: {
   locale: string;
-  markers: LodgeSimpleDTO[];
-  initialSelectedMarker: LodgeSimpleDTO;
+  lodges: LodgeBaseDTO[];
+  initialSelectedLodge: LodgeBaseDTO;
 }) {
 
-  const [selectedMarker, setSelectedMarker] = useState<LodgeSimpleDTO>(initialSelectedMarker);
+  const [selectedLodge, setSelectedLodge] = useState<LodgeBaseDTO>(initialSelectedLodge);
   const mapParentRef = useRef<any | null>(null);
 
   useEffect(() => {
-    if (mapParentRef.current && selectedMarker.location) {
-      mapParentRef.current.flyTo([selectedMarker.location.lat, selectedMarker.location.lng], 8, { animate: true });
+    if (mapParentRef.current && selectedLodge.location) {
+      mapParentRef.current.flyTo([selectedLodge.location.lat, selectedLodge.location.lng], 8, { animate: true });
     }
-  }, [selectedMarker]);
+  }, [selectedLodge]);
 
-  const handlerMarkerClick = (marker: LodgeSimpleDTO) => {
-    setSelectedMarker(marker);
+  const handlerLodgeClick = (lodge: LodgeBaseDTO) => {
+    setSelectedLodge(lodge);
   };
 
   return (
     <>
       <div className="mt-10 flex flex-col lg:flex-row">
-        <div className="h-[400px] md:h-[500px] flex-1">
+        <div className="h-100 md:h-125 flex-1">
           <ImageSlider
             locale={locale}
-            markers={markers}
-            selectedMarker={selectedMarker}
-            onMarkerClick={handlerMarkerClick}
+            lodges={lodges}
+            selectedLodge={selectedLodge}
+            onLodgeClick={handlerLodgeClick}
           />
         </div>
-        <div className="h-[500px] w-full flex-1">
+        <div className="h-125 w-full flex-1">
           <OverviewMap
             mapParentRef={mapParentRef}
-            markers={markers}
-            selectedMarker={selectedMarker}
-            onMarkerClick={handlerMarkerClick}
+            lodges={lodges}
+            selectedLodge={selectedLodge}
+            onLodgeClick={handlerLodgeClick}
           />
         </div>
       </div>

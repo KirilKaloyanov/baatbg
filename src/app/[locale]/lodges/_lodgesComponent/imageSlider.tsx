@@ -1,13 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 
 import { motion, AnimatePresence, wrap } from "framer-motion";
 
-// import { IMarker } from "@/interfaces/Marker";
 import CustomLink from "@/components/navigation/customLink";
-import { LodgeSimpleDTO } from "@/interfaces/LodgeSimpleDTO";
+import { LodgeBaseDTO } from "@/interfaces/LodgeDTO";
 
 // We use a custom variant to control the direction of the slide (1 for next, -1 for previous)
 const variants = {
@@ -35,35 +34,35 @@ const swipePower = (offset: number, velocity: number) => {
 
 function ImageSlider({
   locale,
-  markers,
-  selectedMarker,
-  onMarkerClick,
+  lodges,
+  selectedLodge,
+  onLodgeClick,
 }: {
   locale: string;
-  markers: LodgeSimpleDTO[];
-  onMarkerClick: (marker: LodgeSimpleDTO) => void;
-  selectedMarker: LodgeSimpleDTO;
+  lodges: LodgeBaseDTO[];
+  onLodgeClick: (lodge: LodgeBaseDTO) => void;
+  selectedLodge: LodgeBaseDTO;
 }) {
-  const selectedMarkerIdx = markers.indexOf(selectedMarker);
+  const selectedLodgeIdx = lodges.indexOf(selectedLodge);
 
   const [direction, setDirection] = useState(0);
 
   const paginate = (newDirection: number) => {
     setDirection(newDirection);
-    const newIdx = wrap(0, markers.length, selectedMarkerIdx + newDirection);
-    onMarkerClick(markers[newIdx]);
+    const newIdx = wrap(0, lodges.length, selectedLodgeIdx + newDirection);
+    onLodgeClick(lodges[newIdx]);
   };
 
-  const imageIndex = wrap(0, markers.length, selectedMarkerIdx);
-  const currentMarker = markers[imageIndex];
+  const imageIndex = wrap(0, lodges.length, selectedLodgeIdx);
+  const currentLodge = lodges[imageIndex];
 
   return (
     <div className="bg-stone-300 flex flex-col items-center justify-center">
-      <div className="relative h-[400px] md:h-[500px] w-full max-w-4xl overflow-hidden">
+      <div className="relative h-100 md:h-125 w-full max-w-4xl overflow-hidden">
         {/* AnimatePresence ensures that the exiting component animates out */}
         <AnimatePresence initial={false} custom={direction}>
           <motion.div
-            key={selectedMarkerIdx} // Key must change to trigger the exit/enter animation
+            key={selectedLodgeIdx} // Key must change to trigger the exit/enter animation
             custom={direction}
             variants={variants}
             initial="enter"
@@ -92,8 +91,8 @@ function ImageSlider({
           >
             {/* Image Container */}
             <Image
-              src={currentMarker.imgHero}
-              alt={currentMarker.name[locale]}
+              src={currentLodge.imgHero}
+              alt={currentLodge.name[locale]}
               fill
               className="object-cover"
               onDragStart={(e) => e.preventDefault()}
@@ -102,9 +101,9 @@ function ImageSlider({
             {/* Text Overlay */}
             <div className="absolute top-65 md:top-72 bottom-10 left-1/4 md:left-1/2 right-5 md:right-10 xl:right-15 bg-stone-900 opacity-80 flex flex-col items-start justify-end p-2 md:p-10 lg:p-4">
               <p className="text-white m-0 md:text-2xl lg:text-xl xl:text-2xl 2xl:text-3xl font-semibold">
-                <CustomLink href={`lodges/${currentMarker.id}`} className="block leading-6 md:leading-7 hover:text-accent-100">{currentMarker.name[locale]}</CustomLink>
+                <CustomLink href={`lodges/${currentLodge.id}`} className="block leading-6 md:leading-7 hover:text-accent-100">{currentLodge.name[locale]}</CustomLink>
                 <span className="block leading-6 md:leading-10 text-xs font-light tracking-wide text-background">
-                  {currentMarker.community[locale]}
+                  {currentLodge.community[locale]}
                 </span>
               </p>
             </div>
@@ -160,8 +159,8 @@ function ImageSlider({
 
         {/* Dots Indicator */}
         <div className="absolute bottom-4 left-1/2 z-0 flex -translate-x-1/2 transform space-x-2">
-          {markers.map((_, idx) => {
-            const currentIdx = wrap(0, markers.length, selectedMarkerIdx);
+          {lodges.map((_, idx) => {
+            const currentIdx = wrap(0, lodges.length, selectedLodgeIdx);
             const activeDotStyle =
               idx === currentIdx ? "w-5 bg-background" : "bg-stone-400";
             return (
