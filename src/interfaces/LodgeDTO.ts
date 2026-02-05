@@ -1,20 +1,13 @@
 import { ContactDTO } from "@/interfaces/ContactDTO";
+import LocalizedString from "./LocalizedString";
+import { Coordinates } from "./Coordinates";
 
 export interface LodgeBaseDTO { 
     id: string; 
-    location: {
-        lat: number;
-        lng: number;
-    };
-    community: {
-        bg: string;
-        en: string;
-    };
+    location: Coordinates;
+    community: LocalizedString;
     imgHero: string;
-    name: {
-        bg: string;
-        en: string; 
-    }
+    name: LocalizedString
 }
 
 export interface LodgeDetailsDTO extends ContactDTO, LodgeBaseDTO {
@@ -23,14 +16,8 @@ export interface LodgeDetailsDTO extends ContactDTO, LodgeBaseDTO {
   images?: string[];
   webcontent: [
     {
-      heading: {
-        bg: string;
-        en: string;
-      };
-      text: {
-        bg: string;
-        en: string;
-      };
+      heading: LocalizedString;
+      text: LocalizedString;
       img: string;
     },
   ];

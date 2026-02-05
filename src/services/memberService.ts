@@ -18,7 +18,7 @@ export async function getMemberById(id: string): Promise<MemberWithTypeDTO | nul
     return null;
   } catch (err) {
     console.error("[MemberService] Error fetching member by ID:", err);
-    throw new Error("Failed to fetch member");
+    throw err;
   }
 }
 
@@ -35,7 +35,7 @@ export async function getAllMembers(): Promise<MemberWithTypeDTO[] | null> {
     }));
   } catch (err) {
     console.error("[MemberService] Error fetching all members:", err);
-    throw new Error("Failed to fetch members");
+    throw err;
   }
 }
 
@@ -48,6 +48,6 @@ async function getMemberTypes(): Promise<Record<string, MemberType>> {
     }, {});
   } catch (err) {
     console.error("[MemberService] Error fetching member types:", err);
-    throw new Error("Failed to fetch member types");
+    throw err;
   }
 }

@@ -9,7 +9,7 @@ export async function getAllPostsMetaData(): Promise<PostMetaDTO[] | null> {
     return mapFirestoreDocs<PostMetaDTO>(querySnapshot.docs);
   } catch (error) {
     console.error("[PostsService] Error fetching all posts metadata:", error);
-    throw new Error("Failed to fetch posts metadata");
+    throw error;
   }
 }
 
@@ -23,7 +23,7 @@ export async function getPostMetaDataByPostId(id: string): Promise<PostMetaDTO |
     return null;
   } catch (error) {
     console.error("[PostsService] Error fetching post metadata by ID:", error);
-    throw new Error("Failed to fetch post metadata by ID");
+    throw error;
   }
 }
 
@@ -37,7 +37,7 @@ export async function getPostBySubMenuId(id: string): Promise<PostDTO | null> {
     return null;
   } catch (error) {
     console.error("[PostsService] Error fetching post by submenu ID:", error);
-    throw new Error("Failed to fetch post by submenu ID");
+    throw error;
   }
 }
 
@@ -47,7 +47,7 @@ export async function getAllPostsByMenuId(id: string): Promise<PostDTO[] | null>
     return mapFirestoreDocs<PostDTO>(querySnapshot.docs);
   } catch (error) {
     console.error("[PostsService] Error fetching all posts by menu ID:", error);
-    throw new Error("Failed to fetch posts by menu ID");
+    throw error;
   }
 }
 

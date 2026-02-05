@@ -1,8 +1,7 @@
+import LocalizedString from "./LocalizedString"
+
 export interface PostMetaDTO {
-    heading: {
-        bg: string,
-        en: string,
-    }
+    heading: LocalizedString
     menuPath: string,
     position: number,
     subMenuPath: string,
@@ -11,8 +10,5 @@ export interface PostMetaDTO {
 }
 
 export interface PostDTO extends PostMetaDTO {
-    text: {
-        bg: string,
-        en: string
-    }
+    text: LocalizedString
 }

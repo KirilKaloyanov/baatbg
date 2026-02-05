@@ -10,7 +10,7 @@ export async function getMenuItems(): Promise<MenuDTO[] | null> {
     return data.sort((a: MenuDTO, b: MenuDTO) => a.position - b.position);
   } catch (error) {
     console.error("[MenuService] Error fetching menu items:", error);
-    throw new Error("Failed to fetch menu items");
+    throw error;
   }
 }
 
@@ -24,6 +24,6 @@ export async function getMenuById(itemId: string): Promise<MenuDTO | null> {
     return null;
   } catch (error) {
     console.error("[MenuService] Error fetching menu by ID:", error);
-    throw new Error("Failed to fetch menu by ID");
+    throw error;
   }
 }

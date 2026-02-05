@@ -4,8 +4,8 @@ import { useMemo } from "react";
 import { MapContainer, Marker, TileLayer } from "react-leaflet";
 import L from "leaflet";
 
-import ZoomButton from "@components/mapControls/zoomButton";
-import myIcon from "@components/mapControls/pin.png";
+import ZoomButton from "@/components/controls/zoomButton";
+import myIcon from "@components/controls/pin.png";
 
 import "leaflet/dist/leaflet.css";
 

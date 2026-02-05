@@ -9,7 +9,7 @@ export async function getAllLodges(): Promise<LodgeBaseDTO[] | null> {
     return mapFirestoreDocs<LodgeBaseDTO>(lodgesSnapshot.docs);
   } catch (err) {
     console.error("[LodgesService] Error fetching all lodges:", err);
-    throw new Error("Failed to fetch lodges");
+    throw err;
   }
 }
 
@@ -23,7 +23,7 @@ export async function getLodgeById(id: string): Promise<LodgeDetailsDTO | null> 
     return null;
   } catch (err) {
     console.error("[LodgesService] Error fetching lodge by ID:", err);
-    throw new Error("Failed to fetch lodge");
+    throw err;
   }
 }
 
@@ -33,7 +33,7 @@ export async function getLodgesByRegionId(regionId: string): Promise<LodgeBaseDT
     return mapFirestoreDocs<LodgeBaseDTO>(querySnapshot.docs);
   } catch (err) {
     console.error("[LodgesService] Error fetching lodges by region ID:", err);
-    throw new Error("Failed to fetch lodges by region ID");
+    throw err;
   }
 }
 
@@ -43,6 +43,6 @@ export async function getLodgesByMemberId(memberId: string): Promise<LodgeBaseDT
     return mapFirestoreDocs<LodgeBaseDTO>(querySnapshot.docs);
   } catch (err) {
     console.error("[LodgesService] Error fetching lodges by member ID:", err);
-    throw new Error("Failed to fetch lodges by member ID");
+    throw err;
   }
 }

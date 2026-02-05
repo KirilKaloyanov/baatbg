@@ -1,4 +1,4 @@
-import { collection, getDocs, doc, getDoc, query, where } from "firebase/firestore";
+import { collection, getDocs, doc, getDoc, query, where, QueryConstraint } from "firebase/firestore";
 import { db } from '@firebaseClient';
 
 export async function getCollection(collectionName: string) {
@@ -14,5 +14,19 @@ export async function getDocument(collectionName:string, documentId:string) {
 export async function getDocumentByFieldValue(collectionName: string, fieldName: string, value: string){
     const ref = collection(db, collectionName);
     const q = query(ref, where(fieldName, "==", value));
+    return await getDocs(q);
+}
+
+export async function getCollectionByFieldValue(collectionName: string, fieldName: string, value: string | number) {
+    const ref = collection(db, collectionName);
+    const q = query(ref, where(fieldName, "==", value));
+    return await getDocs(q);
+}
+
+
+export async function getCollectionByCustomFilter(collectionName: string, constraints: QueryConstraint[]) {
+    const ref = collection(db, collectionName);
+    const q = query(ref, ...constraints);
+    
     return await getDocs(q);
 }

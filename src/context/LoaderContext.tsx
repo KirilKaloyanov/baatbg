@@ -27,6 +27,7 @@ export function LoaderProvider({ children }: { children: React.ReactNode }) {
     setIsLoading(true);
     startTransition(() => {
       callback();
+      setIsLoading(false);
     });
   };
 

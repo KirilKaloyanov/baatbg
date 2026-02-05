@@ -31,6 +31,9 @@
       ],
       "@firebaseClient": [
         "firebase-client.ts"
+      ],
+      "@controls/*": [
+        "src/components/controls/*"
       ]
     },
     "lib": [

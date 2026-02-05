@@ -1,33 +1,22 @@
 
 import { ContactDTO } from "./ContactDTO";
+import LocalizedString from "./LocalizedString";
 
 export interface MemberDTO extends ContactDTO {
   id: string;
   typeId: string;
-  name: {
-    bg: string;
-    en: string;
-  };
-  description: {
-    bg: string;
-    en: string;
-  };
+  name: LocalizedString;
+  description: LocalizedString;
   img?: string;
 }
 
 export interface MemberWithTypeDTO extends MemberDTO {
   typeLabel: {
-    label: {
-      bg: string,
-      en: string
-    }
+    label: LocalizedString
   }
 }
 
 export interface MemberTypeDTO {
   id: string;
-  label: {
-    en: string;
-    bg: string;
-  };
+  label: LocalizedString;
 }

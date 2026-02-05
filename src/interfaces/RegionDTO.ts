@@ -1,17 +1,13 @@
-export interface RegionDTO {
+import LocalizedString from "./LocalizedString";
+
+export interface RegionBaseDTO {
   id: string;
+  header: LocalizedString;
+}
+
+export interface RegionDTO extends RegionBaseDTO {
   imgThumb: string;
   imgHero: string;
-  header: {
-    en: string;
-    bg: string;
-  };
-  heading: {
-    en: string;
-    bg: string;
-  };
-  text: {
-    en: string;
-    bg: string;
-  };
+  heading: LocalizedString;
+  text: LocalizedString;
 }

@@ -1,4 +1,3 @@
-// components/MapControls/ZoomButton.tsx
 
 "use client";
 

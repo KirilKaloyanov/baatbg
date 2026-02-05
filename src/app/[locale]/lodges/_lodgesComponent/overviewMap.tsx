@@ -4,7 +4,7 @@ import { useRef, useEffect, MutableRefObject } from "react";
 import { MapContainer, TileLayer, useMap } from "react-leaflet";
 
 import MarkerLayer from "./map/markerLayer";
-import ZoomButton from "@components/mapControls/zoomButton";
+import ZoomButton from "@/components/controls/zoomButton";
 
 import "leaflet/dist/leaflet.css";
 import { LodgeBaseDTO } from "@/interfaces/LodgeDTO";

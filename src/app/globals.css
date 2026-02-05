@@ -67,6 +67,7 @@
     ul,
     li,
     p,
+    label,
     span {
       font-family: var(--font-raleway);
       ul,

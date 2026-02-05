@@ -8,6 +8,9 @@ import { MemberWithTypeDTO } from "@/interfaces/MemberDTO";
 
 import { getLodgesByMemberId } from "@/services/lodges.service";
 import { getMemberById } from "@services/memberService";
+import { TourUI } from "@/interfaces/TourDTO";
+import { getToursByMemberId } from "@/services/tourService";
+import TourCard from "@/components/cards/tour-card/tour-card";
 
 export default async function Member({
   params,
@@ -21,6 +24,8 @@ export default async function Member({
   if (!member) return <h1>Loading...</h1>;
 
   const lodges: LodgeBaseDTO[] = (await getLodgesByMemberId(memberId)) || [];
+  const tours: TourUI[] = await getToursByMemberId(memberId);
+
   return (
     <>
       <h1 className="mt-10 text-center">{member.name[locale]}</h1>
@@ -46,8 +51,7 @@ export default async function Member({
 
       {lodges && lodges.length > 0 && (
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {lodges.length > 0 &&
-            lodges.map((lodge) => (
+          {lodges.map((lodge) => (
               <LodgeCard
                 key={lodge.id}
                 lodge={lodge}
@@ -56,6 +60,15 @@ export default async function Member({
             ))}
         </div>
       )}
+
+      {tours && tours.length > 0 && (
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          {tours.map((tour) => (
+              <TourCard key={tour.id} tour={tour} locale={locale} />
+            ))}
+        </div>
+      )}
+
     </>
   );
 }

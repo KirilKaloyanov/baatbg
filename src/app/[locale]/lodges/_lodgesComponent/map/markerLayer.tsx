@@ -5,7 +5,7 @@ import { useMemo } from 'react';
 import { Marker } from 'react-leaflet';
 import L from 'leaflet'; 
 
-import myIcon from "@components/mapControls/pin.png";
+import myIcon from "@components/controls/pin.png";
 import { LodgeBaseDTO } from '@/interfaces/LodgeDTO';
 
 function MarkerLayer ({ 

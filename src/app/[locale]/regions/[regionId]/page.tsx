@@ -7,6 +7,9 @@ import LodgeCard from "@/components/cards/lodge-card";
 
 import { RegionDTO } from "@/interfaces/RegionDTO";
 import { LodgeBaseDTO } from "@/interfaces/LodgeDTO";
+import { TourUI } from "@/interfaces/TourDTO";
+import { getToursByRegion } from "@/services/tourService";
+import TourCard from "@/components/cards/tour-card/tour-card";
 
 export default async function RegionPage({
   params,
@@ -17,6 +20,7 @@ export default async function RegionPage({
 
   const region: RegionDTO | null = await getRegionById(regionId);
   const lodges: LodgeBaseDTO[] = await getLodgesByRegionId(regionId) || [];
+  const tours: TourUI[] = await getToursByRegion(regionId);
 
   if (!region) return null;
 
@@ -36,7 +40,7 @@ export default async function RegionPage({
         </div>
       </div>
 
-      <div className="container mx-auto mb-12">
+      <div className="container mx-auto mb-12 px-2">
         <div className="prose">
           <h1 className="mb-4 text-3xl font-bold">{region.heading[locale]}</h1>
           <div
@@ -47,14 +51,25 @@ export default async function RegionPage({
           ></div>
         </div>
       </div>
+      <div className="container mx-auto px-2">
       {lodges && lodges.length > 0 && (
-        <div className="container mx-auto">
-          <h1 className="my-8 text-2xl font-bold">{locale === "en" ? "Guesthouses" : "Къщи за гости"}</h1>
+        <>
+          <h1 className="mt-8 mb-4 text-3xl font-bold">{locale === "en" ? "Guesthouses" : "Къщи за гости"}</h1>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"> 
             {lodges.map((lodge) => (<LodgeCard key={lodge.id} lodge={lodge} locale={locale} />))}
           </div>
-        </div>
+        </>
       )}
+      {tours && tours.length > 0 && (
+        <>
+          <h1 className="mt-8 mb-4 text-3xl font-bold">{locale === "en" ? "Tours" : "Пътувания"}</h1>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"> 
+            {tours.map((tour) => (<TourCard key={tour.id} tour={tour} locale={locale} />))}
+          </div>
+        </>
+      )}
+
+      </div>
     </>
   );
 }
