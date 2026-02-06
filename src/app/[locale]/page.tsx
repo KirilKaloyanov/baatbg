@@ -1,11 +1,24 @@
+import Slider from "@/components/slider";
+import { getAllSlideItems } from "@/services/slideItemsService";
 import { getTranslations } from "next-intl/server";
 
-export default async function Page() {
-  // const t = await getTranslations("HomePage");
+export default async function Page({ params }: { params: Promise<{ locale: string }>}) {
+
+  const { locale } = await params;
+
+  const slideItems = await getAllSlideItems();
+
   return (
-    //cormorant
-    <>
-      <blockquote className="my-3 text-3xl font-bold">Hello world</blockquote>
+    <div className="container mx-auto">
+      <Slider locale={locale} slideItems={slideItems}/>
+    </div>
+  );
+}
+
+
+/**
+ * 
+ * <blockquote className="my-3 text-3xl font-bold">Hello world</blockquote>
 
       <div className="bg-background h-10"></div>
 
@@ -34,6 +47,4 @@ export default async function Page() {
       <button className="hover:bg-accent-500 bg-accent-100 text-base-900 h-12 w-30 cursor-pointer rounded-full p-2 transition-all">
         Subscribe
       </button>
-    </>
-  );
-}
+ */

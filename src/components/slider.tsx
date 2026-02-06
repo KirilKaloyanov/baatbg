@@ -1,0 +1,206 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import Image from "next/image";
+
+import { motion, AnimatePresence, wrap } from "framer-motion";
+
+import CustomLink from "@/components/navigation/customLink";
+import { SlideItemDTO } from "@/interfaces/SlideItemDTO";
+
+// We use a custom variant to control the direction of the slide (1 for next, -1 for previous)
+const variants = {
+  enter: (direction: number) => ({
+    x: direction > 0 ? 1000 : -1000,
+    opacity: 0,
+  }),
+  center: {
+    zIndex: 0,
+    x: 0,
+    opacity: 1,
+  },
+  exit: (direction: number) => ({
+    zIndex: 0,
+    x: direction < 0 ? 1000 : -1000,
+    opacity: 0,
+  }),
+};
+
+// This function calculates the distance to drag before triggering a slide
+const swipeConfidenceThreshold = 10000;
+const swipePower = (offset: number, velocity: number) => {
+  return Math.abs(offset) * velocity;
+};
+
+export default function Slider({
+  locale,
+  slideItems,
+}: {
+  locale: string;
+  slideItems: SlideItemDTO[];
+}) {
+
+  const [currentItem, setCurrentItem] = useState(slideItems[0])
+  const [direction, setDirection] = useState(0);
+
+  const selectedSlideItemIdx = slideItems.indexOf(currentItem);
+
+  useEffect(() => {
+    const timer = setInterval(() => paginate(1), 15000)
+
+    return () => clearInterval(timer);
+  }, [selectedSlideItemIdx])
+
+  const paginate = (newDirection: number, targetIdx?: number) => {
+    setDirection(newDirection);
+
+    if (targetIdx !== undefined) {
+      setCurrentItem(slideItems[targetIdx]);
+    } else {
+      const newIdx = wrap(0, slideItems.length, selectedSlideItemIdx + newDirection);
+      setCurrentItem(slideItems[newIdx]);
+    }
+  };
+
+  return (
+    <div className="bg-stone-300 flex flex-col items-center justify-center">
+      <div className="relative h-100 md:h-125 w-full overflow-hidden">
+        {/* AnimatePresence ensures that the exiting component animates out */}
+        <AnimatePresence initial={false} custom={direction}>
+          <motion.div
+            key={selectedSlideItemIdx} // Key must change to trigger the exit/enter animation
+            custom={direction}
+            variants={variants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{
+              x: { type: "spring", stiffness: 300, damping: 30 },
+              opacity: { duration: 0.2 },
+            }}
+            // Enable dragging for mobile swiping
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={1}
+            onDragEnd={(e, { offset, velocity }) => {
+              const swipe = swipePower(offset.x, velocity.x);
+
+              if (swipe < -swipeConfidenceThreshold) {
+                // Swipe left -> Go to next image
+                paginate(1);
+              } else if (swipe > swipeConfidenceThreshold) {
+                // Swipe right -> Go to previous image
+                paginate(-1);
+              }
+            }}
+            className="absolute inset-0 cursor-grab"
+          >
+            {/* Image Container */}
+            <Image
+              src={currentItem.img}
+              alt={currentItem.title[locale]}
+              fill
+              className="object-cover"
+              onDragStart={(e) => e.preventDefault()}
+            />
+
+            {/* Text Overlay */}
+            <div className="absolute top-5 sm:top-10 md:top-12 right-15 md:right-1/2 left-15 md:left-10 xl:left-15 bg-stone-900 opacity-80 flex flex-col items-start justify-between p-2 lg:p-4">
+            {/* <div className="absolute top-45 sm:top-65 md:top-72 bottom-10 left-1/4 md:left-1/2 right-5 md:right-10 xl:right-15 bg-stone-900 opacity-80 flex flex-col items-start justify-between p-2 lg:p-4"> */}
+              <p className="text-white m-0 md:text-2xl lg:text-xl xl:text-2xl 2xl:text-3xl font-semibold">
+                <span className="text-xl" style={{lineHeight: "4px"}}>{currentItem.title[locale]}</span>
+                <span className="block leading-8 text-sm font-light tracking-wide text-background">
+                  {currentItem.text[locale]}
+                </span>
+              </p>
+              {
+                currentItem.link && currentItem.link.startsWith('http')
+                ? <a href={currentItem.link} target="_blank" rel="noopener noreferrer" className="self-end">
+                  <button className="mt-4 mb-1 hover:bg-accent-500 bg-accent-100 text-base-900 text-xs h-8 cursor-pointer rounded-full px-4 py-2 transition-all">
+                    {currentItem.buttonText ? currentItem.buttonText[locale] : locale === "en"  ? "More Info" : "Подробности"}
+                </button>
+                </a>
+                
+                :
+
+                <CustomLink href={currentItem.link.startsWith("http") ? currentItem.link : `${locale}/${currentItem.link}`} className="self-end">
+                    <button className="mt-4 mb-1 hover:bg-accent-500 bg-accent-100 text-base-900 text-xs h-8 cursor-pointer rounded-full px-4 py-y2 transition-all">
+                         {currentItem.buttonText ? currentItem.buttonText[locale] : locale === "en"  ? "More Info" : "Подробности"}
+                    </button>
+                </CustomLink>
+              }
+            </div>
+            
+          </motion.div>
+        </AnimatePresence>
+
+        {/* --- 3. Navigation Controls (Handlers) --- */}
+
+        {/* Right Arrow */}
+        <button
+          className="bg-base-900 absolute top-1/2 right-0 z-0 -translate-y-1/2 p-4 text-white"
+          onClick={() => paginate(1)}
+          aria-label="Next Image"
+        >
+          <svg
+            className="h-6 w-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M9 5l7 7-7 7"
+            ></path>
+          </svg>
+        </button>
+
+        {/* Left Arrow */}
+        <button
+          className="bg-base-900 absolute top-1/2 left-0 z-0 -translate-y-1/2 p-4 text-white"
+          onClick={() => paginate(-1)}
+          aria-label="Previous Image"
+        >
+          <svg
+            className="h-6 w-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M15 19l-7-7 7-7"
+            ></path>
+          </svg>
+        </button>
+
+        {/* Dots Indicator */}
+        <div className="absolute bottom-4 left-1/2 z-0 flex -translate-x-1/2 transform space-x-2">
+          {slideItems.map((_, idx) => {
+            const currentIdx = wrap(0, slideItems.length, selectedSlideItemIdx);
+            const activeDotStyle =
+              idx === currentIdx ? "w-5 bg-background" : "bg-stone-400";
+            return (
+              <div
+                key={idx}
+                className={`h-3 w-3 cursor-pointer rounded-full transition-all ${activeDotStyle}`}
+                onClick={() => {
+                  if (idx === currentIdx) return;
+                  const newDirection = idx > currentIdx ? 1 : -1;
+                  paginate(newDirection, idx);
+                }}
+                aria-label={`Go to slide ${idx + 1}`}
+              ></div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}

@@ -17,9 +17,9 @@ export default async function MainMenu({
       {items?.map((item) => (
         <div key={item.id}>
           <CustomLink
-            href={`/${locale}/posts/${item.data.menuPath}/${item.data.subMenuPath}`}
+            href={`/${locale}/posts/${item.menuPath}/${item.subMenuPath}`}
           >
-            {item.data.heading[locale]}
+            {item.heading[locale]}
           </CustomLink>
         </div>
       ))}

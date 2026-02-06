@@ -7,5 +7,6 @@ export const COLLECTIONS = {
   MEMBER_TYPE: 'memberType',
   REGIONS: 'regions',
   POSTS: 'posts',
+  SLIDE_ITEMS: 'slider',
   MENU: 'menu',
 };

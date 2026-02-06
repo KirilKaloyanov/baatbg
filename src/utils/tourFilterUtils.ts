@@ -1,4 +1,4 @@
-import { ActivityDTO } from "@/interfaces/activityDTO";
+import { ActivityDTO } from "@/interfaces/ActivityDTO";
 import LocalizedString from "@/interfaces/LocalizedString";
 import { MemberDTO } from "@/interfaces/MemberDTO";
 import { RegionBaseDTO } from "@/interfaces/RegionDTO";

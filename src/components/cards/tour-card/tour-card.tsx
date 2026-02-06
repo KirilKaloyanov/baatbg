@@ -1,7 +1,5 @@
 "use client";
 
-
-
 import { TourUI } from "@/interfaces/TourDTO";
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
@@ -21,7 +19,7 @@ export default function TourCard({
 
   return (
     <motion.div
-      className="h-full w-full transition"
+      className="w-full h-max transition"
       initial={{ y: 0 }}
       whileHover={{ y: -5, boxShadow: "0 10px 20px rgba(0,0,0,0.2)" }}
       transition={{ type: "spring", stiffness: 300, damping: 28 }}
@@ -55,7 +53,10 @@ export default function TourCard({
 
               <p className="text-right font-bold">
             <a href={tour.link} target="_blank" rel="noopener noreferrer">
-                {locale === "bg" ? "Подробности ..." : "More info ..."}
+            {/* <button className="hover:bg-accent-500 bg-accent-100 text-base-900 h-12 w-30 cursor-pointer rounded-full p-2 transition-all"> */}
+            <button className="mt-4 mb-1 bg-accent-100 text-base-900 text-xs h-8 cursor-pointer rounded-full px-4 py-2 transition-all">
+              {locale === "bg" ? "Подробности ..." : "More info ..."}
+            </button>
             </a>
               </p>
         </div>

@@ -9,7 +9,7 @@ import getAllActivities from "./activitiesService";
 import { mapTourToUI } from "@/utils/tourFilterUtils";
 
 import { TourDTO, TourUI } from "@/interfaces/TourDTO";
-import { ActivityDTO } from "@/interfaces/activityDTO";
+import { ActivityDTO } from "@/interfaces/ActivityDTO";
 
 import { COLLECTIONS } from "@/constants/collections";
 import { getAllMembers } from "./memberService";

@@ -54,7 +54,7 @@ export default async function RegionPage({
       <div className="container mx-auto px-2">
       {lodges && lodges.length > 0 && (
         <>
-          <h1 className="mt-8 mb-4 text-3xl font-bold">{locale === "en" ? "Guesthouses" : "Къщи за гости"}</h1>
+          <h1 className="mt-8 mb-4 text-3xl font-bold text-background bg-base-900 w-4/5 md:w-1/3 lg:w-1/4 p-4 pt-1 pb-2">{locale === "en" ? "Guesthouses" : "Къщи за гости"}</h1>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"> 
             {lodges.map((lodge) => (<LodgeCard key={lodge.id} lodge={lodge} locale={locale} />))}
           </div>
@@ -62,7 +62,7 @@ export default async function RegionPage({
       )}
       {tours && tours.length > 0 && (
         <>
-          <h1 className="mt-8 mb-4 text-3xl font-bold">{locale === "en" ? "Tours" : "Пътувания"}</h1>
+          <h1 className="mt-8 mb-4 text-3xl font-bold text-background bg-base-900 w-4/5 md:w-1/3 lg:w-1/4 p-4 pt-1 pb-2">{locale === "en" ? "Tours" : "Пътувания"}</h1>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"> 
             {tours.map((tour) => (<TourCard key={tour.id} tour={tour} locale={locale} />))}
           </div>

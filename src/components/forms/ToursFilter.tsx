@@ -10,7 +10,7 @@ import { useLoader } from "@/context/LoaderContext";
 import { filterToursByRegion } from "@/utils/tourFilterUtils";
 
 import { RegionBaseDTO } from "@/interfaces/RegionDTO";
-import { ActivityDTO } from "@/interfaces/activityDTO";
+import { ActivityDTO } from "@/interfaces/ActivityDTO";
 import { TourDTO, TourUI } from "@/interfaces/TourDTO";
 import TourCard from "../cards/tour-card/tour-card";
 
@@ -55,11 +55,11 @@ export default function ToursFilter({
   };
 
   const handleRadioChange = (id: string, value: string) => {
-    setFormData((prevData) => ({ ...prevData, [id]: value }));
-  };
-
-  const handleRadioReset = () => {
-    setFormData((prevData) => ({ ...prevData, durationFilter: "" }));
+    setFormData((prevData) => {
+      console.log(value)
+      if (prevData.durationFilter === value) return { ...prevData, [id]: ""}
+      return { ...prevData, [id]: value }
+    });
   };
 
   const handleCheckboxChange = (
@@ -101,8 +101,20 @@ export default function ToursFilter({
   };
 
   return (
-    <div className="p-4">
-      <form onSubmit={handleSubmit} className="space-y-4">
+    <div className="p-4 xl:flex xl:gap-6">
+      {tours.length > 0 ?
+        
+        <div className="grid grid-cols-1 gap-2 md:grid-cols-2 2xl:grid-cols-3 mt-8">
+          {tours.map( tour => (<TourCard key={tour.id} tour={tour} locale={locale}/>))}
+        </div>
+
+        :
+        
+        <div className="mt-4 text-center text-lg font-medium">
+          {isLoading ? (locale == "bg" ? "Един момент ..." : "Loading ...") : (locale == "bg" ? "Няма намерени турове с тези критерии." : "No tours found with these criteria.")}
+        </div>
+      }
+      <form onSubmit={handleSubmit} className="space-y-4 mt-8 xl:mt-14 xl:shrink-12 2xl:shrink-6">
         <div>
 
           <label className="mb-2 block font-medium">
@@ -121,13 +133,6 @@ export default function ToursFilter({
                 label={option}
               />
             ))}
-            <StyledRadioButton
-              name={locale == "bg" ? "Изчисти" : "Reset"}
-              value={"Reset"}
-              checked={false}
-              onChange={() => handleRadioReset()}
-              label={locale == "bg" ? "Изчисти" : "Reset"}
-            />
           </div>
         </div>
 
@@ -197,18 +202,7 @@ export default function ToursFilter({
         </button>
 
       </form>
-      {tours.length > 0 ?
-        
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-8">
-          {tours.map( tour => (<TourCard key={tour.id} tour={tour} locale={locale}/>))}
-        </div>
 
-        :
-        
-        <div className="mt-4 text-center text-lg font-medium">
-          {isLoading ? (locale == "bg" ? "Един момент ..." : "Loading ...") : (locale == "bg" ? "Няма намерени турове с тези критерии." : "No tours found with these criteria.")}
-        </div>
-      }
     </div>
   );
 }
