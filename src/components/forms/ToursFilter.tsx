@@ -10,7 +10,6 @@ import { useLoader } from "@/context/LoaderContext";
 import { filterToursByRegion } from "@/utils/tourFilterUtils";
 
 // import { ActivityDTO } from "@/interfaces/ActivityDTO";
-import { ActivityDTO } from "../../interfaces/ActivityDTO";
 import { RegionBaseDTO } from "@/interfaces/RegionDTO";
 
 import { TourDTO, TourUI } from "@/interfaces/TourDTO";
@@ -25,7 +24,11 @@ export default function ToursFilter({
 }: {
   locale: string;
   regionNames: RegionBaseDTO[];
-  activities: ActivityDTO[];
+  activities: {
+    id: string;
+    en: string;
+    bg: string;
+}[];
   initialTours: TourUI[];
   getToursByFilter: (filters: any) => Promise<TourUI[] | null>;
 }) {
