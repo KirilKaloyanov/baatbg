@@ -9,8 +9,9 @@ import { useLoader } from "@/context/LoaderContext";
 
 import { filterToursByRegion } from "@/utils/tourFilterUtils";
 
-import { RegionBaseDTO } from "@/interfaces/RegionDTO";
 import { ActivityDTO } from "@/interfaces/ActivityDTO";
+import { RegionBaseDTO } from "@/interfaces/RegionDTO";
+
 import { TourDTO, TourUI } from "@/interfaces/TourDTO";
 import TourCard from "../cards/tour-card/tour-card";
 
