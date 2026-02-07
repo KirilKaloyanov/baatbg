@@ -13,6 +13,11 @@ export async function getAllLodges(): Promise<LodgeBaseDTO[] | null> {
   }
 }
 
+export async function getRandom3Lodges() {
+  const lodges = await getAllLodges();
+  return lodges?.sort(() => 0.5 - Math.random()).slice(0, 4) || [];
+}
+
 export async function getLodgeById(id: string): Promise<LodgeDetailsDTO | null> {
   try {
     const data = await getDocument(COLLECTIONS.LODGES, id);

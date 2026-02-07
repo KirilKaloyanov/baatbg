@@ -2,10 +2,11 @@
 
 import { motion } from "framer-motion";
 
-export default function Button({ text }: { text: string }) {
+//button with hover
+export default function Button({ text, classes }: { text: string; classes: string }) {
   return (
     <motion.button
-      className="bg-accent-100 text-base-900 cursor-pointer rounded-full px-8 py-3 md:px-12 md:py-4 md:text-xl font-bold transition"
+      className={`bg-accent-100 text-base-900 cursor-pointer rounded-full transition ${classes}`}
       initial={{ y: 0 }}
       whileHover={{
         y: -5,

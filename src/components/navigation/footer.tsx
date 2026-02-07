@@ -1,6 +1,9 @@
 "use client";
 
 import Image from "next/image";
+
+import { usePathname } from "next/navigation";
+
 import fbLogo from "@icons/fb.svg";
 import ytLogo from "@icons/youtube.svg";
 import logo from "@images/logo/logo_baat.png";
@@ -12,6 +15,8 @@ import { MenuDTO } from "@/interfaces/MenuDTO";
 import { PostMetaDTO } from "@/interfaces/PostsDTO";
 import RegionsMap from "./menu/staticMenus/regionsMap";
 
+
+
 export default function Footer({
   locale,
   menuItems,
@@ -21,6 +26,9 @@ export default function Footer({
   menuItems: MenuDTO[] | null;
   subMenuItems: PostMetaDTO[] | null;
 }) {
+
+  const path = usePathname();
+  console.log(path)
   return (
     <footer className="bg-base-900 text-background mt-8 ">
       <div className="container mx-auto xl:flex xl:gap-10">
@@ -51,22 +59,18 @@ export default function Footer({
                       София, бул. "Ал. Стамболийски" 20В
                       <br />
                       0897 033 860 - Елеонора Йосифова (Председател)
-                      <br />
-                      baatbg@gmail.com
-                      <br />
-                      IBAN: BG22BPBI79421042396901
                     </>
                   ) : (
                     <>
                       Sofia, "Al. Stamboliyski" Blvd. 20V
                       <br />
                       0897 033 860 - Eleonora Yosifova (Chairperson)
-                      <br />
-                      baatbg@gmail.com
+                    </>
+                    )}
+                    <br />
+                      bааtbg@gmаil.соm
                       <br />
                       IBAN: BG22BPBI79421042396901
-                    </>
-                  )}
                 </p>
             </div>
 
@@ -98,10 +102,14 @@ export default function Footer({
             </div>
           </div>
       </div>
-      <div className="lg:block">
-        <RegionsMap activeMenuItemId={"regions"} locale={locale} />
-        <p className="text-center py-4 text-sm">© {new Date().getFullYear()} BAAT Bulgaria. All rights reserved.</p>
-      </div>
+      {path === "/en" || path === "/bg" ?
+        null
+        :
+        <div className="lg:block">
+          <RegionsMap activeMenuItemId={"regions"} locale={locale} classes={"md:w-1/3 md:mx-auto"} />
+          <p className="text-center py-4 text-sm">© {new Date().getFullYear()} BAAT Bulgaria. All rights reserved.</p>
+        </div>
+      }
     </footer>
   );
 }

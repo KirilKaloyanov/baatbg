@@ -10,7 +10,7 @@ export default function Loader() {
       {isLoading && (
         <motion.div
           key="spinner"
-          className="fixed inset-0 z-5 flex items-center justify-center bg-stone-500/30 backdrop-blur-xs transition-all"
+          className="fixed inset-0 z-500 flex items-center justify-center bg-stone-500/30 backdrop-blur-xs transition-all"
           initial={{ opacity: 0 }} //, scale: 0.8
           animate={{ opacity: 1 }} //, scale: 1
           exit={{ opacity: 0 }}

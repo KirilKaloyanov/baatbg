@@ -47,7 +47,7 @@ export default function StaticMenuItems({
         </div>
 
         <div className="md:hidden">
-          <RegionsMap activeMenuItemId={activeMenuItemId} locale={locale} />
+          <RegionsMap activeMenuItemId={activeMenuItemId} locale={locale} classes=" md:w-1/3 md:mx-auto" />
         </div>
 
         <StaticMenuItem locale={locale} path={"lodges"} />
@@ -56,7 +56,7 @@ export default function StaticMenuItems({
       </div>
 
       <div className="hidden md:block">
-        <RegionsMap activeMenuItemId={activeMenuItemId} locale={locale} />
+        <RegionsMap activeMenuItemId={activeMenuItemId} locale={locale} classes=" md:w-1/3 md:mx-auto" />
       </div>
     </>
   );

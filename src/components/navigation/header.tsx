@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Portal from "./portal";
+// import Portal from "./portal";
 import Image from "next/image";
 
 import { motion, useMotionValueEvent, useScroll } from "framer-motion";
@@ -24,12 +24,12 @@ export default function Header({ locale, menuItems, subMenuItems }) {
   const [isMenuOpen, setMenuOpen] = useState(false);
 
   return (
-    <Portal >
+    <div className="z-100">
       {isMenuOpen && (
-        <div
-          className="fixed top-0 right-0 bottom-0 left-0 bg-stone-500/30 backdrop-blur-xs transition-all"
-          onClick={() => setMenuOpen(false)}
-        ></div>
+          <div
+            className="fixed top-0 right-0 bottom-0 left-0 bg-stone-500/30 backdrop-blur-xs transition-all"
+            onClick={() => setMenuOpen(false)}
+          ></div>
       )}
       <motion.header
         className="fixed -top-6 w-full bg-stone-200 shadow-sm"
@@ -67,7 +67,7 @@ export default function Header({ locale, menuItems, subMenuItems }) {
           </nav>
 
           <CustomLink href={"/" + locale}>
-            <Image src={logo} alt="Logo image of BAAT" height={60} />
+            <Image src={logo} alt="Logo image of BAAT" height={60} priority/>
           </CustomLink>
 
           <div className="flex gap-5 flex-1 justify-end">
@@ -82,6 +82,6 @@ export default function Header({ locale, menuItems, subMenuItems }) {
           </div>
         </div>
       </motion.header>
-    </Portal>
+    </div>
   );
 }

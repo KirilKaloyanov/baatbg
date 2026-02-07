@@ -92,10 +92,10 @@ export default async function LodgePage({
         </div>
       )}
       <a href="#contacts" className="my-8 flex justify-center">
-        <Button text={locale === "bg" ? "Нагоре" : "Go to top"} />
+        <Button text={locale === "bg" ? "Нагоре" : "Go to top"} classes="px-8 py-3 lg:px-12 lg:py-4 lg:text-xl" />
       </a>
       <CustomLink href={`/${locale}/lodges`} className="my-8 flex justify-center">
-        <Button text={locale === "bg" ? "Всички къщи за гости" : "Go to Guesthouses"} />
+        <Button text={locale === "bg" ? "Всички къщи за гости" : "Go to Guesthouses"} classes="px-8 py-3 lg:px-12 lg:py-4 lg:text-xl"/>
       </CustomLink>
     </>
   );

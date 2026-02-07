@@ -1,4 +1,4 @@
-import { getAllLodges } from "@/services/lodges.service";
+import { getRandom3Lodges } from "@/services/lodges.service";
 import LodgesComponent from "./_lodgesComponent/lodgesComponent";
 import LodgeCard from "@/components/cards/lodge-card";
 import { LodgeBaseDTO } from "@/interfaces/LodgeDTO";
@@ -9,7 +9,7 @@ export default async function LodgesPage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const lodges: LodgeBaseDTO[] = await getAllLodges() || [];
+  const lodges: LodgeBaseDTO[] = await getRandom3Lodges() || [];
   
   const randomLodge: LodgeBaseDTO = lodges[Math.floor(Math.random() * lodges.length)];
   const initialSelectedLodge: LodgeBaseDTO = lodges.length === 0 

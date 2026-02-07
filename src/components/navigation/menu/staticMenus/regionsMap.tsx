@@ -5,9 +5,11 @@ import { getAllRegions } from "@/services/regionsService";
 export default function RegionsMap({
   activeMenuItemId,
   locale,
+  classes = ""
 }: {
   activeMenuItemId: string | null;
   locale: string;
+  classes?: string
 }) {
 
 
@@ -18,7 +20,7 @@ export default function RegionsMap({
         height: activeMenuItemId === "regions" ? "auto" : 0,
       }}
     >
-      <div className="p-4 md:p-1 flex md:justify-center w-full md:w-1/3 md:mx-auto">
+      <div className={`p-4 md:p-1 flex md:justify-center w-full ${classes}`}>
         <svg
           viewBox="0 0 154 100"
           version="1.1"

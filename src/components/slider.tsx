@@ -6,7 +6,9 @@ import Image from "next/image";
 import { motion, AnimatePresence, wrap } from "framer-motion";
 
 import CustomLink from "@/components/navigation/customLink";
+import SmallButton from "@/components/controls/smallButton"
 import { SlideItemDTO } from "@/interfaces/SlideItemDTO";
+import { useLoader } from "@/context/LoaderContext";
 
 // We use a custom variant to control the direction of the slide (1 for next, -1 for previous)
 const variants = {
@@ -40,6 +42,7 @@ export default function Slider({
   slideItems: SlideItemDTO[];
 }) {
 
+  const {isLoading, startNavigation} = useLoader();
   const [currentItem, setCurrentItem] = useState(slideItems[0])
   const [direction, setDirection] = useState(0);
 
@@ -50,6 +53,8 @@ export default function Slider({
 
     return () => clearInterval(timer);
   }, [selectedSlideItemIdx])
+
+  // useEffect(() => startNavigation(), [])
 
   const paginate = (newDirection: number, targetIdx?: number) => {
     setDirection(newDirection);
@@ -64,7 +69,7 @@ export default function Slider({
 
   return (
     <div className="bg-stone-300 flex flex-col items-center justify-center">
-      <div className="relative h-100 md:h-125 w-full overflow-hidden">
+      <div className="relative h-150 w-full overflow-hidden">
         {/* AnimatePresence ensures that the exiting component animates out */}
         <AnimatePresence initial={false} custom={direction}>
           <motion.div
@@ -100,32 +105,34 @@ export default function Slider({
               src={currentItem.img}
               alt={currentItem.title[locale]}
               fill
+              sizes="(max-width: 768px 100vw, (max-width: 1200px) 50vw, 3vw"
               className="object-cover"
+              priority
               onDragStart={(e) => e.preventDefault()}
             />
 
             {/* Text Overlay */}
             <div className="absolute top-5 sm:top-10 md:top-12 right-15 md:right-1/2 left-15 md:left-10 xl:left-15 bg-stone-900 opacity-80 flex flex-col items-start justify-between p-2 lg:p-4">
-            {/* <div className="absolute top-45 sm:top-65 md:top-72 bottom-10 left-1/4 md:left-1/2 right-5 md:right-10 xl:right-15 bg-stone-900 opacity-80 flex flex-col items-start justify-between p-2 lg:p-4"> */}
               <p className="text-white m-0 md:text-2xl lg:text-xl xl:text-2xl 2xl:text-3xl font-semibold">
                 <span className="text-xl" style={{lineHeight: "4px"}}>{currentItem.title[locale]}</span>
-                <span className="block leading-8 text-sm font-light tracking-wide text-background">
+                <span className="block md:leading-8 text-sm font-light tracking-wide text-background">
                   {currentItem.text[locale]}
                 </span>
               </p>
               {
                 currentItem.link && currentItem.link.startsWith('http')
                 ? <a href={currentItem.link} target="_blank" rel="noopener noreferrer" className="self-end">
-                  <button className="mt-4 mb-1 hover:bg-accent-500 bg-accent-100 text-base-900 text-xs h-8 cursor-pointer rounded-full px-4 py-2 transition-all">
+                  <SmallButton>
+
                     {currentItem.buttonText ? currentItem.buttonText[locale] : locale === "en"  ? "More Info" : "Подробности"}
-                </button>
+                  </SmallButton>
                 </a>
                 
                 :
 
                 <CustomLink href={currentItem.link.startsWith("http") ? currentItem.link : `${locale}/${currentItem.link}`} className="self-end">
                     <button className="mt-4 mb-1 hover:bg-accent-500 bg-accent-100 text-base-900 text-xs h-8 cursor-pointer rounded-full px-4 py-y2 transition-all">
-                         {currentItem.buttonText ? currentItem.buttonText[locale] : locale === "en"  ? "More Info" : "Подробности"}
+                        {currentItem.buttonText ? currentItem.buttonText[locale] : locale === "en"  ? "More Info" : "Подробности"}
                     </button>
                 </CustomLink>
               }
