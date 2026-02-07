@@ -18,7 +18,7 @@ export const HomeRegions = ({ locale }: HomeRegionsProps) => {
    * Using the same cubic-bezier for a sophisticated "boutique" feel.
    */
   const slideFromTop = {
-    initial: { y: -100, opacity: 0 },
+    initial: { y: "100%", opacity: 0 },
     whileInView: { y: 0, opacity: 1 },
     viewport: { once: true },
     transition: { 

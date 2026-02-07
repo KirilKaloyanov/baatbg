@@ -34,7 +34,7 @@ export const HomeLodges = ({ locale, lodges }: HomeLodgesProps) => {
    * regarding the ease: number[] type mismatch.
    */
   const slideFromBottom = {
-    initial: { y: -100, opacity: 0 },
+    initial: { y: "100%", opacity: 0 },
     whileInView: { y: 0, opacity: 1 },
     viewport: { once: true },
     transition: { 
